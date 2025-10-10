@@ -1,1 +1,1 @@
-<img src="diagrama/UmlProjetoPOO.drawio">
+![Diagrama de Classe](diagrama/UmlProjetoPOO.drawio)
