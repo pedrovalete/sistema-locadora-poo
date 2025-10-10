@@ -1,1 +1,1 @@
-![Diagrama de Classe](diagrama/UmlProjetoPOO.drawio.svg)
+![Diagrama de Classe](diagrama/diagramaPOO.svg)
