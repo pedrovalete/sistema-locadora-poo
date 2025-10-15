@@ -12,9 +12,10 @@ public class Cliente {
 
     private List<AluguelConsole> alugueis;
     private List<LocacaoJogo> locacoes;
+    private static int idCliente = 1;
 
-    public Cliente(int id, String nome, String email, String telefone, String senha){
-        this.id = id;
+    public Cliente(String nome, String email, String telefone, String senha){
+        this.id = idCliente++;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
@@ -40,13 +41,14 @@ public class Cliente {
         return senha;
     }
 
-    public void atualizarCadastro(String nome, String email, String telefone, String senha){
-        this.nome = nome;
-        this.email = email;
-        this.telefone = telefone;
-        this.senha = senha;
+    public void atualizarCadastro(String novoNome, String novoEmail, String novoTelefone, String novaSenha){
+        this.nome = novoNome;
+        this.email = novoEmail;
+        this.telefone = novoTelefone;
+        this.senha = novaSenha;
+        System.out.println("Cadastro atualizado com sucesso para: " + this.nome);
     }
-    
+
     public boolean autenticar(String senha){
         return this.senha.equals(senha);
     }
