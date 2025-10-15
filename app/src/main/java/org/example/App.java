@@ -2,10 +2,11 @@ package org.example;
 
 import java.util.Scanner;
 import java.util.Map;
+import java.util.HashMap;
 import org.example.domain.*;
 
 public class App {
-    private static Map<Integer, Cliente> clientesCadastrados;
+    private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>();
 
     private static final String SENHA_ADMIN = "senhaadm123";
 

@@ -62,12 +62,33 @@ public class Cliente {
                     int dias = item.getQuantidadeDias();
                     double subtotal = item.getSubtotal();
 
-                    System.out.println("     - " + nomeDoJogo + " por " + dias + " dias (Subtotal: R$" + subtotal + ")");
+                    System.out.println("  - " + nomeDoJogo + " por " + dias + " dias (Subtotal: R$" + subtotal + ")");
                 }
                 System.out.println("   Valor Total da Locação: R$" + locacao.getValorTotal());
             }
             }
+        System.out.println("\nAluguéis de Consoles: ");{
+            if(this.alugueis.isEmpty()){
+                System.out.println("\nNenhum aluguel de console encontrado.");
+            }else{
+                for(AluguelConsole aluguel : this.alugueis){
+                    System.out.println("\n------------------------------------");
+                    System.out.println(" ID do Alguel: " + aluguel.getId());
+                    System.out.println(" Data e horário: " + aluguel.getDataHora());
+                    System.out.println(" Console: " + aluguel.getConsole().getNome());
+
+                    if(!aluguel.getAcessorios().isEmpty()){
+                        System.out.println(" Acessórios incluídos no aluguel: ");
+                        for(Acessorio acessorio : aluguel.getAcessorios()){
+                            System.out.println("  - " + acessorio.getNome());
+                        }
+                    }
+                    System.out.println(" Valor total do Aluguel: R$" + aluguel.getValorTotal());
+                }
+            }
         }
+        System.out.println("\n--- Fim do Histórico ---");
+    }
     public void atualizarCadastro(String novoNome, String novoEmail, String novoTelefone, String novaSenha){
         this.nome = novoNome;
         this.email = novoEmail;
