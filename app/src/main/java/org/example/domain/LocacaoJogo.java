@@ -20,6 +20,26 @@ public class LocacaoJogo {
         this.itens = new ArrayList<>();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public List<ItemLocacao> getItens() {
+        return itens;
+    }
+
     public void adicionarItem(int quantidadeDias, JogoPlataforma jogo){
         ItemLocacao novoItem = new ItemLocacao(quantidadeDias, this, jogo);
 
@@ -28,10 +48,11 @@ public class LocacaoJogo {
         jogo.adicionarHistorico(novoItem);
 
     }
+
     private void recalcularValorTotal(){
         double total = 0;
         for(ItemLocacao item : this.itens){
-            total += item.getSubTotal();
+            total += item.getSubtotal();
         }
         this.valorTotal = total;
     }

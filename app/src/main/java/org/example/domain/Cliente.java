@@ -41,6 +41,33 @@ public class Cliente {
         return senha;
     }
 
+    public boolean autenticar(String senha){
+        return this.senha.equals(senha);
+    }
+    public void consultarHistorico(){
+        System.out.println("\n--- Histórico de Transações de " + this.getNome() + "---");
+
+        System.out.println("\nLocações de Jogos: ");
+        if(this.locacoes.isEmpty()){
+            System.out.println("\nNenhuma locação de jogo encontrada.");
+        } else{
+            for(LocacaoJogo locacao : this.locacoes){
+                System.out.println("\n------------------------------------");
+                System.out.println(" ID da Locação: " + locacao.getId());
+                System.out.println(" Data: " + locacao.getData());
+                System.out.println(" Itens Alugados:");
+
+                for (ItemLocacao item : locacao.getItens()) {
+                    String nomeDoJogo = item.getJogoPlataforma().getJogo().getNome();
+                    int dias = item.getQuantidadeDias();
+                    double subtotal = item.getSubtotal();
+
+                    System.out.println("     - " + nomeDoJogo + " por " + dias + " dias (Subtotal: R$" + subtotal + ")");
+                }
+                System.out.println("   Valor Total da Locação: R$" + locacao.getValorTotal());
+            }
+            }
+        }
     public void atualizarCadastro(String novoNome, String novoEmail, String novoTelefone, String novaSenha){
         this.nome = novoNome;
         this.email = novoEmail;
@@ -49,7 +76,4 @@ public class Cliente {
         System.out.println("Cadastro atualizado com sucesso para: " + this.nome);
     }
 
-    public boolean autenticar(String senha){
-        return this.senha.equals(senha);
-    }
 }

@@ -14,13 +14,13 @@ public class ItemLocacao {
     public int getQuantidadeDias() {
         return quantidadeDias;
     }
-    public LocacaoJogo getLocacao(){
+    public LocacaoJogo getLocacaoJogo(){
         return locacao;
     }
-    public JogoPlataforma getJogo(){
+    public JogoPlataforma getJogoPlataforma(){
         return jogo;
     }
-    public double getSubTotal(){
+    public double getSubtotal(){
         return this.jogo.getPrecoDiario() * this.quantidadeDias;
     }
 }
