@@ -17,4 +17,10 @@ public class Jogo {
     public String getNome(){
         return nome;
     }
+    public int getId(){
+        return id;
+    }
+    public List<JogoPlataforma> getJogoPlataformas(){
+        return jogoPlataformas;
+    }
 }

@@ -40,7 +40,7 @@ public class LocacaoJogo {
         return itens;
     }
 
-    public void adicionarItem(int quantidadeDias, JogoPlataforma jogo){
+    public void adicionarItem(JogoPlataforma jogo, int quantidadeDias){
         ItemLocacao novoItem = new ItemLocacao(quantidadeDias, this, jogo);
 
         this.itens.add(novoItem);

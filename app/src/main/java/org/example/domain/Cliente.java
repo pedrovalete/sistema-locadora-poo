@@ -94,7 +94,7 @@ public class Cliente {
         this.email = novoEmail;
         this.telefone = novoTelefone;
         this.senha = novaSenha;
-        System.out.println("Cadastro atualizado com sucesso para: " + this.nome);
+        System.out.println("Cadastro atualizado com sucesso " + this.nome);
     }
 
 }
