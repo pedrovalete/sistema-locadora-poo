@@ -44,12 +44,12 @@ public class LocacaoJogo {
         ItemLocacao novoItem = new ItemLocacao(quantidadeDias, this, jogo);
 
         this.itens.add(novoItem);
-        this.recalcularValorTotal();
+        this.calcularValorTotal();
         jogo.adicionarHistorico(novoItem);
 
     }
 
-    private void recalcularValorTotal(){
+    private void calcularValorTotal(){
         double total = 0;
         for(ItemLocacao item : this.itens){
             total += item.getSubtotal();

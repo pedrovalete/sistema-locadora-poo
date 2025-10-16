@@ -48,7 +48,6 @@ public class AluguelConsole {
     }
     public void adicionarAcessorio(Acessorio acessorio){
         this.acessorios.add(acessorio);
-
         this.calcularValorTotal();
     }
 

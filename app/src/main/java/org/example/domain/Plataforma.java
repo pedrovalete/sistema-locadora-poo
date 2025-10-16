@@ -9,7 +9,7 @@ public class Plataforma {
     private String descricao;
     private List<Acessorio> acessorios;
     private List<Console> consoles;
-    private List<Jogo> jogos;
+    private List<JogoPlataforma> jogosPlataforma;
     private static int idPlataforma = 1;
 
     public Plataforma(String nome){
@@ -17,7 +17,7 @@ public class Plataforma {
         this.nome = nome;
         this.acessorios = new ArrayList<>();
         this.consoles = new ArrayList<>();
-        this.jogos = new ArrayList<>();
+        this.jogosPlataforma = new ArrayList<>();
     }
     public Plataforma(String nome, String descricao){
         this.id = idPlataforma++;
@@ -25,6 +25,6 @@ public class Plataforma {
         this.descricao = descricao;
         this.acessorios = new ArrayList<>();
         this.consoles = new ArrayList<>();
-        this.jogos = new ArrayList<>();
+        this.jogosPlataforma = new ArrayList<>();
     }
 }
