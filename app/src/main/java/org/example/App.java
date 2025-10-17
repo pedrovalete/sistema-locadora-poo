@@ -9,7 +9,7 @@ public class App {
     private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>();
     private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>();
     private static Map<Integer, Plataforma> plataformasCadastradas = new HashMap<>();
-    private static Map<Integer, JogoPlataforma> estoqueJogos = new HashMap<>();
+    private static Map<String, JogoPlataforma> estoqueJogos = new HashMap<>();
 
     private static final String SENHA_ADMIN = "senhaadm123";
 
@@ -114,5 +114,58 @@ public class App {
 
         plataformasCadastradas.put(novaPlataforma.getId(), novaPlataforma);
         System.out.println("Plataforma '" + novaPlataforma.getNome() + "' cadastrada com sucesso.");
+    }
+
+    public static void cadastrarJogoPlataforma(Scanner sc){
+        System.out.println("\n--- Cadastro de Jogo e Plataforma ---");
+        if(jogosCadastrados.isEmpty()){
+            System.out.println(" Nenhum jogo cadastrado até o momento.");
+        }else{
+            System.out.println(" Jogos presentes no sistema: ");
+            for(Integer id : jogosCadastrados.keySet()){
+                Jogo jogo = jogosCadastrados.get(id);
+
+                System.out.println("  ID: " + id + " | Nome: " + jogo.getNome());
+            }
+        }
+        System.out.println("\nDigite o ID do jogo desejado: ");
+        int idJogo = sc.nextInt();
+        sc.nextLine();
+        if(plataformasCadastradas.isEmpty()){
+            System.out.println(" Nenhuma plataforma cadastrada até o momento.");
+        }else{
+            System.out.println(" Plataformas presentes no sistema: ");
+            for(Integer id : plataformasCadastradas.keySet()){
+                Plataforma plataforma = plataformasCadastradas.get(id);
+
+                System.out.println("  ID: " + id + " | Plataforma: " + plataforma.getNome());
+            }
+        }
+        System.out.println("\nDigite o ID da plataforma desejada: ");
+        int idPlataforma = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Digite o preço diário: ");
+        double precoDiario = sc.nextDouble();
+
+        System.out.println("Digite a quantidade do estoque: ");
+        int estoque = sc.nextInt();
+        sc.nextLine();
+
+        Jogo jogo = jogosCadastrados.get(idJogo);
+        Plataforma plataforma = plataformasCadastradas.get(idPlataforma);
+        if(jogo != null & plataforma != null){
+            String chaveJogoPlataforma = idJogo + "-" + idPlataforma;
+
+            if(estoqueJogos.containsKey(chaveJogoPlataforma)){
+                System.out.println(" Este jogo já está cadastrado com esta plataforma no sistema.");
+                return;
+            }
+            JogoPlataforma novoProduto = new JogoPlataforma(jogo, plataforma, estoque, precoDiario);
+            estoqueJogos.put(chaveJogoPlataforma, novoProduto);
+            System.out.println("O jogo " + jogo.getNome() + "foi cadastrado na plataforma " + plataforma.getNome());
+        }else{
+            System.out.println(" ID informado para jogo ou plataforma não existe.");
+        }
     }
 }
