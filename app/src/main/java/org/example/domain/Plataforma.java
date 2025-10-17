@@ -27,4 +27,23 @@ public class Plataforma {
         this.consoles = new ArrayList<>();
         this.jogosPlataforma = new ArrayList<>();
     }
+
+    public int getId() {
+        return id;
+    }
+    public String getNome() {
+        return nome;
+    }
+    public String getDescricao() {
+        return descricao;
+    }
+    public List<Acessorio> getAcessorios() {
+        return acessorios;
+    }
+    public List<Console> getConsoles() {
+        return consoles;
+    }
+    public List<JogoPlataforma> getJogosPlataforma() {
+        return jogosPlataforma;
+    }
 }

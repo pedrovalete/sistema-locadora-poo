@@ -7,6 +7,9 @@ import org.example.domain.*;
 
 public class App {
     private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>();
+    private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>();
+    private static Map<Integer, Plataforma> plataformasCadastradas = new HashMap<>();
+    private static Map<Integer, JogoPlataforma> estoqueJogos = new HashMap<>();
 
     private static final String SENHA_ADMIN = "senhaadm123";
 
@@ -75,7 +78,7 @@ public class App {
 
     public static void menuCliente(Scanner sc, Cliente clienteLogado) {
         boolean sair = false;
-        while (!sair) {
+        while(!sair){
             System.out.println("\n--- MENU CLIENTE ---");
             System.out.println("1. Locação de Jogos");
             System.out.println("2. Alugar Consoles");
@@ -84,5 +87,32 @@ public class App {
             System.out.println("5. Atualizar cadastro");
             System.out.println("0. Sair");
         }
+    }
+
+    public static void cadastrarJogo(Scanner sc){
+        System.out.println("\n--- Cadastro de Jogo ---");
+        System.out.println(" Digite o nome do jogo: ");
+        String nomeJogo = sc.nextLine();
+        Jogo novoJogo = new Jogo(nomeJogo);
+        jogosCadastrados.put(novoJogo.getId(), novoJogo);
+        System.out.println("Jogo '" + novoJogo.getNome() + "' cadastrado com sucesso.");
+    }
+
+    public static void cadastrarPlataforma(Scanner sc){
+        System.out.println("\n--- Cadastro de Plataforma ---");
+        System.out.println(" Digite o nome da plataforma: ");
+        String nomePlataforma = sc.nextLine();
+        System.out.println(" Informe uma descrição (opcional): ");
+        String descricaoPlataforma = sc.nextLine();
+
+        Plataforma novaPlataforma;
+        if(descricaoPlataforma.isEmpty()){
+            novaPlataforma = new Plataforma(nomePlataforma);
+        }else{
+            novaPlataforma = new Plataforma(nomePlataforma, descricaoPlataforma);
+        }
+
+        plataformasCadastradas.put(novaPlataforma.getId(), novaPlataforma);
+        System.out.println("Plataforma '" + novaPlataforma.getNome() + "' cadastrada com sucesso.");
     }
 }

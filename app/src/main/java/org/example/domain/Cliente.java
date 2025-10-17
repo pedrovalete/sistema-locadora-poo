@@ -89,6 +89,7 @@ public class Cliente {
         }
         System.out.println("\n--- Fim do Histórico ---");
     }
+
     public void atualizarCadastro(String novoNome, String novoEmail, String novoTelefone, String novaSenha){
         this.nome = novoNome;
         this.email = novoEmail;
