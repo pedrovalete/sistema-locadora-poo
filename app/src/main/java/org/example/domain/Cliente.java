@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,12 +91,21 @@ public class Cliente {
         System.out.println("\n--- Fim do Histórico ---");
     }
 
-    public void atualizarCadastro(String novoNome, String novoEmail, String novoTelefone, String novaSenha){
+    public void atualizarCadastro(Scanner sc){
+        System.out.println("\nDigite o novo nome: ");
+        String novoNome = sc.nextLine();
+        System.out.println("\nDigite o novo email: ");
+        String novoEmail = sc.nextLine();
+        System.out.println("\nDigite o novo telefone: ");
+        String novoTelefone = sc.nextLine();
+        System.out.println("\nDigite a nova senha: ");
+        String novaSenha = sc.nextLine();
+
         this.nome = novoNome;
         this.email = novoEmail;
         this.telefone = novoTelefone;
         this.senha = novaSenha;
-        System.out.println("Cadastro atualizado com sucesso " + this.nome);
+        System.out.println("\nCadastro atualizado com sucesso " + this.nome);
     }
 
 }

@@ -14,6 +14,8 @@ public class App {
     private static final String SENHA_ADMIN = "senhaadm123";
 
     public static void main(String[] args){
+        Cliente cliente = new Cliente("Pedro", "abc@abc.com", "9999-9999", "abc123");
+        clientesCadastrados.put(cliente.getId(), cliente);
         Scanner sc = new Scanner(System.in);
         System.out.println("\nDigite a senha se for administrador, ou qualquer outra tecla para cliente: \n");
         String entrada = sc.nextLine();
@@ -27,7 +29,7 @@ public class App {
     public static void menuAdmin(Scanner sc){
         boolean sair = false;
         while(!sair){
-            System.out.println("\n--- MENU ADMINISTRADOR ---");
+            System.out.println("\n--- MENU ADMINISTRADOR ---\n");
             System.out.println("1. Gerenciar Clientes");
             System.out.println("2. Gerenciar Jogos");
             System.out.println("3. Gerenciar Plataformas");
@@ -41,7 +43,7 @@ public class App {
 
             switch(escolha){
                 case 1:
-                    System.out.println("\n--- GERENCIAR CLIENTES ---");
+                    System.out.println("\n--- GERENCIAR CLIENTES ---\n");
                     System.out.println("1. Cadastrar Cliente");
                     System.out.println("2. Atualizar Cliente");
                     System.out.println("3. Listar Clientes");
@@ -54,11 +56,28 @@ public class App {
                         case 1:
 
                     }
+                case 2:
+                    System.out.println("\n--- GERENCIAR JOGOS ---\n");
+                    System.out.println("1. Cadastrar Jogo");
+                    System.out.println("2. Atualizar Jogo");
+                    System.out.println("3. Listar Jogos");
+                    System.out.println("4. Remover Jogo");
+                    System.out.println("0. Sair");
+                    int gerenciarJogo = sc.nextInt();
+                    sc.nextLine();
+
+                    switch(gerenciarJogo){
+                        case 1:
+                            cadastrarJogo(sc);
+                    }
+                case 0:
+                    sair = true;
+                    break;
             }
         }
     }
     public static void loginCliente(Scanner sc){
-        System.out.println("\n--- LOGIN DO CLIENTE ---");
+        System.out.println("\n--- LOGIN DO CLIENTE ---\n");
 
         System.out.println("Digite o seu ID de cliente: ");
         int idCliente = sc.nextInt();
@@ -73,21 +92,30 @@ public class App {
             System.out.println("\nLogin realizado. Bem vindo, " + clienteLogin.getNome());
             menuCliente(sc, clienteLogin);
         }else{
-            System.out.println("\nAconteceu um erro. ID de cliente ou senha incorretos. Tente novamente.");
+            System.out.println("\nID de cliente ou senha incorreta. Tente novamente.");
         }
     }
 
     public static void menuCliente(Scanner sc, Cliente clienteLogado) {
-        boolean sair = false;
-        while(!sair){
-            System.out.println("\n--- MENU CLIENTE ---");
-            System.out.println("1. Locação de Jogos");
-            System.out.println("2. Alugar Consoles");
-            System.out.println("3. Consultar histórico");
-            System.out.println("4. Consultar jogos disponíveis");
-            System.out.println("5. Atualizar cadastro");
-            System.out.println("0. Sair");
-        }
+           boolean sair = false;
+           while(!sair){
+               System.out.println("\n--- MENU CLIENTE ---\n");
+               System.out.println("1. Locação de Jogos");
+               System.out.println("2. Alugar Consoles");
+               System.out.println("3. Consultar histórico");
+               System.out.println("4. Consultar jogos disponíveis");
+               System.out.println("5. Atualizar cadastro");
+               System.out.println("0. Sair");
+               int escolha = sc.nextInt();
+               sc.nextLine();
+               switch(escolha){
+                   case 0:
+                       sair = true;
+                       break;
+                   case 5:
+                       clienteLogado.atualizarCadastro(sc);
+               }
+           }
     }
 
     public static void cadastrarJogo(Scanner sc){
@@ -96,7 +124,7 @@ public class App {
         String nomeJogo = sc.nextLine();
         Jogo novoJogo = new Jogo(nomeJogo);
         jogosCadastrados.put(novoJogo.getId(), novoJogo);
-        System.out.println("Jogo '" + novoJogo.getNome() + "' cadastrado com sucesso.");
+        System.out.println("\nJogo '" + novoJogo.getNome() + "' cadastrado com sucesso.");
     }
 
     public static void cadastrarPlataforma(Scanner sc){
