@@ -33,6 +33,7 @@ public class App {
             System.out.println("3. Gerenciar Plataformas");
             System.out.println("4. Gerenciar Locações");
             System.out.println("5. Gerenciar Aluguéis");
+            System.out.println("6. Gerenciar Estoque");
             System.out.println("0. Sair");
 
             int escolha = sc.nextInt();
