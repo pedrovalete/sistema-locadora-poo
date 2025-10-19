@@ -9,26 +9,29 @@ public class App {
     private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>();
     private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>();
     private static Map<Integer, Plataforma> plataformasCadastradas = new HashMap<>();
+    private static Map<Integer, Console> estoqueConsoles = new HashMap<>();
+    private static Map<String, Acessorio> estoqueAcessorios = new HashMap<>();
     private static Map<String, JogoPlataforma> estoqueJogos = new HashMap<>();
 
     private static final String SENHA_ADMIN = "senhaadm123";
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Cliente cliente = new Cliente("Pedro", "abc@abc.com", "9999-9999", "abc123");
         clientesCadastrados.put(cliente.getId(), cliente);
         Scanner sc = new Scanner(System.in);
         System.out.println("\nDigite a senha se for administrador, ou qualquer outra tecla para cliente: \n");
         String entrada = sc.nextLine();
 
-        if(entrada.equals(SENHA_ADMIN)){
+        if (entrada.equals(SENHA_ADMIN)) {
             menuAdmin(sc);
-        }else{
+        } else {
             loginCliente(sc);
         }
     }
-    public static void menuAdmin(Scanner sc){
+
+    public static void menuAdmin(Scanner sc) {
         boolean sair = false;
-        while(!sair){
+        while (!sair) {
             System.out.println("\n--- MENU ADMINISTRADOR ---\n");
             System.out.println("1. Gerenciar Clientes");
             System.out.println("2. Gerenciar Jogos");
@@ -41,10 +44,10 @@ public class App {
             int escolha = sc.nextInt();
             sc.nextLine();
 
-            switch(escolha){
+            switch (escolha) {
                 case 1:
                     boolean sairCliente = false;
-                    while(!sairCliente) {
+                    while (!sairCliente) {
                         System.out.println("\n--- GERENCIAR CLIENTES ---\n");
                         System.out.println("1. Cadastrar Cliente");
                         System.out.println("2. Atualizar Cliente");
@@ -56,7 +59,7 @@ public class App {
 
                         switch (gerenciarCliente) {
                             case 1:
-                            cadastrarCliente(sc);
+                                cadastrarCliente(sc);
                             case 0:
                                 sairCliente = true;
                                 break;
@@ -68,7 +71,7 @@ public class App {
                     break;
                 case 2:
                     boolean sairJogo = false;
-                    while(!sairJogo) {
+                    while (!sairJogo) {
                         System.out.println("\n--- GERENCIAR JOGOS ---\n");
                         System.out.println("1. Cadastrar Jogo");
                         System.out.println("2. Atualizar Jogo");
@@ -93,7 +96,7 @@ public class App {
                     break;
                 case 3:
                     boolean sairPlataforma = false;
-                    while(!sairPlataforma) {
+                    while (!sairPlataforma) {
                         System.out.println("\n--- GERENCIAR PLATAFORMAS ---\n");
                         System.out.println("1. Cadastrar Plataforma");
                         System.out.println("2. Atualizar Plataforma");
@@ -125,7 +128,8 @@ public class App {
             }
         }
     }
-    public static void loginCliente(Scanner sc){
+
+    public static void loginCliente(Scanner sc) {
         System.out.println("\n--- LOGIN DO CLIENTE ---\n");
 
         System.out.println("Digite o seu ID de cliente: ");
@@ -137,37 +141,37 @@ public class App {
 
         Cliente clienteLogin = clientesCadastrados.get(idCliente);
 
-        if(clienteLogin != null && clienteLogin.autenticar(senhaDigitada)){
+        if (clienteLogin != null && clienteLogin.autenticar(senhaDigitada)) {
             System.out.println("\nLogin realizado. Bem vindo, " + clienteLogin.getNome());
             menuCliente(sc, clienteLogin);
-        }else{
+        } else {
             System.out.println("\nID de cliente ou senha incorreta. Tente novamente.");
         }
     }
 
     public static void menuCliente(Scanner sc, Cliente clienteLogado) {
-           boolean sair = false;
-           while(!sair){
-               System.out.println("\n--- MENU CLIENTE ---\n");
-               System.out.println("1. Locação de Jogos");
-               System.out.println("2. Alugar Consoles");
-               System.out.println("3. Consultar histórico");
-               System.out.println("4. Consultar jogos disponíveis");
-               System.out.println("5. Atualizar cadastro");
-               System.out.println("0. Sair");
-               int escolha = sc.nextInt();
-               sc.nextLine();
-               switch(escolha){
-                   case 0:
-                       sair = true;
-                       break;
-                   case 5:
-                       clienteLogado.atualizarCadastro(sc);
-               }
-           }
+        boolean sair = false;
+        while (!sair) {
+            System.out.println("\n--- MENU CLIENTE ---\n");
+            System.out.println("1. Locação de Jogos");
+            System.out.println("2. Alugar Consoles");
+            System.out.println("3. Consultar histórico");
+            System.out.println("4. Consultar jogos disponíveis");
+            System.out.println("5. Atualizar cadastro");
+            System.out.println("0. Sair");
+            int escolha = sc.nextInt();
+            sc.nextLine();
+            switch (escolha) {
+                case 0:
+                    sair = true;
+                    break;
+                case 5:
+                    clienteLogado.atualizarCadastro(sc);
+            }
+        }
     }
 
-    public static void cadastrarJogo(Scanner sc){
+    public static void cadastrarJogo(Scanner sc) {
         System.out.println("\n--- Cadastro de Jogo ---");
         System.out.println(" Digite o nome do jogo: ");
         String nomeJogo = sc.nextLine();
@@ -205,13 +209,17 @@ public class App {
         }
     }
 
-    public static void cadastrarJogoPlataforma(Scanner sc){
+    public static void cadastrarConsole(Scanner sc){
+
+    }
+
+    public static void cadastrarJogoPlataforma(Scanner sc) {
         System.out.println("\n--- Cadastro de Jogo e Plataforma ---");
-        if(jogosCadastrados.isEmpty()){
+        if (jogosCadastrados.isEmpty()) {
             System.out.println(" Nenhum jogo cadastrado até o momento.");
-        }else{
+        } else {
             System.out.println(" Jogos presentes no sistema: ");
-            for(Integer id : jogosCadastrados.keySet()){
+            for (Integer id : jogosCadastrados.keySet()) {
                 Jogo jogo = jogosCadastrados.get(id);
 
                 System.out.println("  ID: " + id + " | Nome: " + jogo.getNome());
@@ -220,11 +228,11 @@ public class App {
         System.out.println("\nDigite o ID do jogo desejado: ");
         int idJogo = sc.nextInt();
         sc.nextLine();
-        if(plataformasCadastradas.isEmpty()){
+        if (plataformasCadastradas.isEmpty()) {
             System.out.println(" Nenhuma plataforma cadastrada até o momento.");
-        }else{
+        } else {
             System.out.println(" Plataformas presentes no sistema: ");
-            for(Integer id : plataformasCadastradas.keySet()){
+            for (Integer id : plataformasCadastradas.keySet()) {
                 Plataforma plataforma = plataformasCadastradas.get(id);
 
                 System.out.println("  ID: " + id + " | Plataforma: " + plataforma.getNome());
@@ -243,22 +251,22 @@ public class App {
 
         Jogo jogo = jogosCadastrados.get(idJogo);
         Plataforma plataforma = plataformasCadastradas.get(idPlataforma);
-        if(jogo != null & plataforma != null){
+        if (jogo != null & plataforma != null) {
             String chaveJogoPlataforma = idJogo + "-" + idPlataforma;
 
-            if(estoqueJogos.containsKey(chaveJogoPlataforma)){
+            if (estoqueJogos.containsKey(chaveJogoPlataforma)) {
                 System.out.println(" Este jogo já está cadastrado com esta plataforma no sistema.");
                 return;
             }
             JogoPlataforma novoProduto = new JogoPlataforma(jogo, plataforma, estoque, precoDiario);
             estoqueJogos.put(chaveJogoPlataforma, novoProduto);
             System.out.println("O jogo " + jogo.getNome() + "foi cadastrado na plataforma " + plataforma.getNome());
-        }else{
+        } else {
             System.out.println(" ID informado para jogo ou plataforma não existe.");
         }
     }
 
-    public static void cadastrarCliente(Scanner sc){
+    public static void cadastrarCliente(Scanner sc) {
         System.out.println("\n--- Cadastro de Cliente ---\n");
         System.out.println(" Digite o nome do cliente: ");
         String nomeCliente = sc.nextLine();
@@ -275,7 +283,7 @@ public class App {
     }
 
     public static void cadastrarLocacao(Scanner sc, Cliente clienteLogado) {
-        System.out.println("\n--- Cadastro de Locação ---\n");
+        System.out.println("\n--- Nova Locação de Jogos ---\n");
         LocacaoJogo novaLocacao = new LocacaoJogo(clienteLogado);
         System.out.println(" Jogos disponíveis: ");
         if (estoqueJogos.isEmpty()) {
@@ -293,20 +301,20 @@ public class App {
             System.out.println("Quantos jogos você deseja locar? ");
             int quantidadeJogos = sc.nextInt();
             sc.nextLine();
-            for(int i = 0; i < quantidadeJogos; i++) {
+            for (int i = 0; i < quantidadeJogos; i++) {
                 System.out.println(" Digite o ID do jogo e plataforma desejada: ");
                 String idProduto = sc.nextLine();
                 JogoPlataforma produtoEscolhido = estoqueJogos.get(idProduto);
 
-                if(produtoEscolhido != null && produtoEscolhido.getQuantidadeEstoque() > 0){
+                if (produtoEscolhido != null && produtoEscolhido.getQuantidadeEstoque() > 0) {
                     System.out.println("Digite a quantidade de dias de locação para este jogo: ");
                     int diasDeLocacao = sc.nextInt();
                     sc.nextLine();
                     novaLocacao.adicionarItem(produtoEscolhido, diasDeLocacao);
                     produtoEscolhido.decrementarEstoque();
-                }else if(produtoEscolhido == null){
+                } else if (produtoEscolhido == null) {
                     System.out.println("ID de locação inválido.");
-                }else if(produtoEscolhido.getQuantidadeEstoque() == 0){
+                } else if (produtoEscolhido.getQuantidadeEstoque() == 0) {
                     System.out.println("O jogo '" + produtoEscolhido.getJogo().getNome() + "' está sem estoque.");
                 }
             }
@@ -318,5 +326,46 @@ public class App {
         System.out.println("Valor Total: R$" + String.format(".2f", novaLocacao.getValorTotal()));
 
         clienteLogado.adicionarLocacao(novaLocacao);
+    }
+
+    public static void cadastrarAluguel(Scanner sc, Cliente clienteLogado) {
+        System.out.println("\n--- Novo Aluguel de Consoles e Acessórios ---\n");
+        System.out.println(" Consoles disponíveis: ");
+        if (estoqueConsoles.isEmpty()) {
+            System.out.println("  Nenhum console disponível no momento.");
+        } else {
+            for (Integer id : estoqueConsoles.keySet()) {
+                Console console = estoqueConsoles.get(id);
+                String nomeConsole = console.getNome();
+                double precoPorHora = console.getPrecoPorHora();
+                int estoque = console.getEstoque();
+
+                System.out.println("   ID: " + id + " | Console: " + nomeConsole + " | Preço Diário: " + precoPorHora + " | Em estoque: " + estoque);
+            }
+            System.out.println("Digite o ID do console que gostaria de alugar: ");
+            int idConsole = sc.nextInt();
+            sc.nextLine();
+            Console consoleEscolhido = estoqueConsoles.get(idConsole);
+            if (consoleEscolhido != null && consoleEscolhido.getEstoque() > 0) {
+                System.out.println("Digite a quantidade em horas do aluguel deste console: ");
+                int horasDeAluguel = sc.nextInt();
+                sc.nextLine();
+                AluguelConsole novoAluguel = new AluguelConsole(clienteLogado, consoleEscolhido, horasDeAluguel);
+                consoleEscolhido.decrementarEstoque();
+            } else if (consoleEscolhido == null) {
+                System.out.println("ID de aluguel inválido.");
+            } else if (consoleEscolhido.getEstoque() == 0) {
+                System.out.println("O console '" + consoleEscolhido.getNome() + "' está sem estoque.");
+            }
+            System.out.println("\nAcessórios Disponíveis: ");
+            for(Integer id :  )
+            System.out.println("\n--- Comprovante da Locação ---");
+            System.out.println("ID da Locação: " + novaLocacao.getId());
+            System.out.println("Cliente: " + novaLocacao.getCliente().getNome());
+            System.out.println("Data: " + novaLocacao.getData());
+            System.out.println("Valor Total: R$" + String.format(".2f", novaLocacao.getValorTotal()));
+
+            clienteLogado.adicionarLocacao(novaLocacao);
+        }
     }
 }
