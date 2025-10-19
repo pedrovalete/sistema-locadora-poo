@@ -7,12 +7,12 @@ public class Console {
     private int id;
     private String nome;
     private double precoPorHora;
-    private int estoque;
     private List<AluguelConsole> alugueis;
     private Plataforma plataforma;
+    private boolean disponivel;
     private static int idConsole = 1;
 
-    public Console(String nome, Plataforma plataforma, int estoque, double precoPorHora){
+    public Console(String nome, Plataforma plataforma, double precoPorHora){
         this.id = idConsole++;
         this.nome = nome;
         this.plataforma = plataforma;
@@ -32,13 +32,13 @@ public class Console {
     public double getPrecoPorHora() {
         return precoPorHora;
     }
-    public int getEstoque(){
-        return estoque;
-    }
     public List<AluguelConsole> getAlugueis() {
         return alugueis;
     }
-    public void decrementarEstoque(){
-        this.estoque--;
+    public boolean getDisponibilidade(){
+        return disponivel;
+    }
+    public void alugar(){
+        this.disponivel = false;
     }
 }

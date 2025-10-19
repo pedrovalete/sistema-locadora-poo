@@ -9,8 +9,8 @@ public class App {
     private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>();
     private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>();
     private static Map<Integer, Plataforma> plataformasCadastradas = new HashMap<>();
-    private static Map<Integer, Console> estoqueConsoles = new HashMap<>();
-    private static Map<String, Acessorio> estoqueAcessorios = new HashMap<>();
+    private static Map<Integer, Console> consolesDisponiveis = new HashMap<>();
+    private static Map<String, Acessorio>  acessoriosDisponiveis = new HashMap<>();
     private static Map<String, JogoPlataforma> estoqueJogos = new HashMap<>();
 
     private static final String SENHA_ADMIN = "senhaadm123";
@@ -209,10 +209,6 @@ public class App {
         }
     }
 
-    public static void cadastrarConsole(Scanner sc){
-
-    }
-
     public static void cadastrarJogoPlataforma(Scanner sc) {
         System.out.println("\n--- Cadastro de Jogo e Plataforma ---");
         if (jogosCadastrados.isEmpty()) {
@@ -263,6 +259,30 @@ public class App {
             System.out.println("O jogo " + jogo.getNome() + "foi cadastrado na plataforma " + plataforma.getNome());
         } else {
             System.out.println(" ID informado para jogo ou plataforma não existe.");
+        }
+    }
+
+    public static void cadastrarConsole(Scanner sc) {
+        System.out.println("\n--- Cadastro de Console ---");
+        System.out.println("Plataformas disponíveis: ");
+        for (Integer id : plataformasCadastradas.keySet()) {
+            Plataforma plataforma = plataformasCadastradas.get(id);
+            System.out.println(" ID: " + id + " | Plataforma: " + plataforma.getNome());
+        }
+        System.out.println("Digite o ID da plataforma que o console pertence: ");
+        int idPlataforma = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Digite o nome do console: ");
+        String nomeConsole = sc.nextLine();
+        System.out.println("Digite o preço por hora: ");
+        double precoPorHora = sc.nextDouble();
+        Plataforma plataformaDoConsole = plataformasCadastradas.get(idPlataforma);
+        if (plataformaDoConsole != null) {
+            Console novoConsole = new Console(nomeConsole, plataformaDoConsole, precoPorHora);
+            consolesDisponiveis.put(novoConsole.getId(), novoConsole);
+            System.out.println("o console " + nomeConsole + " foi cadastrado com sucesso.");
+        }else{
+            System.out.println("A plataforma não foi encontrada.");
         }
     }
 
@@ -331,31 +351,31 @@ public class App {
     public static void cadastrarAluguel(Scanner sc, Cliente clienteLogado) {
         System.out.println("\n--- Novo Aluguel de Consoles e Acessórios ---\n");
         System.out.println(" Consoles disponíveis: ");
-        if (estoqueConsoles.isEmpty()) {
+        if (consolesDisponiveis.isEmpty()) {
             System.out.println("  Nenhum console disponível no momento.");
+            return;
         } else {
-            for (Integer id : estoqueConsoles.keySet()) {
-                Console console = estoqueConsoles.get(id);
-                String nomeConsole = console.getNome();
-                double precoPorHora = console.getPrecoPorHora();
-                int estoque = console.getEstoque();
-
-                System.out.println("   ID: " + id + " | Console: " + nomeConsole + " | Preço Diário: " + precoPorHora + " | Em estoque: " + estoque);
+            for (Console console : consolesDisponiveis.values()) {
+                if (console.getDisponibilidade()) {
+                    int id = console.getId();
+                    String nomeConsole = console.getNome();
+                    double precoPorHora = console.getPrecoPorHora();
+                    System.out.println("   ID: " + id + " | Console: " + nomeConsole + " | Preço Diário: " + precoPorHora);
+                }
             }
             System.out.println("Digite o ID do console que gostaria de alugar: ");
             int idConsole = sc.nextInt();
             sc.nextLine();
-            Console consoleEscolhido = estoqueConsoles.get(idConsole);
-            if (consoleEscolhido != null && consoleEscolhido.getEstoque() > 0) {
+            Console consoleEscolhido = consolesDisponiveis.get(idConsole);
+            if (consoleEscolhido != null && consoleEscolhido.getDisponibilidade()) {
                 System.out.println("Digite a quantidade em horas do aluguel deste console: ");
                 int horasDeAluguel = sc.nextInt();
                 sc.nextLine();
                 AluguelConsole novoAluguel = new AluguelConsole(clienteLogado, consoleEscolhido, horasDeAluguel);
-                consoleEscolhido.decrementarEstoque();
-            } else if (consoleEscolhido == null) {
+                clienteLogado.adicionarAluguel(novoAluguel);
+                consoleEscolhido.alugar();
+            } else{
                 System.out.println("ID de aluguel inválido.");
-            } else if (consoleEscolhido.getEstoque() == 0) {
-                System.out.println("O console '" + consoleEscolhido.getNome() + "' está sem estoque.");
             }
             System.out.println("\nAcessórios Disponíveis: ");
             for(Integer id :  )
