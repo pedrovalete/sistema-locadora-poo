@@ -43,35 +43,84 @@ public class App {
 
             switch(escolha){
                 case 1:
-                    System.out.println("\n--- GERENCIAR CLIENTES ---\n");
-                    System.out.println("1. Cadastrar Cliente");
-                    System.out.println("2. Atualizar Cliente");
-                    System.out.println("3. Listar Clientes");
-                    System.out.println("4. Remover Cliente");
-                    System.out.println("0. Sair");
-                    int gerenciarCliente = sc.nextInt();
-                    sc.nextLine();
+                    boolean sairCliente = false;
+                    while(!sairCliente) {
+                        System.out.println("\n--- GERENCIAR CLIENTES ---\n");
+                        System.out.println("1. Cadastrar Cliente");
+                        System.out.println("2. Atualizar Cliente");
+                        System.out.println("3. Listar Clientes");
+                        System.out.println("4. Remover Cliente");
+                        System.out.println("0. Voltar ao menu");
+                        int gerenciarCliente = sc.nextInt();
+                        sc.nextLine();
 
-                    switch(gerenciarCliente){
-                        case 1:
-
+                        switch (gerenciarCliente) {
+                            case 1:
+                            cadastrarCliente(sc);
+                            case 0:
+                                sairCliente = true;
+                                break;
+                            default:
+                                System.out.println("Opção inválida.");
+                                break;
+                        }
                     }
+                    break;
                 case 2:
-                    System.out.println("\n--- GERENCIAR JOGOS ---\n");
-                    System.out.println("1. Cadastrar Jogo");
-                    System.out.println("2. Atualizar Jogo");
-                    System.out.println("3. Listar Jogos");
-                    System.out.println("4. Remover Jogo");
-                    System.out.println("0. Sair");
-                    int gerenciarJogo = sc.nextInt();
-                    sc.nextLine();
+                    boolean sairJogo = false;
+                    while(!sairJogo) {
+                        System.out.println("\n--- GERENCIAR JOGOS ---\n");
+                        System.out.println("1. Cadastrar Jogo");
+                        System.out.println("2. Atualizar Jogo");
+                        System.out.println("3. Listar Jogos");
+                        System.out.println("4. Remover Jogo");
+                        System.out.println("0. Voltar ao menu");
+                        int gerenciarJogo = sc.nextInt();
+                        sc.nextLine();
 
-                    switch(gerenciarJogo){
-                        case 1:
-                            cadastrarJogo(sc);
+                        switch (gerenciarJogo) {
+                            case 1:
+                                cadastrarJogo(sc);
+                                break;
+                            case 0:
+                                sairJogo = true;
+                                break;
+                            default:
+                                System.out.println("Opção inválida.");
+                                break;
+                        }
                     }
+                    break;
+                case 3:
+                    boolean sairPlataforma = false;
+                    while(!sairPlataforma) {
+                        System.out.println("\n--- GERENCIAR PLATAFORMAS ---\n");
+                        System.out.println("1. Cadastrar Plataforma");
+                        System.out.println("2. Atualizar Plataforma");
+                        System.out.println("3. Listar plataforma");
+                        System.out.println("4. Remover Platforma");
+                        System.out.println("0. Voltar ao menu");
+                        int gerenciarPlataforma = sc.nextInt();
+                        sc.nextLine();
+
+                        switch (gerenciarPlataforma) {
+                            case 1:
+                                cadastrarPlataforma(sc);
+                                break;
+                            case 0:
+                                sairPlataforma = true;
+                                break;
+                            default:
+                                System.out.println("Opção inválida.");
+                                break;
+                        }
+                    }
+                    break;
                 case 0:
                     sair = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
                     break;
             }
         }
@@ -127,22 +176,33 @@ public class App {
         System.out.println("\nJogo '" + novoJogo.getNome() + "' cadastrado com sucesso.");
     }
 
-    public static void cadastrarPlataforma(Scanner sc){
+    public static void cadastrarPlataforma(Scanner sc) {
         System.out.println("\n--- Cadastro de Plataforma ---");
         System.out.println(" Digite o nome da plataforma: ");
         String nomePlataforma = sc.nextLine();
-        System.out.println(" Informe uma descrição (opcional): ");
-        String descricaoPlataforma = sc.nextLine();
-
-        Plataforma novaPlataforma;
-        if(descricaoPlataforma.isEmpty()){
-            novaPlataforma = new Plataforma(nomePlataforma);
-        }else{
-            novaPlataforma = new Plataforma(nomePlataforma, descricaoPlataforma);
+        boolean comparacaoNomes = false;
+        for (Plataforma plataforma : plataformasCadastradas.values()) {
+            if (plataforma.getNome().equalsIgnoreCase(nomePlataforma)) {
+                comparacaoNomes = true;
+                break;
+            }
         }
+        if (comparacaoNomes == true) {
+            System.out.println("\nPlataforma já existente. Tente novamente.");
+        } else {
+            System.out.println(" Informe uma descrição (opcional, presisione Enter para pular): ");
+            String descricaoPlataforma = sc.nextLine();
 
-        plataformasCadastradas.put(novaPlataforma.getId(), novaPlataforma);
-        System.out.println("Plataforma '" + novaPlataforma.getNome() + "' cadastrada com sucesso.");
+            Plataforma novaPlataforma;
+            if (descricaoPlataforma.isEmpty()) {
+                novaPlataforma = new Plataforma(nomePlataforma);
+            } else {
+                novaPlataforma = new Plataforma(nomePlataforma, descricaoPlataforma);
+            }
+
+            plataformasCadastradas.put(novaPlataforma.getId(), novaPlataforma);
+            System.out.println("Plataforma '" + novaPlataforma.getNome() + "' cadastrada com sucesso.");
+        }
     }
 
     public static void cadastrarJogoPlataforma(Scanner sc){
@@ -214,8 +274,9 @@ public class App {
         System.out.println("\nO cliente " + nomeCliente + " foi cadastrado com sucesso.\n");
     }
 
-    public static void cadastrarLocacao(Scanner sc, JogoPlataforma jogo) {
+    public static void cadastrarLocacao(Scanner sc, Cliente clienteLogado) {
         System.out.println("\n--- Cadastro de Locação ---\n");
+        LocacaoJogo novaLocacao = new LocacaoJogo(clienteLogado);
         System.out.println(" Jogos disponíveis: ");
         if (estoqueJogos.isEmpty()) {
             System.out.println("  Nenhum jogo disponível no momento.");
@@ -224,10 +285,38 @@ public class App {
                 JogoPlataforma jogoPlataforma = estoqueJogos.get(id);
                 String nomeJogo = jogoPlataforma.getJogo().getNome();
                 String nomePlataforma = jogoPlataforma.getPlataforma().getNome();
+                double precoDiario = jogoPlataforma.getPrecoDiario();
                 int estoque = jogoPlataforma.getQuantidadeEstoque();
 
-                System.out.println("   ID: " + id + " | Jogo: " + nomeJogo + " | Plataforma: " + nomePlataforma + " | ");
+                System.out.println("   ID: " + id + " | Jogo: " + nomeJogo + " | Plataforma: " + nomePlataforma + " | Preço Diário: " + precoDiario + " | Em estoque: " + estoque);
+            }
+            System.out.println("Quantos jogos você deseja locar? ");
+            int quantidadeJogos = sc.nextInt();
+            sc.nextLine();
+            for(int i = 0; i < quantidadeJogos; i++) {
+                System.out.println(" Digite o ID do jogo e plataforma desejada: ");
+                String idProduto = sc.nextLine();
+                JogoPlataforma produtoEscolhido = estoqueJogos.get(idProduto);
+
+                if(produtoEscolhido != null && produtoEscolhido.getQuantidadeEstoque() > 0){
+                    System.out.println("Digite a quantidade de dias de locação para este jogo: ");
+                    int diasDeLocacao = sc.nextInt();
+                    sc.nextLine();
+                    novaLocacao.adicionarItem(produtoEscolhido, diasDeLocacao);
+                    produtoEscolhido.decrementarEstoque();
+                }else if(produtoEscolhido == null){
+                    System.out.println("ID de locação inválido.");
+                }else if(produtoEscolhido.getQuantidadeEstoque() == 0){
+                    System.out.println("O jogo '" + produtoEscolhido.getJogo().getNome() + "' está sem estoque.");
+                }
             }
         }
+        System.out.println("\n--- Comprovante da Locação ---");
+        System.out.println("ID da Locação: " + novaLocacao.getId());
+        System.out.println("Cliente: " + novaLocacao.getCliente().getNome());
+        System.out.println("Data: " + novaLocacao.getData());
+        System.out.println("Valor Total: R$" + String.format(".2f", novaLocacao.getValorTotal()));
+
+        clienteLogado.adicionarLocacao(novaLocacao);
     }
 }

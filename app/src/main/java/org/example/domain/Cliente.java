@@ -107,4 +107,10 @@ public class Cliente {
         System.out.println("\nCadastro atualizado com sucesso, " + this.nome + ".");
     }
 
+    public void adicionarLocacao(LocacaoJogo novaLocacao){
+        this.locacoes.add(novaLocacao);
+    }
+    public void adicionarAluguel(AluguelConsole novoAluguel){
+        this.alugueis.add(novoAluguel);
+    }
 }

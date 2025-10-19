@@ -35,4 +35,7 @@ public class JogoPlataforma {
     public void adicionarHistorico(ItemLocacao item){
         this.itens.add(item);
     }
+    public void decrementarEstoque(){
+            this.quantidadeEstoque--;
+    }
 }
