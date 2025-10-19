@@ -197,4 +197,37 @@ public class App {
             System.out.println(" ID informado para jogo ou plataforma não existe.");
         }
     }
+
+    public static void cadastrarCliente(Scanner sc){
+        System.out.println("\n--- Cadastro de Cliente ---\n");
+        System.out.println(" Digite o nome do cliente: ");
+        String nomeCliente = sc.nextLine();
+        System.out.println(" Digite o email do cliente: ");
+        String emailCliente = sc.nextLine();
+        System.out.println(" Digite o telefone do cliente: ");
+        String telefoneCliente = sc.nextLine();
+        System.out.println(" Digite a senha do cliente: ");
+        String senhaCliente = sc.nextLine();
+
+        Cliente novoCliente = new Cliente(nomeCliente, emailCliente, telefoneCliente, senhaCliente);
+        clientesCadastrados.put(novoCliente.getId(), novoCliente);
+        System.out.println("\nO cliente " + nomeCliente + " foi cadastrado com sucesso.\n");
+    }
+
+    public static void cadastrarLocacao(Scanner sc, JogoPlataforma jogo) {
+        System.out.println("\n--- Cadastro de Locação ---\n");
+        System.out.println(" Jogos disponíveis: ");
+        if (estoqueJogos.isEmpty()) {
+            System.out.println("  Nenhum jogo disponível no momento.");
+        } else {
+            for (String id : estoqueJogos.keySet()) {
+                JogoPlataforma jogoPlataforma = estoqueJogos.get(id);
+                String nomeJogo = jogoPlataforma.getJogo().getNome();
+                String nomePlataforma = jogoPlataforma.getPlataforma().getNome();
+                int estoque = jogoPlataforma.getQuantidadeEstoque();
+
+                System.out.println("   ID: " + id + " | Jogo: " + nomeJogo + " | Plataforma: " + nomePlataforma + " | ");
+            }
+        }
+    }
 }

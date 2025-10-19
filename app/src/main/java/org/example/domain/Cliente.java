@@ -10,7 +10,6 @@ public class Cliente {
     private String email;
     private String telefone;
     private String senha;
-
     private List<AluguelConsole> alugueis;
     private List<LocacaoJogo> locacoes;
     private static int idCliente = 1;
@@ -105,7 +104,7 @@ public class Cliente {
         this.email = novoEmail;
         this.telefone = novoTelefone;
         this.senha = novaSenha;
-        System.out.println("\nCadastro atualizado com sucesso " + this.nome);
+        System.out.println("\nCadastro atualizado com sucesso, " + this.nome + ".");
     }
 
 }

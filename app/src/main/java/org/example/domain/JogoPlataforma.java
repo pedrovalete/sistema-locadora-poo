@@ -26,7 +26,7 @@ public class JogoPlataforma {
     public int getQuantidadeEstoque(){
         return quantidadeEstoque;
     }
-    public List<ItemLocacao> getJogos(){
+    public List<ItemLocacao> getItens(){
         return itens;
     }
     public double getPrecoDiario(){
