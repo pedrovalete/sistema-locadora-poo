@@ -56,6 +56,7 @@ public class Cliente {
     public boolean autenticar(String senha){
         return this.senha.equals(senha);
     }
+
     public void consultarHistorico(){
         System.out.println("\n--- Histórico de Transações de " + this.getNome() + "---");
 
