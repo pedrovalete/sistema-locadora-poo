@@ -18,6 +18,7 @@ public class Console {
         this.plataforma = plataforma;
         this.precoPorHora = precoPorHora;
         this.alugueis = new ArrayList<>();
+        this.disponivel = true;
     }
 
     public int getId() {

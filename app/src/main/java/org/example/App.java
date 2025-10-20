@@ -4,6 +4,8 @@ import java.time.format.SignStyle;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import org.example.domain.*;
 
 public class App {
@@ -406,10 +408,7 @@ public class App {
         } else {
             for (Console console : consolesDisponiveis.values()) {
                 if (console.getDisponibilidade()) {
-                    int id = console.getId();
-                    String nomeConsole = console.getNome();
-                    double precoPorHora = console.getPrecoPorHora();
-                    System.out.println("   ID: " + id + " | Console: " + nomeConsole + " | Preço Diário: " + precoPorHora);
+                    System.out.println("   ID: " + console.getId() + " | Console: " + console.getNome() + " | Preço Diário: " + console.getPrecoPorHora());
                 }
             }
             System.out.println("Digite o ID do console que gostaria de alugar: ");
@@ -423,20 +422,41 @@ public class App {
                 AluguelConsole novoAluguel = new AluguelConsole(clienteLogado, consoleEscolhido, horasDeAluguel);
                 clienteLogado.adicionarAluguel(novoAluguel);
                 consoleEscolhido.alugar();
+
+                System.out.println("\nAcessórios disponíveis para: " + consoleEscolhido.getNome());
+                Plataforma plataformaConsole = consoleEscolhido.getPlataforma();
+                List<Acessorio> acessoriosCompativeis = plataformaConsole.getAcessorios();
+                if(acessoriosCompativeis.isEmpty()){
+                    System.out.println("Nenhum acessório compatível com este console.");
+                }else{
+                    for(Acessorio acessorio : acessoriosCompativeis){
+                        if(acessorio.getEstoque() > 0){
+                            System.out.println(String.format(" ID: %d | Nome: %s | Valor: R$%.2f", acessorio.getId(), acessorio.getNome(), acessorio.getValor()));
+                        }
+                    }
+                    System.out.println("Digite quantos acessórios gostaria de alugar (0 para nenhum): ");
+                    int quantidadeAcessorios = sc.nextInt();
+                    sc.nextLine();
+                    if(quantidadeAcessorios > 0){
+                        for(int i = 0; i < quantidadeAcessorios; i++){
+                            System.out.println("Digite o ID do acessório " + i+1);
+                            int idAcessorio = sc.nextInt();
+                            Acessorio novoAcessorio = acessoriosDisponiveis.get(idAcessorio);
+                            novoAluguel.adicionarAcessorio(novoAcessorio);
+                            novoAcessorio.decrementarEstoque();
+                        }
+                    }
+                }
+                System.out.println("\n--- Comprovante do Aluguel ---");
+                System.out.println("ID do Aluguel: " + novoAluguel.getId());
+                System.out.println("Cliente: " + novoAluguel.getCliente().getNome());
+                System.out.println("Data: " + novoAluguel.getDataHora());
+                System.out.println("Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
+
+                clienteLogado.adicionarAluguel(novoAluguel);
             } else{
                 System.out.println("ID de aluguel inválido.");
             }
-            System.out.println("\nAcessórios Disponíveis: ");
-            for(Acessorio acessorio : acessoriosDisponiveis.values()){
-                
-            }
-            System.out.println("\n--- Comprovante da Locação ---");
-            System.out.println("ID da Locação: " + novaLocacao.getId());
-            System.out.println("Cliente: " + novaLocacao.getCliente().getNome());
-            System.out.println("Data: " + novaLocacao.getData());
-            System.out.println("Valor Total: R$" + String.format(".2f", novaLocacao.getValorTotal()));
-
-            clienteLogado.adicionarLocacao(novaLocacao);
         }
     }
 }
