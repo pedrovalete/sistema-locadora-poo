@@ -1,5 +1,6 @@
 package org.example;
 
+import java.sql.SQLData;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
@@ -283,6 +284,38 @@ public class App {
             System.out.println("o console " + nomeConsole + " foi cadastrado com sucesso.");
         }else{
             System.out.println("A plataforma não foi encontrada.");
+        }
+    }
+
+    public static void cadastrarAcessorio(Scanner sc){
+        System.out.println("\n--- Cadastro de Acessório ---");
+        System.out.println("\nPlataformas disponíveis: ");
+        for (Integer id : plataformasCadastradas.keySet()) {
+            Plataforma plataforma = plataformasCadastradas.get(id);
+            System.out.println(" ID: " + id + " | Plataforma: " + plataforma.getNome());
+        }
+        System.out.println("Quantas plataformas o acessório pertence? ");
+        int quantidadePlataformas = sc.nextInt();
+        sc.nextLine();
+        for(int i = 0; i < quantidadePlataformas; i++){
+            System.out.println(" Digite o ID da plataforma " + i+1);
+            int idPlataforma = sc.nextInt();
+            sc.nextLine();
+            Plataforma plataformaEscolhida = plataformasCadastradas.get(idPlataforma);
+
+            if(plataformaEscolhida != null){
+                System.out.println("\nDigite o nome do acessório: ");
+                String nomeAcessorio = sc.nextLine();
+                System.out.println("Digite o valor do acessório: ");
+                double valorAcessorio = sc.nextDouble();
+                System.out.println("Digite quantos vão ter em estoque: ");
+                int estoqueAcessorio = sc.nextInt();
+                sc.nextLine();
+                Acessorio novoAcessorio = new Acessorio(nomeAcessorio, estoqueAcessorio,valorAcessorio);
+                String chaveAcessorioPlataforma = novoAcessorio.getId() + "-" + plataformaEscolhida.getId();
+                acessoriosDisponiveis.put(chaveAcessorioPlataforma, novoAcessorio);
+                System.out.println("O acessório '" + nomeAcessorio + "' foi cadastrado com sucesso");
+            }
         }
     }
 
