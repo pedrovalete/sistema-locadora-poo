@@ -123,6 +123,9 @@ public class App {
             switch (gerenciarCliente) {
                 case 1:
                     cadastrarCliente(sc);
+                case 2:
+                    atualizarCliente(sc);
+                    break;
                 case 0:
                     sairCliente = true;
                     break;
@@ -333,6 +336,45 @@ public class App {
         }
     }
 
+    public static void atualizarCliente(Scanner sc){
+        System.out.println("\n--- Atualizar Cliente ---\n");
+        System.out.println("\nClientes cadastrados: ");
+        for(Cliente cliente : clientesCadastrados.values()){
+            System.out.println("\n ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
+        }
+        System.out.println("\nDigite o ID do cliente que deseja atualizar: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        Cliente clienteAtualizar = clientesCadastrados.get(id);
+
+        if(clienteAtualizar != null){
+            System.out.println("Digite o novo nome (Enter para pular): ");
+            String novoNome = sc.nextLine();
+            System.out.println("Digite o novo e-mail (Enter para pular): ");
+            String novoEmail = sc.nextLine();
+            System.out.println("Digite o novo telefone (Enter para pular): ");
+            String novoTelefone = sc.nextLine();
+            System.out.println("Digite a nova senha (Enter para pular): ");
+            String novaSenha = sc.nextLine();
+
+            if(!novoNome.isEmpty()){
+                clienteAtualizar.setNome(novoNome);
+            }
+            if(!novoEmail.isEmpty()){
+                clienteAtualizar.setEmail(novoEmail);
+            }
+            if(!novoTelefone.isEmpty()){
+                clienteAtualizar.setTelefone(novoTelefone);
+            }
+            if(!novaSenha.isEmpty()){
+                clienteAtualizar.setSenha(novaSenha);
+            }
+            System.out.println("Cliente atualizado com sucesso.");
+        }else{
+            System.out.println("ID não encontrado.");
+        }
+    }
+
     public static void cadastrarConsole(Scanner sc) {
         System.out.println("\n--- Cadastro de Console ---");
         System.out.println("Plataformas disponíveis: ");
@@ -417,9 +459,16 @@ public class App {
         System.out.println("\nO cliente " + nomeCliente + " foi cadastrado com sucesso.\n");
     }
 
-    public static void cadastrarLocacao(Scanner sc, Cliente clienteLogado) {
+    public static void cadastrarLocacao(Scanner sc) {
         System.out.println("\n--- Nova Locação de Jogos ---\n");
-        LocacaoJogo novaLocacao = new LocacaoJogo(clienteLogado);
+        for(Cliente cliente : clientesCadastrados.values()){
+            System.out.println(" ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
+        }
+        System.out.println("Digite o ID do cliente da Locação: ");
+        int idCliente = sc.nextInt();
+        sc.nextLine();
+        Cliente clienteLocacao = clientesCadastrados.get(idCliente);
+        LocacaoJogo novaLocacao = new LocacaoJogo(clienteLocacao);
         System.out.println(" Jogos disponíveis: ");
         if (estoqueJogos.isEmpty()) {
             System.out.println("  Nenhum jogo disponível no momento.");
@@ -460,7 +509,7 @@ public class App {
         System.out.println("Data: " + novaLocacao.getData());
         System.out.println("Valor Total: R$" + String.format(".2f", novaLocacao.getValorTotal()));
 
-        clienteLogado.adicionarLocacao(novaLocacao);
+        clienteLocacao.adicionarLocacao(novaLocacao);
     }
 
     public static void cadastrarAluguel(Scanner sc, Cliente clienteLogado) {
