@@ -1,6 +1,5 @@
 package org.example;
 
-import java.time.format.SignStyle;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
@@ -47,7 +46,7 @@ public class App {
             int escolha = sc.nextInt();
             sc.nextLine();
 
-            switch (escolha) {
+            switch(escolha){
                 case 1:
                     gerenciarCliente(sc);
                     break;
@@ -89,7 +88,7 @@ public class App {
 
     public static void menuCliente(Scanner sc, Cliente clienteLogado) {
         boolean sair = false;
-        while (!sair) {
+        while(!sair){
             System.out.println("\n--- MENU CLIENTE ---\n");
             System.out.println("1. Locação de Jogos");
             System.out.println("2. Alugar Consoles");
@@ -111,7 +110,7 @@ public class App {
 
     public static void gerenciarCliente(Scanner sc){
         boolean sairCliente = false;
-        while (!sairCliente) {
+        while(!sairCliente){
             System.out.println("\n--- GERENCIAR CLIENTES ---\n");
             System.out.println("1. Cadastrar Cliente");
             System.out.println("2. Atualizar Cliente");
@@ -136,7 +135,7 @@ public class App {
 
     public static void gerenciarJogo(Scanner sc){
         boolean sairJogo = false;
-        while (!sairJogo) {
+        while(!sairJogo){
             System.out.println("\n--- GERENCIAR JOGOS ---\n");
             System.out.println("1. Cadastrar Jogo");
             System.out.println("2. Atualizar Jogo");
@@ -165,12 +164,12 @@ public class App {
 
     public static void gerenciarPlataforma(Scanner sc){
         boolean sairPlataforma = false;
-        while (!sairPlataforma) {
+        while(!sairPlataforma){
             System.out.println("\n--- GERENCIAR PLATAFORMAS ---\n");
             System.out.println("1. Cadastrar Plataforma");
             System.out.println("2. Atualizar Plataforma");
-            System.out.println("3. Listar plataforma");
-            System.out.println("4. Remover Platforma");
+            System.out.println("3. Listar Plataformas");
+            System.out.println("4. Remover Plataforma");
             System.out.println("0. Voltar ao menu");
             int gerenciarPlataforma = sc.nextInt();
             sc.nextLine();
@@ -184,6 +183,29 @@ public class App {
                     break;
                 case 0:
                     sairPlataforma = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
+            }
+        }
+    }
+
+    public static void gerenciarLocacoes(Scanner sc){
+        boolean sairLocacoes = false;
+        while(!sairLocacoes){
+            System.out.println("\n--- GERENCIAR LOCAÇÕES ---\n");
+            System.out.println("1. Cadastrar Locação");
+            System.out.println("2. Atualizar Locação");
+            System.out.println("3. Listar Locações");
+            System.out.println("4. Remover Locação");
+            System.out.println("0. Voltar ao menu");
+            int gerenciarLocacoes = sc.nextInt();
+            sc.nextLine();
+
+            switch(gerenciarLocacoes){
+                case 0:
+                    sairLocacoes = true;
                     break;
                 default:
                     System.out.println("Opção inválida.");
