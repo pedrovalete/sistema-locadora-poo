@@ -23,4 +23,7 @@ public class Jogo {
     public List<JogoPlataforma> getJogoPlataformas(){
         return jogoPlataformas;
     }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
