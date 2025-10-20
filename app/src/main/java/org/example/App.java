@@ -1,6 +1,6 @@
 package org.example;
 
-import java.sql.SQLData;
+import java.time.format.SignStyle;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class App {
     private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>();
     private static Map<Integer, Plataforma> plataformasCadastradas = new HashMap<>();
     private static Map<Integer, Console> consolesDisponiveis = new HashMap<>();
-    private static Map<String, Acessorio>  acessoriosDisponiveis = new HashMap<>();
+    private static Map<Integer, Acessorio>  acessoriosDisponiveis = new HashMap<>();
     private static Map<String, JogoPlataforma> estoqueJogos = new HashMap<>();
 
     private static final String SENHA_ADMIN = "senhaadm123";
@@ -47,28 +47,7 @@ public class App {
 
             switch (escolha) {
                 case 1:
-                    boolean sairCliente = false;
-                    while (!sairCliente) {
-                        System.out.println("\n--- GERENCIAR CLIENTES ---\n");
-                        System.out.println("1. Cadastrar Cliente");
-                        System.out.println("2. Atualizar Cliente");
-                        System.out.println("3. Listar Clientes");
-                        System.out.println("4. Remover Cliente");
-                        System.out.println("0. Voltar ao menu");
-                        int gerenciarCliente = sc.nextInt();
-                        sc.nextLine();
-
-                        switch (gerenciarCliente) {
-                            case 1:
-                                cadastrarCliente(sc);
-                            case 0:
-                                sairCliente = true;
-                                break;
-                            default:
-                                System.out.println("Opção inválida.");
-                                break;
-                        }
-                    }
+                    gerenciarCliente(sc);
                     break;
                 case 2:
                     boolean sairJogo = false;
@@ -168,6 +147,31 @@ public class App {
                     break;
                 case 5:
                     clienteLogado.atualizarCadastro(sc);
+            }
+        }
+    }
+
+    public static void gerenciarCliente(Scanner sc){
+        boolean sairCliente = false;
+        while (!sairCliente) {
+            System.out.println("\n--- GERENCIAR CLIENTES ---\n");
+            System.out.println("1. Cadastrar Cliente");
+            System.out.println("2. Atualizar Cliente");
+            System.out.println("3. Listar Clientes");
+            System.out.println("4. Remover Cliente");
+            System.out.println("0. Voltar ao menu");
+            int gerenciarCliente = sc.nextInt();
+            sc.nextLine();
+
+            switch (gerenciarCliente) {
+                case 1:
+                    cadastrarCliente(sc);
+                case 0:
+                    sairCliente = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
             }
         }
     }
@@ -289,33 +293,45 @@ public class App {
 
     public static void cadastrarAcessorio(Scanner sc){
         System.out.println("\n--- Cadastro de Acessório ---");
-        System.out.println("\nPlataformas disponíveis: ");
-        for (Integer id : plataformasCadastradas.keySet()) {
-            Plataforma plataforma = plataformasCadastradas.get(id);
-            System.out.println(" ID: " + id + " | Plataforma: " + plataforma.getNome());
-        }
-        System.out.println("Quantas plataformas o acessório pertence? ");
-        int quantidadePlataformas = sc.nextInt();
+        System.out.println("Digite o nome do novo acessório: ");
+        String nomeAcessorio = sc.nextLine();
+        System.out.println("Digite o valor do acessório: ");
+        double valorAcessorio = sc.nextDouble();
         sc.nextLine();
-        for(int i = 0; i < quantidadePlataformas; i++){
-            System.out.println(" Digite o ID da plataforma " + i+1);
-            int idPlataforma = sc.nextInt();
-            sc.nextLine();
-            Plataforma plataformaEscolhida = plataformasCadastradas.get(idPlataforma);
+        System.out.println("Digite a quantidade em estoque: ");
+        int estoqueAcessorio = sc.nextInt();
+        sc.nextLine();
+        Acessorio novoAcessorio = new Acessorio(nomeAcessorio, estoqueAcessorio, valorAcessorio);
+        acessoriosDisponiveis.put(novoAcessorio.getId(), novoAcessorio);
+        System.out.println("O acessório " + nomeAcessorio + " foi cadastrado com sucesso.");
+    }
 
-            if(plataformaEscolhida != null){
-                System.out.println("\nDigite o nome do acessório: ");
-                String nomeAcessorio = sc.nextLine();
-                System.out.println("Digite o valor do acessório: ");
-                double valorAcessorio = sc.nextDouble();
-                System.out.println("Digite quantos vão ter em estoque: ");
-                int estoqueAcessorio = sc.nextInt();
-                sc.nextLine();
-                Acessorio novoAcessorio = new Acessorio(nomeAcessorio, estoqueAcessorio,valorAcessorio);
-                String chaveAcessorioPlataforma = novoAcessorio.getId() + "-" + plataformaEscolhida.getId();
-                acessoriosDisponiveis.put(chaveAcessorioPlataforma, novoAcessorio);
-                System.out.println("O acessório '" + nomeAcessorio + "' foi cadastrado com sucesso");
-            }
+    public static void conectarAcessorioPlataforma(Scanner sc){
+        System.out.println("\n--- Compatibilidade do Acessório e Plataforma ---");
+        System.out.println("Acessórios disponíveis: ");
+        for(Acessorio acessorio : acessoriosDisponiveis.values()){
+            System.out.println(" ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque());
+        }
+        System.out.println("Digite o ID do acessório: ");
+        int idAcessorio = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("\nPlataformas disponíveis: ");
+        for(Plataforma plataforma : plataformasCadastradas.values()){
+            System.out.println(" ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
+        }
+        System.out.println("Digite o ID da plataforma desejada para associar: ");
+        int idPlataforma = sc.nextInt();
+        sc.nextLine();
+
+        Acessorio acessorio = acessoriosDisponiveis.get(idAcessorio);
+        Plataforma plataforma = plataformasCadastradas.get(idPlataforma);
+        if(acessorio != null && plataforma != null){
+            plataforma.adicionarAcessorio(acessorio);
+            acessorio.adicionarPlataforma(plataforma);
+            System.out.println("O acessório '" + acessorio.getNome() + "' é compatível com a plataforma '" + plataforma.getNome() + "'");
+        }else{
+            System.out.println("ID de acessório ou plataforma inválido.");
         }
     }
 
@@ -411,7 +427,9 @@ public class App {
                 System.out.println("ID de aluguel inválido.");
             }
             System.out.println("\nAcessórios Disponíveis: ");
-            for(Integer id :  )
+            for(Acessorio acessorio : acessoriosDisponiveis.values()){
+                
+            }
             System.out.println("\n--- Comprovante da Locação ---");
             System.out.println("ID da Locação: " + novaLocacao.getId());
             System.out.println("Cliente: " + novaLocacao.getCliente().getNome());

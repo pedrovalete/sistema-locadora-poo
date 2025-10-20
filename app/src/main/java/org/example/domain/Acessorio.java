@@ -38,6 +38,9 @@ public class Acessorio {
     public List<Plataforma> getPlataformas() {
         return plataformas;
     }
+    public void adicionarPlataforma(Plataforma plataforma){
+        this.plataformas.add(plataforma);
+    }
     public void decrementarEstoque(){
         this.estoque--;
     }

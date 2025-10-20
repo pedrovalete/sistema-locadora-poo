@@ -46,4 +46,7 @@ public class Plataforma {
     public List<JogoPlataforma> getJogosPlataforma() {
         return jogosPlataforma;
     }
+    public void adicionarAcessorio(Acessorio acessorio){
+        this.acessorios.add(acessorio);
+    }
 }
