@@ -188,6 +188,9 @@ public class App {
                 case 7:
                     removerTituloJogo(sc);
                     break;
+                case 8:
+                    removerJogoAluguel(sc);
+                    break;
                 case 0:
                     sairJogo = true;
                     break;
