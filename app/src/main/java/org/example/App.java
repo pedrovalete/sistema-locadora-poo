@@ -256,9 +256,9 @@ public class App {
             switch(gerenciarLocacoes){
                 case 1:
                     cadastrarLocacao(sc);
-                    break
+                    break;
                 case 2:
-                    
+
                 case 0:
                     sairLocacoes = true;
                     break;
@@ -371,7 +371,7 @@ public class App {
     }
 
     public static void listarJogosPlataformas(){
-        System.out.println("\n--- Estoque de Jogos para Alugar ---");
+        System.out.println("\n--- Estoque de Jogos para Locação ---");
         for(JogoPlataforma jogo : estoqueJogos.values()){
             System.out.println(" ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque " + jogo.getQuantidadeEstoque() + " | Preço Diário: " + jogo.getPrecoDiario());
         }
@@ -556,6 +556,68 @@ public class App {
             System.out.println("Cliente atualizado com sucesso.");
         }else{
             System.out.println("ID não encontrado.");
+        }
+    }
+
+    public static void atualizarLocacao(Scanner sc){
+        System.out.println("\n--- Atualizar Locação ---");
+        listarLocacoes();
+        System.out.println("\nDigite o ID da locação que deseja atualizar: ");
+        int idLocacao = sc.nextInt();
+        sc.nextLine();
+        LocacaoJogo locacaoAtualizar = historicoGeralLocacoes.get(idLocacao);
+
+        if(locacaoAtualizar == null){
+            System.out.println("\nID não encontrado.");
+            return;
+        }
+        boolean sair = false;
+        while(!sair){
+            System.out.println("Atualizando a Locação #" + locacaoAtualizar.getId() + " de " + locacaoAtualizar.getCliente().getNome());
+            System.out.println("1. Adicionar Jogo");
+            System.out.println("2. Remover Jogo");
+            System.out.println("0. Concluir");
+            int escolha = sc.nextInt();
+            sc.nextLine();
+
+            switch(escolha){
+                case 1:
+                    listarJogosPlataformas();
+                    System.out.println("\nDigite o ID do Jogo desejado: ");
+                    String chaveJogo = sc.nextLine();
+                    System.out.println("Digite a quantidade de dias  da locação: ");
+                    int dias = sc.nextInt();
+                    sc.nextLine();
+                    JogoPlataforma jogoAdicionar = estoqueJogos.get(chaveJogo);
+                    if(jogoAdicionar != null){
+                        locacaoAtualizar.adicionarItem(jogoAdicionar, dias);
+                        System.out.println("Jogo adicionado à Locação.");
+                    }else{
+                        System.out.println("ID não encontrado");
+                    }
+                    break;
+                case 2:
+                    locacaoAtualizar.listarItens();
+                    System.out.println("Digite o número do item que deseja remover: ");
+                    int indice = sc.nextInt();
+                    sc.nextLine();
+
+                    if(indice > 0 && indice <= locacaoAtualizar.getItens().size()){
+                        int indiceRemover = indice - 1;
+                        ItemLocacao itemRemovido = locacaoAtualizar.getItens().get(indiceRemover);
+                        locacaoAtualizar.removerItem(itemRemovido);
+
+                        System.out.println("O item '" + itemRemovido.getJogoPlataforma().getJogo().getNome() + "' foi removido com sucesso.");
+                    }else{
+                        System.out.println("Número não foi encontrado.");
+                    }
+                    break;
+                case 0:
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("ID não encontrado.");
+            }
         }
     }
 
