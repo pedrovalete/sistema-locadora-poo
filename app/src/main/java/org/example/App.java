@@ -110,6 +110,9 @@ public class App {
                 case 0:
                     sair = true;
                     break;
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
             }
         }
     }
@@ -180,6 +183,9 @@ public class App {
                 case 6:
                     listarJogosPlataformas();
                     break;
+                case 7:
+                    removerTituloJogo(sc);
+                    break;
                 case 0:
                     sairJogo = true;
                     break;
@@ -242,7 +248,9 @@ public class App {
         }
     }
 
+    /// ///////////////////////
     /// /////////////////////////////////////////////////////////////////////
+    /// //////////////////////
 
     public static void cadastrarJogo(Scanner sc) {
         System.out.println("\n--- Cadastro de Jogo ---");
@@ -337,6 +345,7 @@ public class App {
         }
         if(clientesCadastrados.isEmpty()){
             System.out.println("\n Nenhum cliente cadastrado até o momento.");
+            return;
         }
     }
 
@@ -346,7 +355,8 @@ public class App {
             System.out.println(" ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque " + jogo.getQuantidadeEstoque() + " | Preço Diário: " + jogo.getPrecoDiario());
         }
         if(jogosCadastrados.isEmpty()){
-            System.out.println("\n Nenhum jogo cadastrado até o momento.");
+            System.out.println("\n Nenhum jogo disponível em estoque até o momento.");
+            return;
         }
     }
 
@@ -354,6 +364,10 @@ public class App {
         System.out.println("\n--- Títulos de Jogos ---");
         for(Jogo jogo : jogosCadastrados.values()){
             System.out.println(" ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
+        }
+        if(jogosCadastrados.isEmpty()){
+            System.out.println("Nenhum jogo cadastrado até o momento.");
+            return;
         }
     }
 
@@ -364,6 +378,7 @@ public class App {
         }
         if(plataformasCadastradas.isEmpty()){
             System.out.println("\n Nenhuma plataforma cadastrada até o momento.");
+            return;
         }
     }
 
@@ -454,6 +469,35 @@ public class App {
         }else{
             System.out.println("ID não encontrado.");
         }
+    }
+
+    public static void removerTituloJogo(Scanner sc){
+        System.out.println("\n--- Remover Título de Jogo ---");
+        listarJogos();
+        System.out.println("\nDigite o ID do Jogo que deseja remover: ");
+        int idJogo = sc.nextInt();
+        sc.nextLine();
+        if(!jogosCadastrados.containsKey(idJogo)){
+            System.out.println("\nID não encontrado.");
+            return;
+        }
+        for(JogoPlataforma jogo : estoqueJogos.values()){
+            if(jogo.getJogo().getId() == idJogo){
+                System.out.println("O título não pode ser removido, pois ele ainda está sendo usado para Aluguéis.");
+                return;
+            }
+        }
+        Jogo jogoRemover = jogosCadastrados.remove(idJogo);
+        System.out.println("O Jogo foi removido com sucesso.");
+    }
+
+    public static void removerJogoAluguel(Scanner sc){
+        System.out.println("\n--- Remover Jogo para Alugar ---");
+        listarJogosPlataformas();
+        System.out.println("\nDigite o ID do Jogo-Plataforma que deseja remover: ");
+        String chaveComposta = sc.nextLine();
+        JogoPlataforma jogoRemovido = estoqueJogos.remove(chaveComposta);
+        System.out.println("\nO Jogo-Plataforma foi removido com sucesso.");
     }
 
     public static void cadastrarConsole(Scanner sc) {
