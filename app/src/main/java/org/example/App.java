@@ -149,10 +149,14 @@ public class App {
         boolean sairJogo = false;
         while(!sairJogo){
             System.out.println("\n--- GERENCIAR JOGOS ---\n");
-            System.out.println("1. Cadastrar Jogo");
-            System.out.println("2. Atualizar Jogo");
-            System.out.println("3. Listar Jogos");
-            System.out.println("4. Remover Jogo");
+            System.out.println("1. Cadastrar Título de Jogo");
+            System.out.println("2. Cadastrar Jogo e Plataforma para Alugar");
+            System.out.println("3. Atualizar Título de Jogo");
+            System.out.println("4. Atualizar Jogo para Alugar");
+            System.out.println("5. Listar Títulos de Jogos");
+            System.out.println("6. Listar Jogos disponíveis para Alugar");
+            System.out.println("7. Remover Título de Jogo");
+            System.out.println("8. Remover Jogo do Catálogo para Alugar");
             System.out.println("0. Voltar ao menu");
             int gerenciarJogo = sc.nextInt();
             sc.nextLine();
@@ -162,9 +166,18 @@ public class App {
                     cadastrarJogo(sc);
                     break;
                 case 2:
-                    atualizarJogo(sc);
+                    cadastrarJogoPlataforma(sc);
                     break;
                 case 3:
+                    atualizarJogo(sc);
+                    break;
+                case 4:
+                    atualizarJogoPlataforma(sc);
+                    break;
+                case 5:
+                    listarJogos();
+                    break;
+                case 6:
                     listarJogosPlataformas();
                     break;
                 case 0:
@@ -328,12 +341,19 @@ public class App {
     }
 
     public static void listarJogosPlataformas(){
-        System.out.println("\n--- Jogos Cadastrados ---");
+        System.out.println("\n--- Estoque de Jogos para Alugar ---");
         for(JogoPlataforma jogo : estoqueJogos.values()){
-            System.out.println(" ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome());
+            System.out.println(" ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque " + jogo.getQuantidadeEstoque() + " | Preço Diário: " + jogo.getPrecoDiario());
         }
         if(jogosCadastrados.isEmpty()){
             System.out.println("\n Nenhum jogo cadastrado até o momento.");
+        }
+    }
+
+    public static void listarJogos(){
+        System.out.println("\n--- Títulos de Jogos ---");
+        for(Jogo jogo : jogosCadastrados.values()){
+            System.out.println(" ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
         }
     }
 
@@ -368,6 +388,34 @@ public class App {
             System.out.println("\nJogo atualizado com sucesso.");
         }else{
             System.out.println("\nID não encontrado.");
+        }
+    }
+
+    public static void atualizarJogoPlataforma(Scanner sc){
+        System.out.println("\n--- Atualizar Jogo para Alugar ---");{
+            listarJogosPlataformas();
+            System.out.println("\nDigite o ID que deseja atualizar: ");
+            String chaveComposta = sc.nextLine();
+            JogoPlataforma jogoAtualizar = estoqueJogos.get(chaveComposta);
+
+            if(jogoAtualizar != null){
+                System.out.println("Digite o novo preço diário (Enter para pular): ");
+                String novoPrecoString = sc.nextLine();
+                System.out.println("Digite a nova quantidade em estoque (Enter para pular): ");
+                String novoEstoqueString = sc.nextLine();
+
+                if(!novoPrecoString.isEmpty()){
+                    double novoPreco = Double.parseDouble(novoPrecoString);
+                    jogoAtualizar.setPrecoDiario(novoPreco);
+                }
+                if(!novoEstoqueString.isEmpty()){
+                    int novoEstoque = Integer.parseInt(novoEstoqueString);
+                    jogoAtualizar.setQuantidadeEstoque(novoEstoque);
+                }
+                System.out.println("Joho para Alugar atualizado.");
+            }else{
+                System.out.println("\nID do Jogo não encontrado.");
+            }
         }
     }
 
