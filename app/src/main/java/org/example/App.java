@@ -534,7 +534,11 @@ public class App {
             }
         }
         Jogo jogoRemover = jogosCadastrados.remove(idJogo);
-        System.out.println("O Jogo foi removido com sucesso.");
+        if(jogoRemover != null){
+            System.out.println("O Jogo foi removido com sucesso.");
+        }else{
+            System.out.println("ID não encontrado.");
+        }
     }
 
     public static void removerJogoAluguel(Scanner sc){
@@ -543,7 +547,25 @@ public class App {
         System.out.println("\nDigite o ID do Jogo-Plataforma que deseja remover: ");
         String chaveComposta = sc.nextLine();
         JogoPlataforma jogoRemovido = estoqueJogos.remove(chaveComposta);
-        System.out.println("\nO Jogo-Plataforma foi removido com sucesso.");
+        if(jogoRemovido != null){
+            System.out.println("\nO Jogo-Plataforma foi removido com sucesso.");
+        }else{
+            System.out.println("ID não encontrado.");
+        }
+    }
+
+    public static void removerCliente(Scanner sc){
+        System.out.println("\n--- Remover Cliente ---");
+        listarClientes();
+        System.out.println("\nDigite o ID do Cliente que deseja remover: ");
+        int idCliente = sc.nextInt();
+        sc.nextLine();
+        Cliente clienteRemovido = clientesCadastrados.remove(idCliente);
+        if(clienteRemovido != null){
+            System.out.println("O Cliente foi removido com sucesso.");
+        }else{
+            System.out.println("ID não encontrado.");
+        }
     }
 
     public static void cadastrarConsole(Scanner sc) {
