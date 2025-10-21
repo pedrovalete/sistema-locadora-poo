@@ -38,6 +38,9 @@ public class JogoPlataforma {
     public void decrementarEstoque(){
             this.quantidadeEstoque--;
     }
+    public void incrementarEstoque(){
+        this.quantidadeEstoque++;
+    }
     public void setQuantidadeEstoque(int quantidadeEstoque){
         this.quantidadeEstoque = quantidadeEstoque;
     }

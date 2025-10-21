@@ -14,6 +14,8 @@ public class App {
     private static Map<Integer, Console> consolesDisponiveis = new HashMap<>();
     private static Map<Integer, Acessorio>  acessoriosDisponiveis = new HashMap<>();
     private static Map<String, JogoPlataforma> estoqueJogos = new HashMap<>();
+    private static Map<Integer, LocacaoJogo> historicoGeralLocacoes = new HashMap<>();
+    private static Map<Integer, AluguelConsole> historicoGeralAlugueis = new HashMap<>();
 
     private static final String SENHA_ADMIN = "senhaadm123";
 
@@ -382,6 +384,47 @@ public class App {
         }
     }
 
+    public static void listarLocacoes(){
+        System.out.println("\n--- Histórico Geral de Locações ---");
+        if(historicoGeralLocacoes.isEmpty()){
+            System.out.println("Nenhuma Locação registrada até o momento.");
+        }else{
+            for(LocacaoJogo locacao : historicoGeralLocacoes.values()){
+                System.out.println("\nID da Locação: " + locacao.getId());
+                System.out.println("Cliente: " + locacao.getCliente().getNome() + " ID: " + locacao.getCliente().getId());
+                System.out.println("Data: " + locacao.getData());
+                System.out.println("Jogos locados nesta Locação: ");
+                List<ItemLocacao> itensLocacao = locacao.getItens();
+                for(ItemLocacao item : itensLocacao){
+                    System.out.println(" Jogo: " + item.getJogoPlataforma().getJogo().getNome() + " | Plataforma: " + item.getJogoPlataforma().getPlataforma().getNome());
+                }
+                System.out.println("Valor Total: R$" + String.format("%.2f",  locacao.getValorTotal()));
+            }
+        }
+    }
+
+    public static void listarAlugueis(){
+        System.out.println("\n--- Histórico Geral de Aluguéis ---");
+        if(historicoGeralAlugueis.isEmpty()){
+            System.out.println("Nenhum Aluguel registrado até o momento.");
+        }else{
+            for(AluguelConsole aluguel : historicoGeralAlugueis.values()){
+                System.out.println("\nID do Aluguel: " + aluguel.getId());
+                System.out.println("Cliente: " + aluguel.getCliente().getNome() + " ID: " + aluguel.getCliente().getId());
+                System.out.println("Data e Hora: " + aluguel.getDataHora());
+                System.out.println("Console Alugado: " + aluguel.getConsole().getNome());
+                List<Acessorio> acessorios = aluguel.getAcessorios();
+                if(!acessorios.isEmpty()){
+                    System.out.println("Acessórios alugados: ");
+                    for(Acessorio acessorio : acessorios){
+                        System.out.println(" Acessório: " + acessorio.getNome());
+                    }
+                }
+                System.out.println("Valor Total: R$" + String.format("%.2f",  aluguel.getValorTotal()));
+            }
+        }
+    }
+
     public static void atualizarJogo(Scanner sc){
         System.out.println("\n--- Atualizar Jogo ---\n");
         System.out.println("\nJogos cadastrados: ");
@@ -635,6 +678,7 @@ public class App {
         System.out.println("Valor Total: R$" + String.format(".2f", novaLocacao.getValorTotal()));
 
         clienteLocacao.adicionarLocacao(novaLocacao);
+        historicoGeralLocacoes.put(novaLocacao.getId(), novaLocacao);
     }
 
     public static void cadastrarAluguel(Scanner sc, Cliente clienteLogado) {
@@ -692,6 +736,7 @@ public class App {
                 System.out.println("Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
 
                 clienteLogado.adicionarAluguel(novoAluguel);
+                historicoGeralAlugueis.put(novoAluguel.getId(), novoAluguel);
             } else{
                 System.out.println("ID de aluguel inválido.");
             }

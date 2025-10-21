@@ -23,19 +23,15 @@ public class LocacaoJogo {
     public int getId() {
         return id;
     }
-
     public double getValorTotal() {
         return valorTotal;
     }
-
     public Cliente getCliente() {
         return cliente;
     }
-
     public LocalDate getData() {
         return data;
     }
-
     public List<ItemLocacao> getItens() {
         return itens;
     }
@@ -48,7 +44,11 @@ public class LocacaoJogo {
         jogo.adicionarHistorico(novoItem);
 
     }
-
+    public void removerItem(ItemLocacao item){
+        this.itens.remove(item);
+        item.getJogoPlataforma().incrementarEstoque();
+        this.calcularValorTotal();
+    }
     private void calcularValorTotal(){
         double total = 0;
         for(ItemLocacao item : this.itens){
@@ -56,4 +56,5 @@ public class LocacaoJogo {
         }
         this.valorTotal = total;
     }
+
 }
