@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ArrayList;
 import org.example.domain.*;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+
 public class App {
     private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>();
     private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>();
@@ -140,6 +142,9 @@ public class App {
                 case 3:
                     listarClientes();
                     break;
+                case 4:
+                    removerCliente(sc);
+                    break;
                 case 0:
                     sairCliente = true;
                     break;
@@ -217,8 +222,14 @@ public class App {
                 case 1:
                     cadastrarPlataforma(sc);
                     break;
+                case 2:
+                    atualizarJogoPlataforma(sc);
+                    break;
                 case 3:
                     listarPlataformas();
+                    break;
+                case 4:
+                    removerPlataforma(sc);
                     break;
                 case 0:
                     sairPlataforma = true;
@@ -243,6 +254,11 @@ public class App {
             sc.nextLine();
 
             switch(gerenciarLocacoes){
+                case 1:
+                    cadastrarLocacao(sc);
+                    break
+                case 2:
+                    
                 case 0:
                     sairLocacoes = true;
                     break;
@@ -452,6 +468,32 @@ public class App {
         }
     }
 
+    public static void atualizarPlataforma(Scanner sc){
+        System.out.println("\n--- Atualizar Plataforma ---");
+        listarPlataformas();
+        System.out.println("\nDigite o ID da Plataforma que deseja atualizar: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        Plataforma plataformaAtualizar = plataformasCadastradas.get(id);
+
+        if(plataformaAtualizar != null){
+            System.out.println("\nDigite o novo nome (Enter para pular): ");
+            String novoNome = sc.nextLine();
+            System.out.println("\nDigite a nova descrição (Enter para pular): ");
+            String novaDescricao = sc.nextLine();
+
+            if(!novoNome.isEmpty()){
+                plataformaAtualizar.setNome(novoNome);
+            }
+            if(!novaDescricao.isEmpty()){
+                plataformaAtualizar.setDescricao(novaDescricao);
+            }
+            System.out.println("\nPlataforma atualizada com sucesso.");
+        }else{
+            System.out.println("\nID não encontrado.");
+        }
+    }
+
     public static void atualizarJogoPlataforma(Scanner sc){
         System.out.println("\n--- Atualizar Jogo para Alugar ---");{
             listarJogosPlataformas();
@@ -538,6 +580,20 @@ public class App {
             System.out.println("O Jogo foi removido com sucesso.");
         }else{
             System.out.println("ID não encontrado.");
+        }
+    }
+
+    public static void removerPlataforma(Scanner sc){
+        System.out.println("\n--- Remover Plataforma ---");
+        listarPlataformas();
+        System.out.println("\nDigite o ID da Plataforma que deseja remover: ");
+        int idPlataforma = sc.nextInt();
+        sc.nextLine();
+        Plataforma plataformaRemovida = plataformasCadastradas.remove(idPlataforma);
+        if(plataformaRemovida != null){
+            System.out.println("\nA Plataforma foi removida com sucesso.");
+        }else{
+            System.out.println("\nID não encontrado.");
         }
     }
 
@@ -653,7 +709,7 @@ public class App {
     }
 
     public static void cadastrarLocacao(Scanner sc) {
-        System.out.println("\n--- Nova Locação de Jogos ---\n");
+        System.out.println("\n--- Nova Locação de Jogo ---\n");
         for(Cliente cliente : clientesCadastrados.values()){
             System.out.println(" ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
         }
@@ -700,7 +756,7 @@ public class App {
         System.out.println("ID da Locação: " + novaLocacao.getId());
         System.out.println("Cliente: " + novaLocacao.getCliente().getNome());
         System.out.println("Data: " + novaLocacao.getData());
-        System.out.println("Valor Total: R$" + String.format(".2f", novaLocacao.getValorTotal()));
+        System.out.println("Valor Total: R$" + String.format("%.2f", novaLocacao.getValorTotal()));
 
         clienteLocacao.adicionarLocacao(novaLocacao);
         historicoGeralLocacoes.put(novaLocacao.getId(), novaLocacao);

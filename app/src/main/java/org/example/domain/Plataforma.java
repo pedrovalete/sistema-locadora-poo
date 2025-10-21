@@ -46,6 +46,13 @@ public class Plataforma {
     public List<JogoPlataforma> getJogosPlataforma() {
         return jogosPlataforma;
     }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public void adicionarAcessorio(Acessorio acessorio){
         this.acessorios.add(acessorio);
     }
