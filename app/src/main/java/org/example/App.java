@@ -258,6 +258,12 @@ public class App {
                     cadastrarLocacao(sc);
                     break;
                 case 2:
+                    atualizarLocacao(sc);
+                    break;
+                case 3:
+                    listarLocacoes();
+                    break;
+                case 4:
 
                 case 0:
                     sairLocacoes = true;
@@ -669,6 +675,34 @@ public class App {
             System.out.println("\nO Jogo-Plataforma foi removido com sucesso.");
         }else{
             System.out.println("ID não encontrado.");
+        }
+    }
+
+    public static void removerLocacao(Scanner sc){
+        System.out.println("\n--- Remover Locação ---");
+        listarLocacoes();
+        System.out.println("\nDigite o ID da Locação que deseja remover: ");
+        int idLocacao = sc.nextInt();
+        sc.nextLine();
+        LocacaoJogo locacaoRemovida = historicoGeralLocacoes.remove(idLocacao);
+        if(locacaoRemovida != null){
+            System.out.println("\nA Locação foi removida com sucesso.");
+        }else{
+            System.out.println("\nID não encontrado.");
+        }
+    }
+
+    public static void removerAluguel(Scanner sc){
+        System.out.println("\n--- Remover Aluguel ---");
+        listarAlugueis();
+        System.out.println("\nDigite o ID do Aluguel que deseja remover: ");
+        int idAluguel = sc.nextInt();
+        sc.nextLine();
+        AluguelConsole aluguelRemovido = historicoGeralAlugueis.remove(idAluguel);
+        if(aluguelRemovido != null){
+            System.out.println("\nO Aluguel foi removido com sucesso.");
+        }else{
+            System.out.println("\nID não encontrado.");
         }
     }
 
