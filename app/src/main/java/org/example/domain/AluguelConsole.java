@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class AluguelConsole {
-    private int id;
-    private LocalDateTime dataHora;
-    private int duracaoHoras;
-    private double valorTotal;
-    private Cliente cliente;
-    private List<Acessorio> acessorios;
-    private Console console;
-    private static int idAluguel = 1;
+    private int id; // Identificador
+    private LocalDateTime dataHora; // Data e Hora da operação
+    private int duracaoHoras; // Duração do Aluguel
+    private double valorTotal; // Valor total
+    private Cliente cliente; // Cliente responsável
+    private List<Acessorio> acessorios; // Lista de acessórios presentes no Aluguel
+    private Console console; // Console do Aluguel
+    private static int idAluguel = 1; // Gerador do ID
 
-    public  AluguelConsole(Cliente cliente, Console console, int duracaoHoras){
+    public  AluguelConsole(Cliente cliente, Console console, int duracaoHoras){ // Construtor para inicializar com os parâmetros do Cliente, o Console, e a duração em horas.
         this.id = idAluguel++;
         this.dataHora = LocalDateTime.now();
         this.duracaoHoras = duracaoHoras;
@@ -25,6 +25,7 @@ public class AluguelConsole {
         this.calcularValorTotal();
     }
 
+    // Getters e Setters
     public int getId(){
         return id;
     }
@@ -50,6 +51,7 @@ public class AluguelConsole {
         this.duracaoHoras = duracaoHoras;
     }
 
+    // Adicionar e remover Acessórios do Aluguel, e recalculando o valor total.
     public void adicionarAcessorio(Acessorio acessorio){
         this.acessorios.add(acessorio);
         this.calcularValorTotal();
@@ -59,7 +61,7 @@ public class AluguelConsole {
         this.calcularValorTotal();
     }
 
-    public void listarAcessorios(){
+    public void listarAcessorios(){ // Método para listar todos os Acessórios presentes no Aluguel.
         System.out.println("\n--- Acessórios do Aluguel #" + this.id);
         System.out.println("Cliente: " + this.cliente.getNome());
         System.out.println("Console: " + this.console.getNome());
@@ -77,7 +79,7 @@ public class AluguelConsole {
         }
         System.out.println("Valor Total: R$" + String.format("%.2f", this.valorTotal));
     }
-    private void calcularValorTotal(){
+    private void calcularValorTotal(){ // Método para calcular o valor total do Aluguel, baseando no valor do console por hora, duração do Aluguel, e preço fixo dos Acessórios.
         double total = this.console.getPrecoPorHora() * this.duracaoHoras;
         for(Acessorio acessorio : this.acessorios){
             total += acessorio.getValor();

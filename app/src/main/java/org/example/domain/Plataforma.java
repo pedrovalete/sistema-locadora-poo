@@ -4,22 +4,22 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Plataforma {
-    private int id;
-    private String nome;
-    private String descricao;
-    private List<Acessorio> acessorios;
-    private List<Console> consoles;
-    private List<JogoPlataforma> jogosPlataforma;
-    private static int idPlataforma = 1;
+    private int id; // Identificador
+    private String nome; // Nome
+    private String descricao; // Descrição opcional
+    private List<Acessorio> acessorios; // Lista de Acessórios que pertencem à Plataforma
+    private List<Console> consoles; // Lista de Consoles que pertencem à Plataforma
+    private List<JogoPlataforma> jogosPlataforma; // Lista de Jogos-Plataforma que pertencem à Plataforma
+    private static int idPlataforma = 1; // Gerador do ID
 
-    public Plataforma(String nome){
+    public Plataforma(String nome){ // Construtor simples que inicaliza apenas com o nome
         this.id = idPlataforma++;
         this.nome = nome;
         this.acessorios = new ArrayList<>();
         this.consoles = new ArrayList<>();
         this.jogosPlataforma = new ArrayList<>();
     }
-    public Plataforma(String nome, String descricao){
+    public Plataforma(String nome, String descricao){ // Construtor sobrecarregado, caso o ADM queira criar com uma descrição
         this.id = idPlataforma++;
         this.nome = nome;
         this.descricao = descricao;
@@ -28,6 +28,7 @@ public class Plataforma {
         this.jogosPlataforma = new ArrayList<>();
     }
 
+    // Getters e Setters
     public int getId() {
         return id;
     }
@@ -53,6 +54,7 @@ public class Plataforma {
         this.descricao = descricao;
     }
 
+    // Método que adiciona um Acessório à lista de quem pertence esta Plataforma
     public void adicionarAcessorio(Acessorio acessorio){
         this.acessorios.add(acessorio);
     }

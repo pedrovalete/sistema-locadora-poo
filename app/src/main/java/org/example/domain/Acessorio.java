@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Acessorio {
-    private int id;
-    private String nome;
-    private double valor;
-    private int estoque;
-    private List<AluguelConsole> alugueis;
-    private List<Plataforma> plataformas;
-    private static int idAcessorio = 1;
+    private int id; // Identificador
+    private String nome; // Nome do Acessório
+    private double valor; // Valor do Acessório
+    private int estoque; // Estoque do Acessório
+    private List<AluguelConsole> alugueis; // Lista de Aluguéis do Acessório
+    private List<Plataforma> plataformas; // Lista de Plataformas que o Acessório pertence
+    private static int idAcessorio = 1; // Gerador do ID
 
-    public Acessorio(String nome, int estoque, double valor){
+    public Acessorio(String nome, int estoque, double valor){ // Construtor que inicializa com os parâmetros nome, estoque e valor do Acessório
         this.id = idAcessorio++;
         this.nome = nome;
         this.valor = valor;
@@ -21,6 +21,7 @@ public class Acessorio {
         this.plataformas = new ArrayList<>();
     }
 
+    // Getters
     public int getId() {
         return id;
     }
@@ -39,9 +40,13 @@ public class Acessorio {
     public List<Plataforma> getPlataformas() {
         return plataformas;
     }
+
+    // Método que adiciona uma plataforma que o Acessório pertence à lista de Plataformas
     public void adicionarPlataforma(Plataforma plataforma){
         this.plataformas.add(plataforma);
     }
+
+    // Métodos controladores do estoque do Acessório
     public void decrementarEstoque(){
         this.estoque--;
     }

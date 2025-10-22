@@ -12,17 +12,17 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Cliente {
-    private int id;
-    private String nome;
-    private String email;
-    private String telefone;
-    private String senha;
-    private List<AluguelConsole> alugueis;
-    private List<LocacaoJogo> locacoes;
-    private static int idCliente = 1;
+    private int id; // Identificador da Classe
+    private String nome; // Nome do Cliente
+    private String email; // Email do Cliente
+    private String telefone; // Telefone do Cliente
+    private String senha; // Senha do Cliente
+    private List<AluguelConsole> alugueis; // Uma lista dos Aluguéis realizados pelo Cliente
+    private List<LocacaoJogo> locacoes; // Uma lista das Locações realizadas pelo Cliente
+    private static int idCliente = 1; // Constante estática, usada para gerar um ID único a cada novo Cliente
 
-    public Cliente(String nome, String email, String telefone, String senha){
-        this.id = idCliente++;
+    public Cliente(String nome, String email, String telefone, String senha){ // Construtor da classe, inicializando as ArrayLists de Locações e Aluguéis
+        this.id = idCliente++; // Aqui é gerado o ID único de cada Cliente
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
@@ -32,6 +32,7 @@ public class Cliente {
         this.alugueis = new ArrayList<>();
     }
 
+    // Getters e Setters
     public int getId(){
         return id;
     }
@@ -60,11 +61,11 @@ public class Cliente {
         this.senha = senha;
     }
 
-    public boolean autenticar(String senha){
+    public boolean autenticar(String senha){ // Método simples para retornar um valor booleano da autenticação da senha do Cliente
         return this.senha.equals(senha);
     }
 
-    public void consultarHistorico(){
+    public void consultarHistorico(){ // Aqui o Cliente consulta seu histórico de Locações e Aluguéis, percorrendo as duas listas explicadas acima, e usando um formatador do LocalDate e LocalDateTime, para organizar na data brasileira
         System.out.println("\n===================================================");
         System.out.println("\n    Histórico de Transações de " + this.getNome());
         System.out.println("\n===================================================");
@@ -85,7 +86,7 @@ public class Cliente {
                 for (ItemLocacao item : locacao.getItens()) {
                     String nomeDoJogo = item.getJogoPlataforma().getJogo().getNome();
                     int dias = item.getQuantidadeDias();
-                    double subtotal = item.getSubtotal();
+                    double subtotal = item.calcularSubtotal();
 
                     System.out.println("  - " + nomeDoJogo + " por " + dias + " dias (Subtotal: R$" + subtotal + ")");
                 }
@@ -121,31 +122,39 @@ public class Cliente {
         System.out.println();
     }
 
-    public void atualizarCadastro(Scanner sc){
-        System.out.println("\nDigite o novo nome: ");
+    public void atualizarCadastro(Scanner sc){ // Usando a lógica do ".isEmpty()", o Cliente pode atualizar apenas alguns dados do seu cadastro
+        System.out.println("\nDigite o novo nome (Enter para pular): ");
         String novoNome = sc.nextLine();
-        System.out.println("\nDigite o novo email: ");
+        System.out.println("\nDigite o novo email (Enter para pular): ");
         String novoEmail = sc.nextLine();
-        System.out.println("\nDigite o novo telefone: ");
+        System.out.println("\nDigite o novo telefone (Enter para pular): ");
         String novoTelefone = sc.nextLine();
-        System.out.println("\nDigite a nova senha: ");
+        System.out.println("\nDigite a nova senha (Enter para pular): ");
         String novaSenha = sc.nextLine();
 
-        this.nome = novoNome;
-        this.email = novoEmail;
-        this.telefone = novoTelefone;
-        this.senha = novaSenha;
+        if(!novoNome.isEmpty()){
+            this.nome = novoNome;
+        }
+        if(!novoEmail.isEmpty()){
+            this.email = novoEmail;
+        }
+        if(!novoTelefone.isEmpty()){
+            this.telefone = novoTelefone;
+        }
+        if(!novaSenha.isEmpty()){
+            this.senha = novaSenha;
+        }
         System.out.println("\nCadastro atualizado com sucesso, " + this.nome + ".");
     }
-    public void adicionarLocacao(LocacaoJogo novaLocacao){
+    public void adicionarLocacao(LocacaoJogo novaLocacao){ // Método que adiciona a nova Locação realizada na lista de Locações do Cliente.
         this.locacoes.add(novaLocacao);
     }
-    public void adicionarAluguel(AluguelConsole novoAluguel){
+    public void adicionarAluguel(AluguelConsole novoAluguel){ // Método que adiciona o novo Aluguel realizado na lista de Aluguéis do Cliente.
         this.alugueis.add(novoAluguel);
     }
 
-    public void novaLocacao(Scanner sc, Map<String, JogoPlataforma> estoqueJogos, Map<Integer, LocacaoJogo> historicoGeralLocacoes) {
-        System.out.println("\n====================================================================");
+    public void novaLocacao(Scanner sc, Map<String, JogoPlataforma> estoqueJogos, Map<Integer, LocacaoJogo> historicoGeralLocacoes) { // Com este método aqui, o Cliente realiza uma nova Locação, informando todas as informações necessárias, e no final recebendo um comprovante, e a Locação sendo armazenada na lista de Locações do Cliente, e no HashMap de Locações da Locadora
+        System.out.println("\n====================================================================");                                 // Estes parâmetros são chamados lá na App, no menuCliente, que servem para receber o Scanner obviamente, mas também os HashMaps que armazenam o estoque de Jogos-Plataforma e o histórico geral de Locações.
         System.out.println("                        NOVA LOCAÇÃO DE JOGO");
         System.out.println("====================================================================");
 
@@ -212,8 +221,8 @@ public class Cliente {
         System.out.println("------------------------------------------------------");
     }
 
-    public void novoAluguel(Scanner sc, Map<Integer, Console> consolesDisponiveis, Map<Integer, Acessorio> acessoriosDisponiveis, Map<Integer, AluguelConsole> historicoGeralAlugueis) {
-        System.out.println("\n====================================================================");
+    public void novoAluguel(Scanner sc, Map<Integer, Console> consolesDisponiveis, Map<Integer, Acessorio> acessoriosDisponiveis, Map<Integer, AluguelConsole> historicoGeralAlugueis) { // Com este método aqui, o Cliente realiza uma novo Aluguel, informando todas as informações necessárias, e no final recebendo um comprovante, e o Aluguel sendo armazenado na lista de Aluguéis do Cliente, e no HashMap de Aluguéis da Locadora.
+        System.out.println("\n====================================================================");                                                                                    // Estes parâmetros são chamados lá na App, no menuCliente, que servem para receber os HashMaps que armazenam os Consoles disponíveis, os Acessórios disponíveis e o histórico geral de Locações.
         System.out.println("                     NOVO ALUGUEL DE CONSOLE");
         System.out.println("====================================================================");
 

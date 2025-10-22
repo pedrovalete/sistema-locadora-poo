@@ -5,14 +5,14 @@ import java.util.List;
 import  java.util.ArrayList;
 
 public class LocacaoJogo {
-    private int id;
-    private LocalDate data;
-    private double valorTotal;
-    private Cliente cliente;
-    private List<ItemLocacao> itens;
-    private static int idLocacao = 1;
+    private int id; // Identificador
+    private LocalDate data; // Data da operação
+    private double valorTotal; // Valor total da Locação
+    private Cliente cliente; // Cliente responsável pela Locação
+    private List<ItemLocacao> itens; // Itens presentes na Locação
+    private static int idLocacao = 1; // Gerador do ID único
 
-    public LocacaoJogo(Cliente cliente){
+    public LocacaoJogo(Cliente cliente){ // Construtor básico, que se inicia apenas com o objeto Cliente, e inicializa todos os atributos
         this.id = idLocacao++;
         this.data = LocalDate.now();
         this.valorTotal = 0;
@@ -20,6 +20,7 @@ public class LocacaoJogo {
         this.itens = new ArrayList<>();
     }
 
+    // Getters
     public int getId() {
         return id;
     }
@@ -36,7 +37,7 @@ public class LocacaoJogo {
         return itens;
     }
 
-    public void adicionarItem(JogoPlataforma jogo, int quantidadeDias){
+    public void adicionarItem(JogoPlataforma jogo, int quantidadeDias){ // Usado para adicionar um item na Locação, e recalculando o valor total
         ItemLocacao novoItem = new ItemLocacao(quantidadeDias, this, jogo);
 
         this.itens.add(novoItem);
@@ -44,12 +45,12 @@ public class LocacaoJogo {
         jogo.adicionarHistorico(novoItem);
 
     }
-    public void removerItem(ItemLocacao item){
+    public void removerItem(ItemLocacao item){ // Usado para remover um item na Locação, e recalculando o valor total
         this.itens.remove(item);
         item.getJogoPlataforma().incrementarEstoque();
         this.calcularValorTotal();
     }
-    public void listarItens(){
+    public void listarItens(){ // Método para listar todos os itens presentes na Locação
         System.out.println("\n--- Itens da Locação #" + this.id);
         System.out.println("Cliente: " + this.cliente.getNome());
         System.out.println("Data: " + this.data);
@@ -63,7 +64,7 @@ public class LocacaoJogo {
                 String nomeJogo = item.getJogoPlataforma().getJogo().getNome();
                 String nomePlataforma = item.getJogoPlataforma().getPlataforma().getNome();
                 int dias = item.getQuantidadeDias();
-                double subtotal = item.getSubtotal();
+                double subtotal = item.calcularSubtotal();
                 System.out.println(String.format("%d. Jogo: %s | Plataforma: %s | Quantidade de Dias: %d | Subtotal: %.2f", i+1, nomeJogo, nomePlataforma, dias, subtotal));
             }
         }
@@ -72,7 +73,7 @@ public class LocacaoJogo {
     private void calcularValorTotal(){
         double total = 0;
         for(ItemLocacao item : this.itens){
-            total += item.getSubtotal();
+            total += item.calcularSubtotal();
         }
         this.valorTotal = total;
     }

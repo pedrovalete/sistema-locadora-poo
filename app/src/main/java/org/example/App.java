@@ -10,21 +10,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-
 public class App {
-    private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>();
-    private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>();
-    private static Map<Integer, Plataforma> plataformasCadastradas = new HashMap<>();
-    private static Map<Integer, Console> consolesDisponiveis = new HashMap<>();
-    private static Map<Integer, Acessorio>  acessoriosDisponiveis = new HashMap<>();
-    private static Map<String, JogoPlataforma> estoqueJogos = new HashMap<>();
-    private static Map<Integer, LocacaoJogo> historicoGeralLocacoes = new HashMap<>();
-    private static Map<Integer, AluguelConsole> historicoGeralAlugueis = new HashMap<>();
+    private static Map<Integer, Cliente> clientesCadastrados = new HashMap<>(); // Um HashMap para armazenar todos os Clientes cadastrados no sistema.
+    private static Map<Integer, Jogo> jogosCadastrados = new HashMap<>(); // Um HashMap para armazenar todos os Títulos de Jogos cadastrados no sistema.
+    private static Map<Integer, Plataforma> plataformasCadastradas = new HashMap<>(); // Um HashMap para armazenar todos as Plataformas cadastradas no sistema.
+    private static Map<Integer, Console> consolesDisponiveis = new HashMap<>(); // Um HashMap para armazenar todos os Consoles cadastrados no sistema.
+    private static Map<Integer, Acessorio>  acessoriosDisponiveis = new HashMap<>(); // Um HashMap para armazenar todos os Acessórios cadastrados no sistema.
+    private static Map<String, JogoPlataforma> estoqueJogos = new HashMap<>(); // Um HashMap para armazenar todos os Jogos-Plataformas (para locações) cadastrados no sistema.
+    private static Map<Integer, LocacaoJogo> historicoGeralLocacoes = new HashMap<>(); // Um HashMap para armazenar o histórico geral de Locações da locadora (uso exclusivo do ADM).
+    private static Map<Integer, AluguelConsole> historicoGeralAlugueis = new HashMap<>(); // Um HashMap para armazenar o histórico geral de Aluguéis da locadora (uso exclusivo do ADM).
 
-    private static final String SENHA_ADMIN = "senhaadm123";
+    private static final String SENHA_ADMIN = "senhaadm123"; // Constante estática da senha do ADM.
 
-    public static void preCarregarDados() {
+    public static void preCarregarDados() { // Aqui criei um método ja para fazer um preload de todos os dados necessários.
         System.out.println("Pré-carregando dados iniciais do sistema...");
 
         // Cadastrar Clientes
@@ -121,7 +119,7 @@ public class App {
         }
     }
 
-    public static void menuAdmin(Scanner sc) {
+    public static void menuAdmin(Scanner sc) { // Fluxo principal do ADM, chamando seus respectivos métodos.
         System.out.println("\nOlá novamente, ADM.");
         boolean sair = false;
         while (!sair) {
@@ -166,7 +164,7 @@ public class App {
         }
     }
 
-    public static void loginCliente(Scanner sc) {
+    public static void loginCliente(Scanner sc) { // Fluxo inicial do Cliente, fazendo o login.
         // --- CABEÇALHO ---
         System.out.println("\n==================================");
         System.out.println("        LOGIN DO CLIENTE");
@@ -193,7 +191,7 @@ public class App {
         }
     }
 
-    public static void menuCliente(Scanner sc, Cliente clienteLogado) {
+    public static void menuCliente(Scanner sc, Cliente clienteLogado) { // Fluxo principal do Cliente, chamando seus respectivos métodos.
         boolean sair = false;
         while(!sair){
             System.out.println("\n=========================");
@@ -234,7 +232,7 @@ public class App {
         }
     }
 
-    public static void gerenciarCliente(Scanner sc){
+    public static void gerenciarCliente(Scanner sc){ // Fluxo para o ADM gerenciar Clientes, chamando seus respectivos métodos.
         boolean sairCliente = false;
         while(!sairCliente){
             System.out.println("\n--- GERENCIAR CLIENTES ---\n");
@@ -268,18 +266,18 @@ public class App {
         }
     }
 
-    public static void gerenciarJogo(Scanner sc){
+    public static void gerenciarJogo(Scanner sc){ // Fluxo para o ADM gerenciar Jogos, chamando seus respectivos métodos.
         boolean sairJogo = false;
         while(!sairJogo){
             System.out.println("\n--- GERENCIAR JOGOS ---\n");
             System.out.println("1. Cadastrar Título de Jogo");
-            System.out.println("2. Cadastrar Jogo e Plataforma para Alugar");
+            System.out.println("2. Cadastrar Jogo e Plataforma para Locação");
             System.out.println("3. Atualizar Título de Jogo");
-            System.out.println("4. Atualizar Jogo para Alugar");
+            System.out.println("4. Atualizar Jogo de Locação");
             System.out.println("5. Listar Títulos de Jogos");
-            System.out.println("6. Listar Jogos disponíveis para Alugar");
+            System.out.println("6. Listar Jogos disponíveis para Locação");
             System.out.println("7. Remover Título de Jogo");
-            System.out.println("8. Remover Jogo do Catálogo para Alugar");
+            System.out.println("8. Remover Jogo do Catálogo de Locação");
             System.out.println("0. Voltar ao menu");
             int gerenciarJogo = sc.nextInt();
             sc.nextLine();
@@ -307,7 +305,7 @@ public class App {
                     removerTituloJogo(sc);
                     break;
                 case 8:
-                    removerJogoAluguel(sc);
+                    removerJogoLocacao(sc);
                     break;
                 case 0:
                     sairJogo = true;
@@ -319,7 +317,7 @@ public class App {
         }
     }
 
-    public static void gerenciarPlataforma(Scanner sc){
+    public static void gerenciarPlataforma(Scanner sc){ // Fluxo para o ADM gerenciar Plataformas, chamando seus respectivos métodos.
         boolean sairPlataforma = false;
         while(!sairPlataforma){
             System.out.println("\n--- GERENCIAR PLATAFORMAS ---\n");
@@ -366,7 +364,7 @@ public class App {
         }
     }
 
-    public static void gerenciarLocacoes(Scanner sc){
+    public static void gerenciarLocacoes(Scanner sc){ // Fluxo para o ADM gerenciar Locações, chamando seus respectivos métodos.
         boolean sairLocacoes = false;
         while(!sairLocacoes){
             System.out.println("\n--- GERENCIAR LOCAÇÕES ---\n");
@@ -401,7 +399,7 @@ public class App {
         }
     }
 
-    public static void gerenciarAlugueis(Scanner sc){
+    public static void gerenciarAlugueis(Scanner sc){ // Fluxo para o ADM gerenciar Aluguéis, chamando seus respectivos métodos.
         boolean sairAlugueis = false;
         while(!sairAlugueis){
             System.out.println("\n--- GERENCIAR ALUGUÉIS ---\n");
@@ -440,7 +438,7 @@ public class App {
     /// /////////////////////////////////////////////////////////////////////
     /// //////////////////////
 
-    public static void cadastrarJogo(Scanner sc) {
+    public static void cadastrarJogo(Scanner sc) { // Método para o ADM cadastrar um novo Título de Jogo, pedindo apenas o nome.
 
         System.out.println("\n==============================================");
         System.out.println("    CADASTRO DE NOVO TÍTULO DE JOGO");
@@ -457,7 +455,7 @@ public class App {
         System.out.println("-------------------------------------------");
     }
 
-    public static void cadastrarPlataforma(Scanner sc) {
+    public static void cadastrarPlataforma(Scanner sc) { // Método para o ADM cadastrar uma nova Plataforma, pedindo apenas o nome e descrição (opcional).
         System.out.println("\n======================================");
         System.out.println("    CADASTRO DE NOVA PLATAFORMA");
         System.out.println("======================================");
@@ -496,7 +494,7 @@ public class App {
         System.out.println("--------------------------------------------------------");
     }
 
-    public static void cadastrarJogoPlataforma(Scanner sc) {
+    public static void cadastrarJogoPlataforma(Scanner sc) { // Aqui é onde o ADM irá fazer a "ponte" entre um Título de Jogo já existente e uma Plataforma também já existente, e assim disponibilizar para Locação.
         // --- CABEÇALHO ---
         System.out.println("\n==================================================");
         System.out.println("    CADASTRAR JOGO-PLATAFORMA");
@@ -552,7 +550,7 @@ public class App {
         }
     }
 
-    public static void listarClientes() {
+    public static void listarClientes() { // Método simples para listar todos Clientes cadastrados usando o HashMap.
         System.out.println("\n=======================================================");
         System.out.println("        LISTA DE CLIENTES CADASTRADOS");
         System.out.println("=======================================================");
@@ -568,7 +566,7 @@ public class App {
         }
     }
 
-    public static void listarJogosPlataformas() {
+    public static void listarJogosPlataformas() { // Método simples para listar todos os Jogos-Plataformas disponíveis no sistema, usando o HashMap.
         System.out.println("\n=======================================================================");
         System.out.println("                 ESTOQUE DE JOGOS PARA LOCAÇÃO");
         System.out.println("=======================================================================");
@@ -577,14 +575,14 @@ public class App {
             System.out.println("\nNenhum Jogo disponível no estoque.");
         } else {
             for (JogoPlataforma jogo : estoqueJogos.values()) {
-                System.out.println("\n ID: " + jogo.getChaveComposta() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque: " + jogo.getQuantidadeEstoque() + String.format(" | Preço Diário: %.2f", jogo.getPrecoDiario()));
+                System.out.println("\n Chave: " + jogo.getChaveComposta() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque: " + jogo.getQuantidadeEstoque() + String.format(" | Preço Diário: %.2f", jogo.getPrecoDiario()));
                 System.out.println();
             }
             System.out.println("------------------------------------------------------------------------------");
         }
     }
 
-    public static void listarJogos() {
+    public static void listarJogos() { // Método simples para listar todos os Títulos de Jogos cadastrados usando o HashMap.
         System.out.println("\n==============================================");
         System.out.println("        LISTA DE TÍTULOS DE JOGOS CADASTRADOS");
         System.out.println("==============================================");
@@ -600,7 +598,7 @@ public class App {
         }
     }
 
-    public static void listarPlataformas() {
+    public static void listarPlataformas() { // Método simples para listar todas Plataformas cadastradas usando o HashMap.
         System.out.println("\n====================================================================");
         System.out.println("                 LISTA DE PLATAFORMAS CADASTRADAS");
         System.out.println("====================================================================");
@@ -616,7 +614,7 @@ public class App {
         }
     }
 
-    public static void listarAcessorios() {
+    public static void listarAcessorios() { // Método simples para listar todos Acessórios cadastrados usando o HashMap.
         System.out.println("\n====================================================================");
         System.out.println("                LISTA DE ACESSÓRIOS CADASTRADOS");
         System.out.println("====================================================================");
@@ -631,7 +629,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void listarLocacoes() {
+    public static void listarLocacoes() { // Método para listar todas as Locações cadastradas no sistema geral, usando o HashMap.
         System.out.println("\n====================================================================");
         System.out.println("                   HISTÓRICO GERAL DE LOCAÇÕES");
         System.out.println("====================================================================");
@@ -655,7 +653,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void listarAlugueis() {
+    public static void listarAlugueis() { // Método para listar todos os Aluguéis cadastrados no sistema geral, usando o HashMap.
         System.out.println("\n====================================================================");
         System.out.println("                   HISTÓRICO GERAL DE ALUGUÉIS");
         System.out.println("====================================================================");
@@ -684,7 +682,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void atualizarJogo(Scanner sc) {
+    public static void atualizarJogo(Scanner sc) { // Método que usa a ideia dos Setters, para atualizar um Título de Jogo.
         System.out.println("\n====================================================================");
         System.out.println("                        ATUALIZAÇÃO DE JOGO");
         System.out.println("====================================================================");
@@ -718,7 +716,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void atualizarPlataforma(Scanner sc){
+    public static void atualizarPlataforma(Scanner sc){ // Método que usa a ideia dos Setters, para atualizar uma Plataforma (nome, e descrição opcional).
         System.out.println("\n====================================================================");
         System.out.println("                     ATUALIZAÇÃO DE PLATAFORMA");
         System.out.println("====================================================================");
@@ -749,7 +747,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void atualizarJogoPlataforma(Scanner sc){
+    public static void atualizarJogoPlataforma(Scanner sc){ // Método que usa a ideia dos Setters, para atualizar um Jogo-Plataforma (preço diário e quantidade em estoque).
         System.out.println("\n====================================================================");
         System.out.println("                    ATUALIZAR JOGO PARA ALUGAR");
         System.out.println("====================================================================");
@@ -780,7 +778,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void atualizarCliente(Scanner sc){
+    public static void atualizarCliente(Scanner sc){ // Método que usa a ideia dos Setters, para atualizar um Cliente (nome, email, telefone e senha).
         System.out.println("\n====================================================================");
         System.out.println("                       ATUALIZAÇÃO DE CLIENTE");
         System.out.println("====================================================================");
@@ -820,7 +818,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void atualizarLocacao(Scanner sc){
+    public static void atualizarLocacao(Scanner sc){ // Método que usa a ideia dos Setters, para atualizar uma Locação (podendo adicionar um remover um jogo).
         // Cabeçalho estilizado para a operação
         System.out.println("\n====================================================================");
         System.out.println("                      ATUALIZAÇÃO DE LOCAÇÃO");
@@ -890,7 +888,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void atualizarAluguel(Scanner sc){
+    public static void atualizarAluguel(Scanner sc){ // Método que usa a ideia dos Setters, para atualizar um Aluguel (podendo adicionar ou remover um acessório, e também alterar a duração do Aluguel).
         System.out.println("\n====================================================================");
         System.out.println("                       ATUALIZAÇÃO DE ALUGUEL");
         System.out.println("====================================================================");
@@ -965,7 +963,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void removerTituloJogo(Scanner sc){
+    public static void removerTituloJogo(Scanner sc){ // Método usado para remover um Título de Jogo.
         System.out.println("\n====================================================================");
         System.out.println("                      REMOVER TÍTULO DE JOGO");
         System.out.println("====================================================================");
@@ -995,7 +993,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void removerPlataforma(Scanner sc){
+    public static void removerPlataforma(Scanner sc){ // Método usado para remover uma Plataforma (se estiver vinculada em algum Jogo-Plataforma, não pode ser removida).
         System.out.println("\n====================================================================");
         System.out.println("                         REMOVER PLATAFORMA");
         System.out.println("====================================================================");
@@ -1025,7 +1023,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void removerJogoAluguel(Scanner sc){
+    public static void removerJogoLocacao(Scanner sc){ // Método usado para remover um Jogo-Plataforma do estoque de Locação (se estiver fazendo parte de alguma Locação, não pode ser removido).
         System.out.println("\n====================================================================");
         System.out.println("                      REMOVER JOGO PARA LOCAÇÃO");
         System.out.println("====================================================================");
@@ -1057,7 +1055,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void removerLocacao(Scanner sc){
+    public static void removerLocacao(Scanner sc){ // Método usado para remover uma Locação.
         System.out.println("\n====================================================================");
         System.out.println("                          REMOVER LOCAÇÃO");
         System.out.println("====================================================================");
@@ -1075,7 +1073,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void removerAluguel(Scanner sc){
+    public static void removerAluguel(Scanner sc){ // Método usado para remover um Aluguel.
         System.out.println("\n====================================================================");
         System.out.println("                           REMOVER ALUGUEL");
         System.out.println("====================================================================");
@@ -1094,7 +1092,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void removerCliente(Scanner sc){
+    public static void removerCliente(Scanner sc){ // Método usado para remover um Cliente (se o cliente estiver com locação/Aluguel ativo, não pode ser removido).
         System.out.println("\n====================================================================");
         System.out.println("                           REMOVER CLIENTE");
         System.out.println("====================================================================");
@@ -1132,7 +1130,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void cadastrarConsole(Scanner sc) {
+    public static void cadastrarConsole(Scanner sc) { // Método usado para cadastrar um Console, conectando com alguma Plataforma já existente.
         System.out.println("\n====================================================================");
         System.out.println("                        CADASTRO DE CONSOLE");
         System.out.println("====================================================================");
@@ -1156,7 +1154,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void cadastrarAcessorio(Scanner sc){
+    public static void cadastrarAcessorio(Scanner sc){ // Método usado para cadastrar um Acessório.
         System.out.println("\n====================================================================");
         System.out.println("                       CADASTRO DE ACESSÓRIO");
         System.out.println("====================================================================");
@@ -1175,7 +1173,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void conectarAcessorioPlataforma(Scanner sc){
+    public static void conectarAcessorioPlataforma(Scanner sc){ // Método usado para conectar um Acessório já existente, com uma Plataforma também já existente.
         System.out.println("\n====================================================================");
         System.out.println("                COMPATIBILIDADE ACESSÓRIO/PLATAFORMA");
         System.out.println("====================================================================");
@@ -1201,7 +1199,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void cadastrarCliente(Scanner sc) {
+    public static void cadastrarCliente(Scanner sc) { // Método simples para cadastrar um novo Cliente.
         System.out.println("\n====================================================================");
         System.out.println("                        CADASTRO DE CLIENTE");
         System.out.println("====================================================================");
@@ -1221,7 +1219,7 @@ public class App {
         System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void cadastrarLocacao(Scanner sc) {
+    public static void cadastrarLocacao(Scanner sc) { // Método usado para o ADM cadastrar uma nova Locação, escolhendo o Cliente que será o dono dela, e ao final imprimindo um comprovante, mostrando as informações da Locação, usando um formatador do LocalDate e LocalDateTime, para organizar na data brasileira.
         System.out.println("\n====================================================================");
         System.out.println("                        NOVA LOCAÇÃO DE JOGO");
         System.out.println("====================================================================");
@@ -1303,7 +1301,7 @@ public class App {
         System.out.println("------------------------------------------------------");
     }
 
-    public static void cadastrarAluguel(Scanner sc) {
+    public static void cadastrarAluguel(Scanner sc) { // Método usado para o ADM cadastrar um novo Aluguel, escolhendo o Cliente que será o dono dele, e ao final imprimindo um breve comprovante, mostrando as informações do Aluguel realizado, usando um formatador do LocalDate e LocalDateTime, para organizar na data brasileira.
         System.out.println("\n====================================================================");
         System.out.println("                     NOVO ALUGUEL DE CONSOLE");
         System.out.println("====================================================================");
