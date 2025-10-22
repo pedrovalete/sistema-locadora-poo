@@ -551,7 +551,7 @@ public class App {
     }
 
     public static void listarJogosPlataformas() {
-        System.out.println("\n========================================================================");
+        System.out.println("\n=======================================================================");
         System.out.println("                 ESTOQUE DE JOGOS PARA LOCAÇÃO");
         System.out.println("=======================================================================");
 
@@ -873,7 +873,10 @@ public class App {
     }
 
     public static void atualizarAluguel(Scanner sc){
-        System.out.println("\n--- Atualizar Aluguel ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                       ATUALIZAÇÃO DE ALUGUEL");
+        System.out.println("====================================================================");
+
         listarAlugueis();
         System.out.println("\nDigite o ID do Aluguel que deseja atualizar: ");
         int idAluguel = sc.nextInt();
@@ -882,15 +885,17 @@ public class App {
 
         if(aluguelAtualizar == null){
             System.out.println("\nID não encontrado.");
+            System.out.println("--------------------------------------------------------------------");
             return;
         }
         boolean sair = false;
         while(!sair){
-            System.out.println("Atualizando o Aluguel #" + aluguelAtualizar.getId() + " de " + aluguelAtualizar.getCliente().getNome());
+            System.out.println("\nAtualizando o Aluguel #" + aluguelAtualizar.getId() + " de " + aluguelAtualizar.getCliente().getNome());
             System.out.println("1. Adicionar Acessório");
             System.out.println("2. Remover Acessório");
             System.out.println("3. Alterar duração do Aluguel");
             System.out.println("0. Concluir");
+            System.out.print("> Escolha uma opção: ");
             int escolha = sc.nextInt();
             sc.nextLine();
 
@@ -903,9 +908,9 @@ public class App {
                     Acessorio acessorioAdicionar = acessoriosDisponiveis.get(idAcessorioAdicionar);
                     if(acessorioAdicionar != null){
                         aluguelAtualizar.adicionarAcessorio(acessorioAdicionar);
-                        System.out.println("Acessório adicionado ao Aluguel.");
+                        System.out.println("\nAcessório adicionado ao Aluguel.");
                     }else{
-                        System.out.println("ID não encontrado");
+                        System.out.println("\nID não encontrado");
                     }
                     break;
                 case 2:
@@ -915,106 +920,160 @@ public class App {
                     sc.nextLine();
                     Acessorio acessorioRemover = aluguelAtualizar.getAcessorios().remove(idAcessorioRemover);
                     if(acessorioRemover != null){
-                        System.out.println("O acessório '" + acessorioRemover.getNome() + "' foi removido com sucesso.");
+                        System.out.println("\nO acessório '" + acessorioRemover.getNome() + "' foi removido com sucesso.");
                     }else{
-                        System.out.println("ID não foi encontrado.");
+                        System.out.println("\nID não foi encontrado.");
                     }
                     break;
                 case 3:
                     System.out.println("\nDigite a nova duração em horas: ");
                     int novaDuracao = sc.nextInt();
                     sc.nextLine();
-                    if(novaDuracao != 0) {
+                    if(novaDuracao > 0) {
                         aluguelAtualizar.setDuracaoHoras(novaDuracao);
                         System.out.println("\nA duração foi alterada com sucesso.");
+                    } else {
+                        System.out.println("\nDuração inválida.");
                     }
                     break;
                 case 0:
+                    System.out.println("\nAtualização concluída.");
                     sair = true;
                     break;
                 default:
-                    System.out.println("ID não encontrado.");
+                    System.out.println("\nOpção inválida.");
             }
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void removerTituloJogo(Scanner sc){
-        System.out.println("\n--- Remover Título de Jogo ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                      REMOVER TÍTULO DE JOGO");
+        System.out.println("====================================================================");
+
         listarJogos();
         System.out.println("\nDigite o ID do Jogo que deseja remover: ");
         int idJogo = sc.nextInt();
         sc.nextLine();
         if(!jogosCadastrados.containsKey(idJogo)){
             System.out.println("\nID não encontrado.");
+            System.out.println("--------------------------------------------------------------------");
             return;
         }
         for(JogoPlataforma jogo : estoqueJogos.values()){
             if(jogo.getJogo().getId() == idJogo){
-                System.out.println("O título não pode ser removido, pois ele ainda está sendo usado para Aluguéis.");
+                System.out.println("\nO título não pode ser removido, pois ele ainda está sendo usado para Aluguéis.");
+                System.out.println("--------------------------------------------------------------------");
                 return;
             }
         }
         Jogo jogoRemover = jogosCadastrados.remove(idJogo);
         if(jogoRemover != null){
-            System.out.println("O Jogo foi removido com sucesso.");
+            System.out.println("\nO Jogo '" + jogoRemover.getNome() + "' foi removido.");
         }else{
-            System.out.println("ID não encontrado.");
+            System.out.println("\nID não encontrado ao tentar remover.");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void removerPlataforma(Scanner sc){
-        System.out.println("\n--- Remover Plataforma ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                         REMOVER PLATAFORMA");
+        System.out.println("====================================================================");
+
         listarPlataformas();
         System.out.println("\nDigite o ID da Plataforma que deseja remover: ");
         int idPlataforma = sc.nextInt();
         sc.nextLine();
-        Plataforma plataformaRemovida = plataformasCadastradas.remove(idPlataforma);
-        if(plataformaRemovida != null){
-            System.out.println("\nA Plataforma foi removida com sucesso.");
-        }else{
-            System.out.println("\nID não encontrado.");
+
+        boolean emUso = false;
+        for (JogoPlataforma jp : estoqueJogos.values()) {
+            if (jp.getPlataforma().getId() == idPlataforma) {
+                emUso = true;
+                break;
+            }
         }
+        if (emUso) {
+            System.out.println("\nPlataforma não pode ser removida, pois está em um Jogo disponível para Locação.");
+        } else {
+            Plataforma plataformaRemovida = plataformasCadastradas.remove(idPlataforma);
+            if(plataformaRemovida != null){
+                System.out.println("\nA Plataforma '" + plataformaRemovida.getNome() + "' foi removida.");
+            }else{
+                System.out.println("\nID não encontrado.");
+            }
+        }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void removerJogoAluguel(Scanner sc){
-        System.out.println("\n--- Remover Jogo para Alugar ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                      REMOVER JOGO PARA LOCAÇÃO");
+        System.out.println("====================================================================");
+
         listarJogosPlataformas();
         System.out.println("\nDigite o ID do Jogo-Plataforma que deseja remover: ");
         String chaveComposta = sc.nextLine();
-        JogoPlataforma jogoRemovido = estoqueJogos.remove(chaveComposta);
-        if(jogoRemovido != null){
-            System.out.println("\nO Jogo-Plataforma foi removido com sucesso.");
-        }else{
-            System.out.println("ID não encontrado.");
+
+        boolean emUso = false;
+        for (LocacaoJogo locacao : historicoGeralLocacoes.values()) {
+            for (ItemLocacao item : locacao.getItens()) {
+                String chaveItem = item.getJogoPlataforma().getJogo().getId() + "-" + item.getJogoPlataforma().getPlataforma().getId();
+                if (chaveItem.equals(chaveComposta)) {
+                    emUso = true;
+                    break;
+                }
+            }
         }
+        if (emUso) {
+            System.out.println("\nEste jogo não pode ser removido, pois faz parte de uma Locação existente.");
+        } else {
+            JogoPlataforma jogoRemovido = estoqueJogos.remove(chaveComposta);
+            if(jogoRemovido != null){
+                System.out.println("\nO Jogo-Plataforma '" + jogoRemovido.getJogo().getNome() + " (" + jogoRemovido.getPlataforma().getNome() + ")' foi removido.");
+            }else{
+                System.out.println("\nID não encontrado.");
+            }
+        }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void removerLocacao(Scanner sc){
-        System.out.println("\n--- Remover Locação ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                          REMOVER LOCAÇÃO");
+        System.out.println("====================================================================");
+
         listarLocacoes();
         System.out.println("\nDigite o ID da Locação que deseja remover: ");
         int idLocacao = sc.nextInt();
         sc.nextLine();
         LocacaoJogo locacaoRemovida = historicoGeralLocacoes.remove(idLocacao);
         if(locacaoRemovida != null){
-            System.out.println("\nA Locação foi removida com sucesso.");
+            System.out.println("\nA Locação #" + locacaoRemovida.getId() + " do cliente '" + locacaoRemovida.getCliente().getNome() + "' foi removida.");
         }else{
             System.out.println("\nID não encontrado.");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void removerAluguel(Scanner sc){
-        System.out.println("\n--- Remover Aluguel ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                           REMOVER ALUGUEL");
+        System.out.println("====================================================================");
+
         listarAlugueis();
         System.out.println("\nDigite o ID do Aluguel que deseja remover: ");
         int idAluguel = sc.nextInt();
         sc.nextLine();
         AluguelConsole aluguelRemovido = historicoGeralAlugueis.remove(idAluguel);
         if(aluguelRemovido != null){
-            System.out.println("\nO Aluguel foi removido com sucesso.");
+            System.out.println("\nO Aluguel #" + aluguelRemovido.getId() + " do cliente '" + aluguelRemovido.getCliente().getNome() + "' foi removido.");
         }else{
             System.out.println("\nID não encontrado.");
         }
+
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void removerCliente(Scanner sc){
