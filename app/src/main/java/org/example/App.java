@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import org.example.domain.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
@@ -123,7 +126,7 @@ public class App {
         boolean sair = false;
         while (!sair) {
             System.out.println("\n===============================");
-            System.out.println("      MENU ADMINISTRADOR      ");
+            System.out.println("       MENU ADMINISTRADOR      ");
             System.out.println("===============================");
             System.out.println();
             System.out.println("1. Gerenciar Clientes");
@@ -1204,123 +1207,194 @@ public class App {
     }
 
     public static void cadastrarLocacao(Scanner sc) {
-        System.out.println("\n--- Nova Locação de Jogo ---\n");
+        System.out.println("\n====================================================================");
+        System.out.println("                        NOVA LOCAÇÃO DE JOGO");
+        System.out.println("====================================================================");
+
+        if (clientesCadastrados.isEmpty()) {
+            System.out.println("\nNenhum cliente cadastrado. Cadastre um cliente primeiro.");
+            System.out.println("--------------------------------------------------------------------");
+            return;
+        }
+        if (estoqueJogos.isEmpty()) {
+            System.out.println("\nNenhum jogo disponível no estoque para locação.");
+            System.out.println("--------------------------------------------------------------------");
+            return;
+        }
+
         listarClientes();
         System.out.println("\nDigite o ID do cliente da Locação: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
         Cliente clienteLocacao = clientesCadastrados.get(idCliente);
+
+        if (clienteLocacao == null) {
+            System.out.println("\nCliente não encontrado.");
+            System.out.println("--------------------------------------------------------------------");
+            return;
+        }
+
         LocacaoJogo novaLocacao = new LocacaoJogo(clienteLocacao);
-        System.out.println("\n Jogos disponíveis: ");
-        if (estoqueJogos.isEmpty()) {
-            System.out.println("\n Nenhum jogo disponível no momento.");
-        } else {
-            for (String id : estoqueJogos.keySet()) {
-                JogoPlataforma jogoPlataforma = estoqueJogos.get(id);
-                String nomeJogo = jogoPlataforma.getJogo().getNome();
-                String nomePlataforma = jogoPlataforma.getPlataforma().getNome();
-                double precoDiario = jogoPlataforma.getPrecoDiario();
-                int estoque = jogoPlataforma.getQuantidadeEstoque();
+        listarJogosPlataformas();
+        System.out.println("\n Quantos jogos você deseja locar? ");
+        int quantidadeJogos = sc.nextInt();
+        sc.nextLine();
+        for (int i = 0; i < quantidadeJogos; i++) {
+            System.out.println("\n Digite a chave do Jogo e Plataforma desejada: ");
+            String idChave = sc.nextLine();
+            JogoPlataforma produtoEscolhido = estoqueJogos.get(idChave);
 
-                System.out.println("   ID: " + id + " | Jogo: " + nomeJogo + " | Plataforma: " + nomePlataforma + " | Preço Diário: " + precoDiario + " | Em estoque: " + estoque);
-            }
-            System.out.println("\n Quantos jogos você deseja locar? ");
-            int quantidadeJogos = sc.nextInt();
-            sc.nextLine();
-            for (int i = 0; i < quantidadeJogos; i++) {
-                System.out.println("\n Digite o ID do jogo e plataforma desejada: ");
-                String idProduto = sc.nextLine();
-                JogoPlataforma produtoEscolhido = estoqueJogos.get(idProduto);
-
-                if (produtoEscolhido != null && produtoEscolhido.getQuantidadeEstoque() > 0) {
-                    System.out.println("\n Digite a quantidade de dias de locação para este jogo: ");
-                    int diasDeLocacao = sc.nextInt();
-                    sc.nextLine();
-                    novaLocacao.adicionarItem(produtoEscolhido, diasDeLocacao);
-                    produtoEscolhido.decrementarEstoque();
-                } else if (produtoEscolhido == null) {
-                    System.out.println("ID de locação inválido.");
-                } else if (produtoEscolhido.getQuantidadeEstoque() == 0) {
-                    System.out.println("\nO jogo '" + produtoEscolhido.getJogo().getNome() + "' está sem estoque.");
-                }
+            if (produtoEscolhido != null && produtoEscolhido.getQuantidadeEstoque() > 0) {
+                System.out.println("\n Digite a quantidade de dias de locação para este jogo: ");
+                int diasDeLocacao = sc.nextInt();
+                sc.nextLine();
+                novaLocacao.adicionarItem(produtoEscolhido, diasDeLocacao);
+                produtoEscolhido.decrementarEstoque();
+            } else if (produtoEscolhido == null) {
+                System.out.println("\nID de Locação inválido.");
+            } else if (produtoEscolhido.getQuantidadeEstoque() == 0) {
+                System.out.println("\nO jogo '" + produtoEscolhido.getJogo().getNome() + "' está sem estoque.");
             }
         }
-        System.out.println("\n ===============================");
-        System.out.println("  - Comprovante da Locação -");
-        System.out.println(" ===============================\n");
-        System.out.println("\nID da Locação: " + novaLocacao.getId());
-        System.out.println("\nCliente: " + novaLocacao.getCliente().getNome());
-        System.out.println("\nData: " + novaLocacao.getData());
-        System.out.println("\nValor Total: R$" + String.format("%.2f\n", novaLocacao.getValorTotal()));
+        System.out.print("\n> Confirmar a Locação? (S/N): ");
+        String confirmacao = sc.nextLine();
+        if(confirmacao.equalsIgnoreCase("S")) {
+            System.out.println("\n======================================");
+            System.out.println("      Comprovante de Locação");
+            System.out.println("======================================\n");
+            System.out.println("ID da Locação: " + novaLocacao.getId());
+            System.out.println("Cliente: " + novaLocacao.getCliente().getNome());
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String dataFormatada = novaLocacao.getData().format(formatador);
+            System.out.println("Data da Locação: " + dataFormatada);
+            System.out.println("\nItens Locados:");
 
-        clienteLocacao.adicionarLocacao(novaLocacao);
-        historicoGeralLocacoes.put(novaLocacao.getId(), novaLocacao);
+            for (ItemLocacao item : novaLocacao.getItens()) {
+                System.out.println("  - " + item.getJogoPlataforma().getJogo().getNome() +
+                        " (" + item.getJogoPlataforma().getPlataforma().getNome() +
+                        ") por " + item.getQuantidadeDias() + " dias.");
+            }
+
+            System.out.println("\nValor Total: R$" + String.format("%.2f", novaLocacao.getValorTotal()));
+            clienteLocacao.adicionarLocacao(novaLocacao);
+            historicoGeralLocacoes.put(novaLocacao.getId(), novaLocacao);
+        }else{
+            System.out.println("\nLocação cancelada pelo usuário.");
+            for (ItemLocacao item : novaLocacao.getItens()) {
+                item.getJogoPlataforma().incrementarEstoque();
+            }
+            System.out.println("Estoque restaurado.");
+        }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void cadastrarAluguel(Scanner sc) {
-        System.out.println("\n--- Novo Aluguel de Consoles e Acessórios ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                     NOVO ALUGUEL DE CONSOLE");
+        System.out.println("====================================================================");
+
+        if (clientesCadastrados.isEmpty()) {
+            System.out.println("\nNenhum cliente cadastrado. Cadastre um cliente primeiro.");
+            System.out.println("--------------------------------------------------------------------");
+            return;
+        }
+        if (consolesDisponiveis.isEmpty()) {
+            System.out.println("\nNenhum console disponível no momento.");
+            System.out.println("--------------------------------------------------------------------");
+            return;
+        }
+
         listarClientes();
-        System.out.println("\nDigite o ID do cliente da Locação: ");
+        System.out.println("\nDigite o ID do cliente para o Aluguel: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
         Cliente clienteAluguel = clientesCadastrados.get(idCliente);
-        System.out.println(" Consoles disponíveis: ");
-        if (consolesDisponiveis.isEmpty()) {
-            System.out.println("\n  Nenhum console disponível no momento.");
+        if (clienteAluguel == null) {
+            System.out.println("\nCliente não encontrado.");
+            System.out.println("--------------------------------------------------------------------");
             return;
-        } else {
-            for (Console console : consolesDisponiveis.values()) {
-                if (console.getDisponibilidade()) {
-                    System.out.println("\n  ID: " + console.getId() + " | Console: " + console.getNome() + " | Preço Diário: " + console.getPrecoPorHora());
-                }
-            }
-            System.out.println("Digite o ID do console que gostaria de alugar: ");
-            int idConsole = sc.nextInt();
-            sc.nextLine();
-            Console consoleEscolhido = consolesDisponiveis.get(idConsole);
-            if (consoleEscolhido != null && consoleEscolhido.getDisponibilidade()) {
-                System.out.println("Digite a quantidade em horas do aluguel deste console: ");
-                int horasDeAluguel = sc.nextInt();
-                sc.nextLine();
-                AluguelConsole novoAluguel = new AluguelConsole(clienteAluguel, consoleEscolhido, horasDeAluguel);
-                clienteAluguel.adicionarAluguel(novoAluguel);
-                consoleEscolhido.alugar();
+        }
 
-                System.out.println("\nAcessórios disponíveis para: " + consoleEscolhido.getNome());
-                Plataforma plataformaConsole = consoleEscolhido.getPlataforma();
-                List<Acessorio> acessoriosCompativeis = plataformaConsole.getAcessorios();
-                if(acessoriosCompativeis.isEmpty()){
-                    System.out.println("Nenhum acessório compatível com este console.");
-                }else{
-                    for(Acessorio acessorio : acessoriosCompativeis){
-                        if(acessorio.getEstoque() > 0){
-                            System.out.println(String.format(" ID: %d | Nome: %s | Valor: R$%.2f", acessorio.getId(), acessorio.getNome(), acessorio.getValor()));
-                        }
-                    }
-                    System.out.println("Digite quantos acessórios gostaria de alugar (0 para nenhum): ");
-                    int quantidadeAcessorios = sc.nextInt();
-                    sc.nextLine();
-                    if(quantidadeAcessorios > 0){
-                        for(int i = 0; i < quantidadeAcessorios; i++){
-                            System.out.println("Digite o ID do acessório " + i+1);
-                            int idAcessorio = sc.nextInt();
-                            Acessorio novoAcessorio = acessoriosDisponiveis.get(idAcessorio);
-                            novoAluguel.adicionarAcessorio(novoAcessorio);
-                            novoAcessorio.decrementarEstoque();
-                        }
-                    }
-                }
-                System.out.println("\n--- Comprovante do Aluguel ---");
-                System.out.println("ID do Aluguel: " + novoAluguel.getId());
-                System.out.println("Cliente: " + novoAluguel.getCliente().getNome());
-                System.out.println("Data: " + novoAluguel.getDataHora());
-                System.out.println("Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
-
-                clienteAluguel.adicionarAluguel(novoAluguel);
-                historicoGeralAlugueis.put(novoAluguel.getId(), novoAluguel);
-            } else{
-                System.out.println("ID de aluguel inválido.");
+        System.out.println("\nConsoles disponíveis: ");
+        for (Console console : consolesDisponiveis.values()) {
+            if (console.getDisponibilidade()) {
+                System.out.println("  ID: " + console.getId() + " | Console: " + console.getNome() + " | Preço por Hora: " + console.getPrecoPorHora());
             }
         }
+        System.out.println("\nDigite o ID do console que gostaria de alugar: ");
+        int idConsole = sc.nextInt();
+        sc.nextLine();
+        Console consoleEscolhido = consolesDisponiveis.get(idConsole);
+        if (consoleEscolhido == null || !consoleEscolhido.getDisponibilidade()) {
+            System.out.println("\nID de console inválido ou indisponível.");
+            System.out.println("--------------------------------------------------------------------");
+            return;
+        }
+
+        System.out.println("\nDigite a quantidade em horas do aluguel deste console: ");
+        int horasDeAluguel = sc.nextInt();
+        sc.nextLine();
+        consoleEscolhido.alugar();
+        AluguelConsole novoAluguel = new AluguelConsole(clienteAluguel, consoleEscolhido, horasDeAluguel);
+
+        System.out.println("\nAcessórios compatíveis com: " + consoleEscolhido.getNome());
+        List<Acessorio> acessoriosCompativeis = consoleEscolhido.getPlataforma().getAcessorios();
+        if(acessoriosCompativeis.isEmpty()){
+            System.out.println("\nNenhum acessório compatível com este console.");
+        }else{
+            for(Acessorio acessorio : acessoriosCompativeis){
+                if(acessorio.getEstoque() > 0){
+                    System.out.println(String.format(" ID: %d | Nome: %s | Valor: R$%.2f | Estoque: %d", acessorio.getId(), acessorio.getNome(), acessorio.getValor(), acessorio.getEstoque()));
+                }
+            }
+            System.out.println("\nDigite quantos acessórios gostaria de alugar (0 para nenhum): ");
+            int quantidadeAcessorios = sc.nextInt();
+            sc.nextLine();
+            for(int i = 0; i < quantidadeAcessorios; i++){
+                System.out.println("\nDigite o ID do acessório " + (i+1) + ":");
+                int idAcessorio = sc.nextInt();
+                sc.nextLine();
+                Acessorio acessorioEscolhido = acessoriosDisponiveis.get(idAcessorio);
+                if (acessorioEscolhido != null && acessorioEscolhido.getEstoque() > 0 && acessoriosCompativeis.contains(acessorioEscolhido)){
+                    novoAluguel.adicionarAcessorio(acessorioEscolhido);
+                    acessorioEscolhido.decrementarEstoque();
+                } else {
+                    System.out.println("\nID de acessório inválido, sem estoque ou incompatível.");
+                }
+            }
+        }
+
+        System.out.print("\n> Confirmar o Aluguel? (S/N): ");
+        String confirmacao = sc.nextLine();
+        if (confirmacao.equalsIgnoreCase("S")) {
+            clienteAluguel.adicionarAluguel(novoAluguel);
+            historicoGeralAlugueis.put(novoAluguel.getId(), novoAluguel);
+
+            System.out.println("\n======================================");
+            System.out.println("      Comprovante de Locação");
+            System.out.println("======================================\n");
+
+            System.out.println("ID do Aluguel: " + novoAluguel.getId());
+            System.out.println("Cliente: " + novoAluguel.getCliente().getNome());
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+            System.out.println("Data e Hora: " + novoAluguel.getDataHora().format(formatador));
+            System.out.println("\nItens Alugados:");
+            System.out.println("  - Console: " + novoAluguel.getConsole().getNome() + " (" + novoAluguel.getDuracaoHoras() + " horas)");
+            if (!novoAluguel.getAcessorios().isEmpty()) {
+                System.out.println("  - Acessórios: ");
+                for (Acessorio acessorio : novoAluguel.getAcessorios()) {
+                    System.out.println("    - " + acessorio.getNome());
+                }
+            }
+            System.out.println("\nValor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
+        } else {
+            System.out.println("\nAluguel cancelado pelo usuário.");
+            consoleEscolhido.devolver();
+            for(Acessorio acessorio : novoAluguel.getAcessorios()){
+                acessorio.incrementarEstoque();
+            }
+            System.out.println("Estoque restaurado.");
+        }
+        System.out.println("--------------------------------------------------------------------");
     }
 }

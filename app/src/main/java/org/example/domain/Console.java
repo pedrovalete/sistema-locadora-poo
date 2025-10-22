@@ -42,4 +42,7 @@ public class Console {
     public void alugar(){
         this.disponivel = false;
     }
+    public void devolver(){
+        this.disponivel = true;
+    }
 }

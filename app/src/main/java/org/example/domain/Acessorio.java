@@ -45,4 +45,7 @@ public class Acessorio {
     public void decrementarEstoque(){
         this.estoque--;
     }
+    public void incrementarEstoque(){
+        this.estoque++;
+    }
 }
