@@ -62,6 +62,9 @@ public class App {
                 case 4:
                     gerenciarLocacoes(sc);
                     break;
+                case 5:
+                    gerenciarAlugueis(sc);
+                    break;
                 case 0:
                     sair = true;
                     break;
@@ -214,6 +217,9 @@ public class App {
             System.out.println("2. Atualizar Plataforma");
             System.out.println("3. Listar Plataformas");
             System.out.println("4. Remover Plataforma");
+            System.out.println("5. Cadastrar Console");
+            System.out.println("6. Cadastrar Acessório");
+            System.out.println("7. Conectar Acessório com Plataforma");
             System.out.println("0. Voltar ao menu");
             int gerenciarPlataforma = sc.nextInt();
             sc.nextLine();
@@ -223,13 +229,22 @@ public class App {
                     cadastrarPlataforma(sc);
                     break;
                 case 2:
-                    atualizarJogoPlataforma(sc);
+                    atualizarPlataforma(sc);
                     break;
                 case 3:
                     listarPlataformas();
                     break;
                 case 4:
                     removerPlataforma(sc);
+                    break;
+                case 5:
+                    cadastrarConsole(sc);
+                    break;
+                case 6:
+                    cadastrarAcessorio(sc);
+                    break;
+                case 7:
+                    conectarAcessorioPlataforma(sc);
                     break;
                 case 0:
                     sairPlataforma = true;
@@ -264,9 +279,45 @@ public class App {
                     listarLocacoes();
                     break;
                 case 4:
-
+                    removerLocacao(sc);
+                    break;
                 case 0:
                     sairLocacoes = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
+            }
+        }
+    }
+
+    public static void gerenciarAlugueis(Scanner sc){
+        boolean sairAlugueis = false;
+        while(!sairAlugueis){
+            System.out.println("\n--- GERENCIAR ALUGUÉIS ---\n");
+            System.out.println("1. Cadastrar Aluguel");
+            System.out.println("2. Atualizar Aluguel");
+            System.out.println("3. Listar Aluguéis");
+            System.out.println("4. Remover Aluguel");
+            System.out.println("0. Voltar ao menu");
+            int gerenciarAlugueis = sc.nextInt();
+            sc.nextLine();
+
+            switch(gerenciarAlugueis){
+                case 1:
+                    cadastrarAluguel(sc);
+                    break;
+                case 2:
+                    atualizarAluguel(sc);
+                    break;
+                case 3:
+                    listarAlugueis();
+                    break;
+                case 4:
+                    removerAluguel(sc);
+                    break;
+                case 0:
+                    sairAlugueis = true;
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -404,8 +455,17 @@ public class App {
             System.out.println(" ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
         }
         if(plataformasCadastradas.isEmpty()){
-            System.out.println("\n Nenhuma plataforma cadastrada até o momento.");
+            System.out.println("\n Nenhuma Plataforma cadastrada até o momento.");
             return;
+        }
+    }
+    public static void listarAcessorios(){
+        System.out.println("\n--- Acessórios Cadastrados ---");
+        for(Acessorio acessorio : acessoriosDisponiveis.values()){
+            System.out.println(" ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque() + " | Valor: " + acessorio.getValor());
+        }
+        if(acessoriosDisponiveis.isEmpty()){
+            System.out.println("\n Nenhum Acessório cadastrado até o momento.");
         }
     }
 
@@ -568,7 +628,7 @@ public class App {
     public static void atualizarLocacao(Scanner sc){
         System.out.println("\n--- Atualizar Locação ---");
         listarLocacoes();
-        System.out.println("\nDigite o ID da locação que deseja atualizar: ");
+        System.out.println("\nDigite o ID da Locação que deseja atualizar: ");
         int idLocacao = sc.nextInt();
         sc.nextLine();
         LocacaoJogo locacaoAtualizar = historicoGeralLocacoes.get(idLocacao);
@@ -591,7 +651,7 @@ public class App {
                     listarJogosPlataformas();
                     System.out.println("\nDigite o ID do Jogo desejado: ");
                     String chaveJogo = sc.nextLine();
-                    System.out.println("Digite a quantidade de dias  da locação: ");
+                    System.out.println("Digite a quantidade de dias da locação: ");
                     int dias = sc.nextInt();
                     sc.nextLine();
                     JogoPlataforma jogoAdicionar = estoqueJogos.get(chaveJogo);
@@ -616,6 +676,72 @@ public class App {
                         System.out.println("O item '" + itemRemovido.getJogoPlataforma().getJogo().getNome() + "' foi removido com sucesso.");
                     }else{
                         System.out.println("Número não foi encontrado.");
+                    }
+                    break;
+                case 0:
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("ID não encontrado.");
+            }
+        }
+    }
+
+    public static void atualizarAluguel(Scanner sc){
+        System.out.println("\n--- Atualizar Aluguel ---");
+        listarAlugueis();
+        System.out.println("\nDigite o ID do Aluguel que deseja atualizar: ");
+        int idAluguel = sc.nextInt();
+        sc.nextLine();
+        AluguelConsole aluguelAtualizar = historicoGeralAlugueis.get(idAluguel);
+
+        if(aluguelAtualizar == null){
+            System.out.println("\nID não encontrado.");
+            return;
+        }
+        boolean sair = false;
+        while(!sair){
+            System.out.println("Atualizando o Aluguel #" + aluguelAtualizar.getId() + " de " + aluguelAtualizar.getCliente().getNome());
+            System.out.println("1. Adicionar Acessório");
+            System.out.println("2. Remover Acessório");
+            System.out.println("3. Alterar duração do Aluguel");
+            System.out.println("0. Concluir");
+            int escolha = sc.nextInt();
+            sc.nextLine();
+
+            switch(escolha){
+                case 1:
+                    listarAcessorios();
+                    System.out.println("\nDigite o ID do Acessório desejado: ");
+                    int idAcessorioAdicionar = sc.nextInt();
+                    sc.nextLine();
+                    Acessorio acessorioAdicionar = acessoriosDisponiveis.get(idAcessorioAdicionar);
+                    if(acessorioAdicionar != null){
+                        aluguelAtualizar.adicionarAcessorio(acessorioAdicionar);
+                        System.out.println("Acessório adicionado ao Aluguel.");
+                    }else{
+                        System.out.println("ID não encontrado");
+                    }
+                    break;
+                case 2:
+                    aluguelAtualizar.listarAcessorios();
+                    System.out.println("\nDigite o ID do Acessório que deseja remover: ");
+                    int idAcessorioRemover = sc.nextInt();
+                    sc.nextLine();
+                    Acessorio acessorioRemover = aluguelAtualizar.getAcessorios().remove(idAcessorioRemover);
+                    if(acessorioRemover != null){
+                        System.out.println("O acessório '" + acessorioRemover.getNome() + "' foi removido com sucesso.");
+                    }else{
+                        System.out.println("ID não foi encontrado.");
+                    }
+                    break;
+                case 3:
+                    System.out.println("\nDigite a nova duração em horas: ");
+                    int novaDuracao = sc.nextInt();
+                    sc.nextLine();
+                    if(novaDuracao != 0) {
+                        aluguelAtualizar.setDuracaoHoras(novaDuracao);
+                        System.out.println("\nA duração foi alterada com sucesso.");
                     }
                     break;
                 case 0:
@@ -806,9 +932,7 @@ public class App {
 
     public static void cadastrarLocacao(Scanner sc) {
         System.out.println("\n--- Nova Locação de Jogo ---\n");
-        for(Cliente cliente : clientesCadastrados.values()){
-            System.out.println(" ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
-        }
+        listarClientes();
         System.out.println("Digite o ID do cliente da Locação: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
@@ -858,8 +982,13 @@ public class App {
         historicoGeralLocacoes.put(novaLocacao.getId(), novaLocacao);
     }
 
-    public static void cadastrarAluguel(Scanner sc, Cliente clienteLogado) {
-        System.out.println("\n--- Novo Aluguel de Consoles e Acessórios ---\n");
+    public static void cadastrarAluguel(Scanner sc) {
+        System.out.println("\n--- Novo Aluguel de Consoles e Acessórios ---");
+        listarClientes();
+        System.out.println("Digite o ID do cliente da Locação: ");
+        int idCliente = sc.nextInt();
+        sc.nextLine();
+        Cliente clienteAluguel = clientesCadastrados.get(idCliente);
         System.out.println(" Consoles disponíveis: ");
         if (consolesDisponiveis.isEmpty()) {
             System.out.println("  Nenhum console disponível no momento.");
@@ -878,8 +1007,8 @@ public class App {
                 System.out.println("Digite a quantidade em horas do aluguel deste console: ");
                 int horasDeAluguel = sc.nextInt();
                 sc.nextLine();
-                AluguelConsole novoAluguel = new AluguelConsole(clienteLogado, consoleEscolhido, horasDeAluguel);
-                clienteLogado.adicionarAluguel(novoAluguel);
+                AluguelConsole novoAluguel = new AluguelConsole(clienteAluguel, consoleEscolhido, horasDeAluguel);
+                clienteAluguel.adicionarAluguel(novoAluguel);
                 consoleEscolhido.alugar();
 
                 System.out.println("\nAcessórios disponíveis para: " + consoleEscolhido.getNome());
@@ -912,7 +1041,7 @@ public class App {
                 System.out.println("Data: " + novoAluguel.getDataHora());
                 System.out.println("Valor Total: R$" + String.format("%.2f", novoAluguel.getValorTotal()));
 
-                clienteLogado.adicionarAluguel(novoAluguel);
+                clienteAluguel.adicionarAluguel(novoAluguel);
                 historicoGeralAlugueis.put(novoAluguel.getId(), novoAluguel);
             } else{
                 System.out.println("ID de aluguel inválido.");
