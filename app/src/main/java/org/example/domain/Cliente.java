@@ -101,7 +101,7 @@ public class Cliente {
             }else{
                 for(AluguelConsole aluguel : this.alugueis){
                     System.out.println("\n------------------------------------");
-                    System.out.println("\n ID do Alguel: " + aluguel.getId());
+                    System.out.println("\n ID do Aluguel: " + aluguel.getId());
                     DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
                     System.out.println("\nData e Hora: " + aluguel.getDataHora().format(formatador));
                     System.out.println("\n Console: " + aluguel.getConsole().getNome());

@@ -156,6 +156,7 @@ public class App {
                     gerenciarAlugueis(sc);
                     break;
                 case 0:
+                    System.out.println("\n Saindo do sistema.");
                     sair = true;
                     break;
                 default:
@@ -223,6 +224,7 @@ public class App {
                     clienteLogado.atualizarCadastro(sc);
                     break;
                 case 0:
+                    System.out.println("\n Saindo do sistema.");
                     sair = true;
                     break;
                 default:
@@ -460,36 +462,38 @@ public class App {
         System.out.println("    CADASTRO DE NOVA PLATAFORMA");
         System.out.println("======================================");
         System.out.println();
-        System.out.print(" > Digite o nome da nova plataforma: ");
-        String nomePlataforma = sc.nextLine();
+        String nomePlataforma;
 
-        boolean nomeJaExiste = false;
-        for (Plataforma plataforma : plataformasCadastradas.values()) {
-            if (plataforma.getNome().equalsIgnoreCase(nomePlataforma)) {
-                nomeJaExiste = true;
+        while (true) {
+            System.out.print("\n > Digite o nome da nova plataforma: ");
+            nomePlataforma = sc.nextLine();
+
+            boolean nomeJaExiste = false;
+            for (Plataforma plataforma : plataformasCadastradas.values()) {
+                if (plataforma.getNome().equalsIgnoreCase(nomePlataforma)) {
+                    nomeJaExiste = true;
+                    break;
+                }
+            }
+            if (!nomeJaExiste) {
                 break;
-            }
-        }
-        if (nomeJaExiste == true) {
-
-            System.out.println("\n-------------------------------------------");
-            System.out.println("| Uma plataforma com o nome '" + nomePlataforma + "' já existe.");
-            System.out.println("-------------------------------------------");
-        } else {
-            System.out.print(" > Digite a descrição (opcional, pressione Enter para pular): ");
-            String descricaoPlataforma = sc.nextLine();
-            Plataforma novaPlataforma;
-            if (descricaoPlataforma.isEmpty()) {
-                novaPlataforma = new Plataforma(nomePlataforma);
             } else {
-                novaPlataforma = new Plataforma(nomePlataforma, descricaoPlataforma);
+                System.out.println("\nJá existe uma Plataforma com este nome. Tente novamente.");
             }
-
-            plataformasCadastradas.put(novaPlataforma.getId(), novaPlataforma);
-            System.out.println("\n-------------------------------------------");
-            System.out.println("| Plataforma '" + novaPlataforma.getNome() + "' cadastrada com o ID " + novaPlataforma.getId() + ".");
-            System.out.println("-------------------------------------------");
         }
+        System.out.print("\n > Digite a descrição (opcional, pressione Enter para pular): ");
+        String descricaoPlataforma = sc.nextLine();
+        Plataforma novaPlataforma;
+        if (descricaoPlataforma.isEmpty()) {
+            novaPlataforma = new Plataforma(nomePlataforma);
+        } else {
+            novaPlataforma = new Plataforma(nomePlataforma, descricaoPlataforma);
+        }
+
+        plataformasCadastradas.put(novaPlataforma.getId(), novaPlataforma);
+        System.out.println("\n--------------------------------------------------------");
+        System.out.println(" Plataforma '" + novaPlataforma.getNome() + "' cadastrada com o ID " + novaPlataforma.getId() + ".");
+        System.out.println("--------------------------------------------------------");
     }
 
     public static void cadastrarJogoPlataforma(Scanner sc) {
