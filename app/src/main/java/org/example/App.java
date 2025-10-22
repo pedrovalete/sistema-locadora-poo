@@ -163,22 +163,29 @@ public class App {
     }
 
     public static void loginCliente(Scanner sc) {
-        System.out.println("\n--- LOGIN DO CLIENTE ---\n");
+        // --- CABEÇALHO ---
+        System.out.println("\n======================================");
+        System.out.println("        LOGIN DO CLIENTE");
+        System.out.println("======================================");
+        System.out.println();
 
-        System.out.println("Digite o seu ID de cliente: ");
+        System.out.print(" > Digite o seu ID de cliente: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
-
-        System.out.println("Digite sua senha: ");
+        System.out.print(" > Digite a sua senha: ");
         String senhaDigitada = sc.nextLine();
 
         Cliente clienteLogin = clientesCadastrados.get(idCliente);
 
         if (clienteLogin != null && clienteLogin.autenticar(senhaDigitada)) {
-            System.out.println("\nLogin realizado. Bem vindo, " + clienteLogin.getNome());
+            System.out.println("\n-------------------------------------------");
+            System.out.println(" Login realizado. Bem-vindo(a), " + clienteLogin.getNome() + ".");
+            System.out.println("-------------------------------------------");
             menuCliente(sc, clienteLogin);
         } else {
-            System.out.println("\nID de cliente ou senha incorreta. Tente novamente.");
+            System.out.println("\n-------------------------------------------");
+            System.out.println("| ID de cliente ou senha incorreta.         |");
+            System.out.println("-------------------------------------------");
         }
     }
 
@@ -472,83 +479,104 @@ public class App {
     }
 
     public static void cadastrarJogoPlataforma(Scanner sc) {
-        System.out.println("\n--- Cadastro de Jogo-Plataforma ---");
-        if (jogosCadastrados.isEmpty()) {
-            System.out.println(" Nenhum jogo cadastrado até o momento.");
-        } else {
-            System.out.println(" Jogos presentes no sistema: ");
-            for (Integer id : jogosCadastrados.keySet()) {
-                Jogo jogo = jogosCadastrados.get(id);
+        // --- CABEÇALHO ---
+        System.out.println("\n==================================================");
+        System.out.println("    CADASTRAR JOGO-PLATAFORMA");
+        System.out.println("================================================");
 
-                System.out.println("  ID: " + id + " | Nome: " + jogo.getNome());
-            }
+        if (jogosCadastrados.isEmpty()) {
+            System.out.println("\nNenhum título de jogo cadastrado. Cadastre um título primeiro antes de continuar.");
+            return;
         }
-        System.out.println("\nDigite o ID do jogo desejado: ");
+        System.out.println("Títulos de Jogo existentes:");
+        for (Jogo jogo : jogosCadastrados.values()) {
+            System.out.println(" ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
+        }
+        System.out.print("\n > Digite o ID do jogo desejado: ");
         int idJogo = sc.nextInt();
         sc.nextLine();
+
         if (plataformasCadastradas.isEmpty()) {
-            System.out.println(" Nenhuma plataforma cadastrada até o momento.");
-        } else {
-            listarPlataformas();
+            System.out.println("\nNenhuma plataforma cadastrada. Cadastre uma plataforma primeiro antes de continuar.");
+            return;
         }
-        System.out.println("\nDigite o ID da plataforma desejada: ");
+        listarPlataformas();
+        System.out.print("\n > Digite o ID da plataforma desejada: ");
         int idPlataforma = sc.nextInt();
         sc.nextLine();
 
-        System.out.println("Digite o preço diário: ");
+        System.out.print(" > Digite o preço diário (ex: 15.50): ");
         double precoDiario = sc.nextDouble();
-
-        System.out.println("Digite a quantidade do estoque: ");
+        System.out.print(" > Digite a quantidade em estoque: ");
         int estoque = sc.nextInt();
-        sc.nextLine();
 
         Jogo jogo = jogosCadastrados.get(idJogo);
         Plataforma plataforma = plataformasCadastradas.get(idPlataforma);
-        if (jogo != null & plataforma != null) {
+
+        if (jogo != null && plataforma != null) {
             String chaveJogoPlataforma = idJogo + "-" + idPlataforma;
 
             if (estoqueJogos.containsKey(chaveJogoPlataforma)) {
-                System.out.println(" Este jogo já está cadastrado com esta plataforma no sistema.");
-                return;
+                System.out.println("\n-------------------------------------------------------------");
+                System.out.println("| O jogo '" + jogo.getNome() + "' já está cadastrado para a plataforma '" + plataforma.getNome() + "'. |");
+                System.out.println("-------------------------------------------------------------");
+            } else {
+                JogoPlataforma novoProduto = new JogoPlataforma(jogo, plataforma, estoque, precoDiario);
+                estoqueJogos.put(chaveJogoPlataforma, novoProduto);
+                System.out.println("\n-------------------------------------------------------------");
+                System.out.println("| O jogo '" + jogo.getNome() + "' foi disponibilizado para '" + plataforma.getNome() + "'. |");
+                System.out.println("-------------------------------------------------------------");
             }
-            JogoPlataforma novoProduto = new JogoPlataforma(jogo, plataforma, estoque, precoDiario);
-            estoqueJogos.put(chaveJogoPlataforma, novoProduto);
-            System.out.println("O jogo " + jogo.getNome() + "foi cadastrado na plataforma " + plataforma.getNome());
         } else {
-            System.out.println(" ID informado para jogo ou plataforma não existe.");
+            System.out.println("\n-------------------------------------------");
+            System.out.println("| ID de Jogo ou Plataforma inválido.        |");
+            System.out.println("-------------------------------------------");
         }
     }
 
-    public static void listarClientes(){
-        System.out.println("\n--- Clientes Cadastrados ---");
-        for(Cliente cliente : clientesCadastrados.values()){
-            System.out.println("\n ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
-        }
-        if(clientesCadastrados.isEmpty()){
-            System.out.println("\n Nenhum cliente cadastrado até o momento.");
-            return;
+    public static void listarClientes() {
+        System.out.println("\n=======================================================");
+        System.out.println("        LISTA DE CLIENTES CADASTRADOS");
+        System.out.println("=======================================================");
+
+        if (clientesCadastrados.isEmpty()) {
+            System.out.println("\nNenhum Cliente cadastrado no sistema.");
+        } else {
+            for (Cliente cliente : clientesCadastrados.values()) {
+                System.out.println("\n ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
+            }
+            System.out.println("-------------------------------------------------------");
         }
     }
 
-    public static void listarJogosPlataformas(){
-        System.out.println("\n--- Estoque de Jogos para Locação ---");
-        for(JogoPlataforma jogo : estoqueJogos.values()){
-            System.out.println("\n ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque: " + jogo.getQuantidadeEstoque() + String.format(" | Preço Diário: %.2f", jogo.getPrecoDiario()));
-        }
-        if(jogosCadastrados.isEmpty()){
-            System.out.println("\n Nenhum jogo disponível em estoque até o momento.");
-            return;
+    public static void listarJogosPlataformas() {
+        System.out.println("\n========================================================================");
+        System.out.println("                 ESTOQUE DE JOGOS PARA LOCAÇÃO");
+        System.out.println("=======================================================================");
+
+        if (estoqueJogos.isEmpty()) {
+            System.out.println("\nNenhum Jogo disponível no estoque.");
+        } else {
+            for (JogoPlataforma jogo : estoqueJogos.values()) {
+                System.out.println("\n ID: " + jogo.getChaveComposta() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque: " + jogo.getQuantidadeEstoque() + String.format(" | Preço Diário: %.2f", jogo.getPrecoDiario()));
+                System.out.println();
+            }
+            System.out.println("------------------------------------------------------------------------------");
         }
     }
 
-    public static void listarJogos(){
-        System.out.println("\n--- Títulos de Jogos ---");
-        for(Jogo jogo : jogosCadastrados.values()){
-            System.out.println("\n ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
-        }
-        if(jogosCadastrados.isEmpty()){
-            System.out.println("Nenhum jogo cadastrado até o momento.");
-            return;
+    public static void listarJogos() {
+        System.out.println("\n==============================================");
+        System.out.println("        LISTA DE TÍTULOS DE JOGOS CADASTRADOS");
+        System.out.println("==============================================");
+
+        if (jogosCadastrados.isEmpty()) {
+            System.out.println("\nNenhum título de Jogo cadastrado no sistema.");
+        } else {
+            for (Jogo jogo : jogosCadastrados.values()) {
+                System.out.println("\n ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
+            }
+            System.out.println("----------------------------------------------");
         }
     }
 
@@ -562,6 +590,7 @@ public class App {
             return;
         }
     }
+
     public static void listarAcessorios(){
         System.out.println("\n--- Acessórios Cadastrados ---");
         for(Acessorio acessorio : acessoriosDisponiveis.values()){
