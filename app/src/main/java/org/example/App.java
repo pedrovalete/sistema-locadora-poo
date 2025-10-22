@@ -1077,45 +1077,72 @@ public class App {
     }
 
     public static void removerCliente(Scanner sc){
-        System.out.println("\n--- Remover Cliente ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                           REMOVER CLIENTE");
+        System.out.println("====================================================================");
+
         listarClientes();
         System.out.println("\nDigite o ID do Cliente que deseja remover: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
-        Cliente clienteRemovido = clientesCadastrados.remove(idCliente);
-        if(clienteRemovido != null){
-            System.out.println("O Cliente foi removido com sucesso.");
-        }else{
-            System.out.println("ID não encontrado.");
+
+        boolean emUso = false;
+        for (LocacaoJogo locacao : historicoGeralLocacoes.values()) {
+            if (locacao.getCliente().getId() == idCliente) {
+                emUso = true;
+                break;
+            }
         }
+        if (!emUso) {
+            for (AluguelConsole aluguel : historicoGeralAlugueis.values()) {
+                if (aluguel.getCliente().getId() == idCliente) {
+                    emUso = true;
+                    break;
+                }
+            }
+        }
+        if (emUso) {
+            System.out.println("\nEste cliente não pode ser removido, pois possui Aluguel/Locação ativo.");
+        } else {
+            Cliente clienteRemovido = clientesCadastrados.remove(idCliente);
+            if(clienteRemovido != null){
+                System.out.println("\nO Cliente '" + clienteRemovido.getNome() + "' foi removido.");
+            }else{
+                System.out.println("\nID não encontrado.");
+            }
+        }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void cadastrarConsole(Scanner sc) {
-        System.out.println("\n--- Cadastro de Console ---");
-        System.out.println("Plataformas disponíveis: ");
-        for (Integer id : plataformasCadastradas.keySet()) {
-            Plataforma plataforma = plataformasCadastradas.get(id);
-            System.out.println(" ID: " + id + " | Plataforma: " + plataforma.getNome());
-        }
-        System.out.println("Digite o ID da plataforma que o console pertence: ");
+        System.out.println("\n====================================================================");
+        System.out.println("                        CADASTRO DE CONSOLE");
+        System.out.println("====================================================================");
+
+        listarPlataformas();
+        System.out.println("\nDigite o ID da plataforma que o console pertence: ");
         int idPlataforma = sc.nextInt();
         sc.nextLine();
-        System.out.println("Digite o nome do console: ");
+        System.out.println("\nDigite o nome do console: ");
         String nomeConsole = sc.nextLine();
-        System.out.println("Digite o preço por hora: ");
+        System.out.println("\nDigite o preço por hora: ");
         double precoPorHora = sc.nextDouble();
         Plataforma plataformaDoConsole = plataformasCadastradas.get(idPlataforma);
         if (plataformaDoConsole != null) {
             Console novoConsole = new Console(nomeConsole, plataformaDoConsole, precoPorHora);
             consolesDisponiveis.put(novoConsole.getId(), novoConsole);
-            System.out.println("o console " + nomeConsole + " foi cadastrado com sucesso.");
+            System.out.println("\nO console " + nomeConsole + " foi cadastrado com sucesso.");
         }else{
-            System.out.println("A plataforma não foi encontrada.");
+            System.out.println("\nID não encontrado..");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void cadastrarAcessorio(Scanner sc){
-        System.out.println("\n--- Cadastro de Acessório ---");
+        System.out.println("\n====================================================================");
+        System.out.println("                       CADASTRO DE ACESSÓRIO");
+        System.out.println("====================================================================");
+
         System.out.println("Digite o nome do novo acessório: ");
         String nomeAcessorio = sc.nextLine();
         System.out.println("Digite o valor do acessório: ");
@@ -1127,22 +1154,19 @@ public class App {
         Acessorio novoAcessorio = new Acessorio(nomeAcessorio, estoqueAcessorio, valorAcessorio);
         acessoriosDisponiveis.put(novoAcessorio.getId(), novoAcessorio);
         System.out.println("O acessório " + nomeAcessorio + " foi cadastrado com sucesso.");
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void conectarAcessorioPlataforma(Scanner sc){
-        System.out.println("\n--- Compatibilidade do Acessório e Plataforma ---");
-        System.out.println("\nAcessórios disponíveis: ");
-        for(Acessorio acessorio : acessoriosDisponiveis.values()){
-            System.out.println("\n ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque());
-        }
+        System.out.println("\n====================================================================");
+        System.out.println("                COMPATIBILIDADE ACESSÓRIO/PLATAFORMA");
+        System.out.println("====================================================================");
+
+        listarAcessorios();
         System.out.println("\nDigite o ID do acessório: ");
         int idAcessorio = sc.nextInt();
         sc.nextLine();
-
-        System.out.println("\nPlataformas disponíveis: ");
-        for(Plataforma plataforma : plataformasCadastradas.values()){
-            System.out.println("\n ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
-        }
+        listarPlataformas();
         System.out.println("\nDigite o ID da plataforma desejada para associar: ");
         int idPlataforma = sc.nextInt();
         sc.nextLine();
@@ -1156,22 +1180,27 @@ public class App {
         }else{
             System.out.println("\nID de acessório ou plataforma inválido.");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void cadastrarCliente(Scanner sc) {
-        System.out.println("\n--- Cadastro de Cliente ---\n");
-        System.out.println(" Digite o nome do cliente: ");
+        System.out.println("\n====================================================================");
+        System.out.println("                        CADASTRO DE CLIENTE");
+        System.out.println("====================================================================");
+
+        System.out.println("\n Digite o nome do cliente: ");
         String nomeCliente = sc.nextLine();
-        System.out.println(" Digite o email do cliente: ");
+        System.out.println("\n Digite o email do cliente: ");
         String emailCliente = sc.nextLine();
-        System.out.println(" Digite o telefone do cliente: ");
+        System.out.println("\n Digite o telefone do cliente: ");
         String telefoneCliente = sc.nextLine();
-        System.out.println(" Digite a senha do cliente: ");
+        System.out.println("\n Digite a senha do cliente: ");
         String senhaCliente = sc.nextLine();
 
         Cliente novoCliente = new Cliente(nomeCliente, emailCliente, telefoneCliente, senhaCliente);
         clientesCadastrados.put(novoCliente.getId(), novoCliente);
         System.out.println("\nO cliente " + nomeCliente + " foi cadastrado com sucesso.\n");
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void cadastrarLocacao(Scanner sc) {
