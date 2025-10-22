@@ -415,12 +415,20 @@ public class App {
     /// //////////////////////
 
     public static void cadastrarJogo(Scanner sc) {
-        System.out.println("\n--- Cadastro de Jogo ---");
-        System.out.println(" Digite o nome do jogo: ");
+
+        System.out.println("\n==============================================");
+        System.out.println("    CADASTRO DE NOVO TÍTULO DE JOGO");
+        System.out.println("==============================================");
+        System.out.println();
+
+        System.out.print(" > Digite o nome do novo jogo: ");
         String nomeJogo = sc.nextLine();
         Jogo novoJogo = new Jogo(nomeJogo);
         jogosCadastrados.put(novoJogo.getId(), novoJogo);
-        System.out.println("\nJogo '" + novoJogo.getNome() + "' cadastrado com sucesso.");
+
+        System.out.println("\n-------------------------------------------");
+        System.out.println("| Jogo '" + novoJogo.getNome() + "' cadastrado com o ID " + novoJogo.getId() + ".");
+        System.out.println("-------------------------------------------");
     }
 
     public static void cadastrarPlataforma(Scanner sc) {
@@ -1071,18 +1079,18 @@ public class App {
     public static void cadastrarAluguel(Scanner sc) {
         System.out.println("\n--- Novo Aluguel de Consoles e Acessórios ---");
         listarClientes();
-        System.out.println("Digite o ID do cliente da Locação: ");
+        System.out.println("\nDigite o ID do cliente da Locação: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
         Cliente clienteAluguel = clientesCadastrados.get(idCliente);
         System.out.println(" Consoles disponíveis: ");
         if (consolesDisponiveis.isEmpty()) {
-            System.out.println("  Nenhum console disponível no momento.");
+            System.out.println("\n  Nenhum console disponível no momento.");
             return;
         } else {
             for (Console console : consolesDisponiveis.values()) {
                 if (console.getDisponibilidade()) {
-                    System.out.println("   ID: " + console.getId() + " | Console: " + console.getNome() + " | Preço Diário: " + console.getPrecoPorHora());
+                    System.out.println("\n  ID: " + console.getId() + " | Console: " + console.getNome() + " | Preço Diário: " + console.getPrecoPorHora());
                 }
             }
             System.out.println("Digite o ID do console que gostaria de alugar: ");
