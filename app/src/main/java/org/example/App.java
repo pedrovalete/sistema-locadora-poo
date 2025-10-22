@@ -21,10 +21,93 @@ public class App {
 
     private static final String SENHA_ADMIN = "senhaadm123";
 
+    public static void preCarregarDados() {
+        System.out.println("A pré-carregar dados iniciais do sistema...");
+
+        // Cadastrar Clientes
+        Cliente cliente1 = new Cliente("Bernardo", "bernardo.vieira@email.com", "0101-0101", "senhabernardo");
+        Cliente cliente2 = new Cliente("Pedro", "pedro.valete@email.com", "1010-1010", "senhapedro");
+        clientesCadastrados.put(cliente1.getId(), cliente1);
+        clientesCadastrados.put(cliente2.getId(), cliente2);
+
+        // Cadastrar Jogos e Plataformas
+        Jogo jogo1 = new Jogo("CS2");
+        Jogo jogo2 = new Jogo("FIFA 25");
+        Jogo jogo3 = new Jogo("God of War Ragnarok");
+        jogosCadastrados.put(jogo1.getId(), jogo1);
+        jogosCadastrados.put(jogo2.getId(), jogo2);
+        jogosCadastrados.put(jogo3.getId(), jogo3);
+
+        Plataforma plataforma1 = new Plataforma("PC", "Sistema Windows");
+        Plataforma plataforma2 = new Plataforma("Xbox Series X");
+        Plataforma plataforma3 = new Plataforma("PlayStation 5", "Edição Padrão com leitor de disco");
+        plataformasCadastradas.put(plataforma1.getId(), plataforma1);
+        plataformasCadastradas.put(plataforma2.getId(), plataforma2);
+        plataformasCadastradas.put(plataforma3.getId(), plataforma3);
+
+
+        // Conectar Jogos e Plataformas
+
+        // Disponibilizar CS2 para PC
+        JogoPlataforma jp1 = new JogoPlataforma(jogo1, plataforma1, 10, 10.50); // Jogo, Plataforma, Estoque e Preço
+        estoqueJogos.put(jp1.getChaveComposta(), jp1);
+
+        // Disponibilizar FIFA 25 para Xbox e PS5
+        JogoPlataforma jp2 = new JogoPlataforma(jogo2, plataforma2, 8, 18.00);
+        JogoPlataforma jp3 = new JogoPlataforma(jogo2, plataforma3, 12, 18.00);
+        estoqueJogos.put(jp2.getChaveComposta(), jp2);
+        estoqueJogos.put(jp3.getChaveComposta(), jp3);
+
+        // Disponibilizar God of War Ragnarok para PC
+        JogoPlataforma jp4 = new JogoPlataforma(jogo3, plataforma1, 20, 20.50);
+        estoqueJogos.put(jp4.getChaveComposta(), jp4);
+
+        // Cadastrar Consoles
+        Console console1 = new Console(plataforma3.getNome(), plataforma3, 50.0); // Nome (Pegando diretamente da Plataforma), Plataforma, Preço/Hora
+        Console console2 = new Console(plataforma3.getNome(), plataforma3, 50.0);
+        Console console3 = new Console(plataforma2.getNome(), plataforma2, 45.0);
+        consolesDisponiveis.put(console1.getId(), console1);
+        consolesDisponiveis.put(console2.getId(), console2);
+        consolesDisponiveis.put(console3.getId(), console3);
+
+        // Cadastrar Acessórios
+        Acessorio acessorio1 = new Acessorio("Controle DualSense",5, 15.50); // Nome, Estoque, Valor
+        Acessorio acessorio2 = new Acessorio("Headset Pulse 3D", 3, 20.00);
+        Acessorio acessorio3 = new Acessorio("Controle Xbox", 8, 15.25);
+        Acessorio acessorio4 = new Acessorio("Headset Gamer", 10, 18.00);
+        acessoriosDisponiveis.put(acessorio1.getId(), acessorio1);
+        acessoriosDisponiveis.put(acessorio2.getId(), acessorio2);
+        acessoriosDisponiveis.put(acessorio3.getId(), acessorio3);
+        acessoriosDisponiveis.put(acessorio4.getId(), acessorio4);
+
+
+        // Conectando Acessórios com suas respectivas Plataformas
+
+        // Acessórios de PS5
+        plataforma3.adicionarAcessorio(acessorio1);
+        acessorio1.adicionarPlataforma(plataforma3);
+        plataforma3.adicionarAcessorio(acessorio2);
+        acessorio2.adicionarPlataforma(plataforma3);
+
+        // Acessórios de Xbox
+        plataforma2.adicionarAcessorio(acessorio3);
+        acessorio3.adicionarPlataforma(plataforma2);
+
+        // Headset USB é compatível com PS5 e PC
+        plataforma1.adicionarAcessorio(acessorio4);
+        acessorio4.adicionarPlataforma(plataforma1);
+        plataforma3.adicionarAcessorio(acessorio4);
+        acessorio4.adicionarPlataforma(plataforma3);
+
+        System.out.println("Dados pré-carregados com sucesso.\n");
+    }
+
     public static void main(String[] args) {
-        Cliente cliente = new Cliente("Pedro", "abc@abc.com", "9999-9999", "abc123");
-        clientesCadastrados.put(cliente.getId(), cliente);
+        preCarregarDados();
         Scanner sc = new Scanner(System.in);
+        System.out.println("\n====================================");
+        System.out.println("       BEM VINDO(A) À LOCADORA      ");
+        System.out.println("====================================\n");
         System.out.println("\nDigite a senha se for administrador, ou qualquer outra tecla para cliente: \n");
         String entrada = sc.nextLine();
 
@@ -36,6 +119,7 @@ public class App {
     }
 
     public static void menuAdmin(Scanner sc) {
+        System.out.println("Olá novamente, ADM.");
         boolean sair = false;
         while (!sair) {
             System.out.println("\n--- MENU ADMINISTRADOR ---\n");
@@ -419,7 +503,7 @@ public class App {
     public static void listarClientes(){
         System.out.println("\n--- Clientes Cadastrados ---");
         for(Cliente cliente : clientesCadastrados.values()){
-            System.out.println(" ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
+            System.out.println("\n ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
         }
         if(clientesCadastrados.isEmpty()){
             System.out.println("\n Nenhum cliente cadastrado até o momento.");
@@ -430,7 +514,7 @@ public class App {
     public static void listarJogosPlataformas(){
         System.out.println("\n--- Estoque de Jogos para Locação ---");
         for(JogoPlataforma jogo : estoqueJogos.values()){
-            System.out.println(" ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque " + jogo.getQuantidadeEstoque() + " | Preço Diário: " + jogo.getPrecoDiario());
+            System.out.println("\n ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque: " + jogo.getQuantidadeEstoque() + String.format(" | Preço Diário: %.2f" + jogo.getPrecoDiario()));
         }
         if(jogosCadastrados.isEmpty()){
             System.out.println("\n Nenhum jogo disponível em estoque até o momento.");
@@ -441,7 +525,7 @@ public class App {
     public static void listarJogos(){
         System.out.println("\n--- Títulos de Jogos ---");
         for(Jogo jogo : jogosCadastrados.values()){
-            System.out.println(" ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
+            System.out.println("\n ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
         }
         if(jogosCadastrados.isEmpty()){
             System.out.println("Nenhum jogo cadastrado até o momento.");
@@ -452,7 +536,7 @@ public class App {
     public static void listarPlataformas(){
         System.out.println("\n--- Plataformas Cadastradas ---");
         for(Plataforma plataforma : plataformasCadastradas.values()){
-            System.out.println(" ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
+            System.out.println("\n ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
         }
         if(plataformasCadastradas.isEmpty()){
             System.out.println("\n Nenhuma Plataforma cadastrada até o momento.");
@@ -462,7 +546,7 @@ public class App {
     public static void listarAcessorios(){
         System.out.println("\n--- Acessórios Cadastrados ---");
         for(Acessorio acessorio : acessoriosDisponiveis.values()){
-            System.out.println(" ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque() + " | Valor: " + acessorio.getValor());
+            System.out.println("\n ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque() + " | Valor: " + acessorio.getValor());
         }
         if(acessoriosDisponiveis.isEmpty()){
             System.out.println("\n Nenhum Acessório cadastrado até o momento.");
@@ -472,7 +556,7 @@ public class App {
     public static void listarLocacoes(){
         System.out.println("\n--- Histórico Geral de Locações ---");
         if(historicoGeralLocacoes.isEmpty()){
-            System.out.println("Nenhuma Locação registrada até o momento.");
+            System.out.println("\nNenhuma Locação registrada até o momento.");
         }else{
             for(LocacaoJogo locacao : historicoGeralLocacoes.values()){
                 System.out.println("\nID da Locação: " + locacao.getId());
@@ -491,7 +575,7 @@ public class App {
     public static void listarAlugueis(){
         System.out.println("\n--- Histórico Geral de Aluguéis ---");
         if(historicoGeralAlugueis.isEmpty()){
-            System.out.println("Nenhum Aluguel registrado até o momento.");
+            System.out.println("\nNenhum Aluguel registrado até o momento.");
         }else{
             for(AluguelConsole aluguel : historicoGeralAlugueis.values()){
                 System.out.println("\nID do Aluguel: " + aluguel.getId());

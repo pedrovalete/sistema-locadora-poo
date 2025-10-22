@@ -32,6 +32,10 @@ public class JogoPlataforma {
     public double getPrecoDiario(){
         return precoDiario;
     }
+    public String getChaveComposta(){
+        String chaveComposta = getJogo().getId() + "-" + getPlataforma().getId();
+        return chaveComposta;
+    }
     public void adicionarHistorico(ItemLocacao item){
         this.itens.add(item);
     }
