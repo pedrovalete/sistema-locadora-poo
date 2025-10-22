@@ -122,7 +122,10 @@ public class App {
         System.out.println("\nOlá novamente, ADM.");
         boolean sair = false;
         while (!sair) {
-            System.out.println("\n--- MENU ADMINISTRADOR ---\n");
+            System.out.println("\n===============================");
+            System.out.println("      MENU ADMINISTRADOR      ");
+            System.out.println("===============================");
+            System.out.println();
             System.out.println("1. Gerenciar Clientes");
             System.out.println("2. Gerenciar Jogos");
             System.out.println("3. Gerenciar Plataformas");
@@ -432,22 +435,28 @@ public class App {
     }
 
     public static void cadastrarPlataforma(Scanner sc) {
-        System.out.println("\n--- Cadastro de Plataforma ---");
-        System.out.println(" Digite o nome da plataforma: ");
+        System.out.println("\n======================================");
+        System.out.println("    CADASTRO DE NOVA PLATAFORMA");
+        System.out.println("======================================");
+        System.out.println();
+        System.out.print(" > Digite o nome da nova plataforma: ");
         String nomePlataforma = sc.nextLine();
-        boolean comparacaoNomes = false;
+
+        boolean nomeJaExiste = false;
         for (Plataforma plataforma : plataformasCadastradas.values()) {
             if (plataforma.getNome().equalsIgnoreCase(nomePlataforma)) {
-                comparacaoNomes = true;
+                nomeJaExiste = true;
                 break;
             }
         }
-        if (comparacaoNomes == true) {
-            System.out.println("\nPlataforma já existente. Tente novamente.");
-        } else {
-            System.out.println(" Informe uma descrição (opcional, presisione Enter para pular): ");
-            String descricaoPlataforma = sc.nextLine();
+        if (nomeJaExiste == true) {
 
+            System.out.println("\n-------------------------------------------");
+            System.out.println("| Uma plataforma com o nome '" + nomePlataforma + "' já existe.");
+            System.out.println("-------------------------------------------");
+        } else {
+            System.out.print(" > Digite a descrição (opcional, pressione Enter para pular): ");
+            String descricaoPlataforma = sc.nextLine();
             Plataforma novaPlataforma;
             if (descricaoPlataforma.isEmpty()) {
                 novaPlataforma = new Plataforma(nomePlataforma);
@@ -456,7 +465,9 @@ public class App {
             }
 
             plataformasCadastradas.put(novaPlataforma.getId(), novaPlataforma);
-            System.out.println("Plataforma '" + novaPlataforma.getNome() + "' cadastrada com sucesso.");
+            System.out.println("\n-------------------------------------------");
+            System.out.println("| Plataforma '" + novaPlataforma.getNome() + "' cadastrada com o ID " + novaPlataforma.getId() + ".");
+            System.out.println("-------------------------------------------");
         }
     }
 
