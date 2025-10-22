@@ -16,6 +16,7 @@ public class Acessorio {
         this.id = idAcessorio++;
         this.nome = nome;
         this.valor = valor;
+        this.estoque = estoque;
         this.alugueis = new ArrayList<>();
         this.plataformas = new ArrayList<>();
     }

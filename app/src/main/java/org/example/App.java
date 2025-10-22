@@ -22,7 +22,7 @@ public class App {
     private static final String SENHA_ADMIN = "senhaadm123";
 
     public static void preCarregarDados() {
-        System.out.println("A pré-carregar dados iniciais do sistema...");
+        System.out.println("Pré-carregando dados iniciais do sistema...");
 
         // Cadastrar Clientes
         Cliente cliente1 = new Cliente("Bernardo", "bernardo.vieira@email.com", "0101-0101", "senhabernardo");
@@ -105,9 +105,9 @@ public class App {
     public static void main(String[] args) {
         preCarregarDados();
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n====================================");
-        System.out.println("       BEM VINDO(A) À LOCADORA      ");
-        System.out.println("====================================\n");
+        System.out.println("\n=================================\n");
+        System.out.println("    BEM VINDO(A) À LOCADORA      ");
+        System.out.println("\n=================================\n");
         System.out.println("\nDigite a senha se for administrador, ou qualquer outra tecla para cliente: \n");
         String entrada = sc.nextLine();
 
@@ -119,7 +119,7 @@ public class App {
     }
 
     public static void menuAdmin(Scanner sc) {
-        System.out.println("Olá novamente, ADM.");
+        System.out.println("\nOlá novamente, ADM.");
         boolean sair = false;
         while (!sair) {
             System.out.println("\n--- MENU ADMINISTRADOR ---\n");
@@ -514,7 +514,7 @@ public class App {
     public static void listarJogosPlataformas(){
         System.out.println("\n--- Estoque de Jogos para Locação ---");
         for(JogoPlataforma jogo : estoqueJogos.values()){
-            System.out.println("\n ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque: " + jogo.getQuantidadeEstoque() + String.format(" | Preço Diário: %.2f" + jogo.getPrecoDiario()));
+            System.out.println("\n ID: " + jogo.getJogo().getId() + "-" + jogo.getPlataforma().getId() + " | Jogo: " + jogo.getJogo().getNome() + " | Plataforma: " + jogo.getPlataforma().getNome() + " | Em estoque: " + jogo.getQuantidadeEstoque() + String.format(" | Preço Diário: %.2f", jogo.getPrecoDiario()));
         }
         if(jogosCadastrados.isEmpty()){
             System.out.println("\n Nenhum jogo disponível em estoque até o momento.");
@@ -971,19 +971,19 @@ public class App {
 
     public static void conectarAcessorioPlataforma(Scanner sc){
         System.out.println("\n--- Compatibilidade do Acessório e Plataforma ---");
-        System.out.println("Acessórios disponíveis: ");
+        System.out.println("\nAcessórios disponíveis: ");
         for(Acessorio acessorio : acessoriosDisponiveis.values()){
-            System.out.println(" ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque());
+            System.out.println("\n ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque());
         }
-        System.out.println("Digite o ID do acessório: ");
+        System.out.println("\nDigite o ID do acessório: ");
         int idAcessorio = sc.nextInt();
         sc.nextLine();
 
         System.out.println("\nPlataformas disponíveis: ");
         for(Plataforma plataforma : plataformasCadastradas.values()){
-            System.out.println(" ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
+            System.out.println("\n ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
         }
-        System.out.println("Digite o ID da plataforma desejada para associar: ");
+        System.out.println("\nDigite o ID da plataforma desejada para associar: ");
         int idPlataforma = sc.nextInt();
         sc.nextLine();
 
@@ -992,9 +992,9 @@ public class App {
         if(acessorio != null && plataforma != null){
             plataforma.adicionarAcessorio(acessorio);
             acessorio.adicionarPlataforma(plataforma);
-            System.out.println("O acessório '" + acessorio.getNome() + "' é compatível com a plataforma '" + plataforma.getNome() + "'");
+            System.out.println("\nO acessório '" + acessorio.getNome() + "' agora é compatível com a plataforma '" + plataforma.getNome() + "'");
         }else{
-            System.out.println("ID de acessório ou plataforma inválido.");
+            System.out.println("\nID de acessório ou plataforma inválido.");
         }
     }
 
@@ -1017,14 +1017,14 @@ public class App {
     public static void cadastrarLocacao(Scanner sc) {
         System.out.println("\n--- Nova Locação de Jogo ---\n");
         listarClientes();
-        System.out.println("Digite o ID do cliente da Locação: ");
+        System.out.println("\nDigite o ID do cliente da Locação: ");
         int idCliente = sc.nextInt();
         sc.nextLine();
         Cliente clienteLocacao = clientesCadastrados.get(idCliente);
         LocacaoJogo novaLocacao = new LocacaoJogo(clienteLocacao);
-        System.out.println(" Jogos disponíveis: ");
+        System.out.println("\n Jogos disponíveis: ");
         if (estoqueJogos.isEmpty()) {
-            System.out.println("  Nenhum jogo disponível no momento.");
+            System.out.println("\n Nenhum jogo disponível no momento.");
         } else {
             for (String id : estoqueJogos.keySet()) {
                 JogoPlataforma jogoPlataforma = estoqueJogos.get(id);
@@ -1035,16 +1035,16 @@ public class App {
 
                 System.out.println("   ID: " + id + " | Jogo: " + nomeJogo + " | Plataforma: " + nomePlataforma + " | Preço Diário: " + precoDiario + " | Em estoque: " + estoque);
             }
-            System.out.println("Quantos jogos você deseja locar? ");
+            System.out.println("\n Quantos jogos você deseja locar? ");
             int quantidadeJogos = sc.nextInt();
             sc.nextLine();
             for (int i = 0; i < quantidadeJogos; i++) {
-                System.out.println(" Digite o ID do jogo e plataforma desejada: ");
+                System.out.println("\n Digite o ID do jogo e plataforma desejada: ");
                 String idProduto = sc.nextLine();
                 JogoPlataforma produtoEscolhido = estoqueJogos.get(idProduto);
 
                 if (produtoEscolhido != null && produtoEscolhido.getQuantidadeEstoque() > 0) {
-                    System.out.println("Digite a quantidade de dias de locação para este jogo: ");
+                    System.out.println("\n Digite a quantidade de dias de locação para este jogo: ");
                     int diasDeLocacao = sc.nextInt();
                     sc.nextLine();
                     novaLocacao.adicionarItem(produtoEscolhido, diasDeLocacao);
@@ -1052,15 +1052,17 @@ public class App {
                 } else if (produtoEscolhido == null) {
                     System.out.println("ID de locação inválido.");
                 } else if (produtoEscolhido.getQuantidadeEstoque() == 0) {
-                    System.out.println("O jogo '" + produtoEscolhido.getJogo().getNome() + "' está sem estoque.");
+                    System.out.println("\nO jogo '" + produtoEscolhido.getJogo().getNome() + "' está sem estoque.");
                 }
             }
         }
-        System.out.println("\n--- Comprovante da Locação ---");
-        System.out.println("ID da Locação: " + novaLocacao.getId());
-        System.out.println("Cliente: " + novaLocacao.getCliente().getNome());
-        System.out.println("Data: " + novaLocacao.getData());
-        System.out.println("Valor Total: R$" + String.format("%.2f", novaLocacao.getValorTotal()));
+        System.out.println("\n ===============================");
+        System.out.println("  - Comprovante da Locação -");
+        System.out.println(" ===============================\n");
+        System.out.println("\nID da Locação: " + novaLocacao.getId());
+        System.out.println("\nCliente: " + novaLocacao.getCliente().getNome());
+        System.out.println("\nData: " + novaLocacao.getData());
+        System.out.println("\nValor Total: R$" + String.format("%.2f\n", novaLocacao.getValorTotal()));
 
         clienteLocacao.adicionarLocacao(novaLocacao);
         historicoGeralLocacoes.put(novaLocacao.getId(), novaLocacao);
