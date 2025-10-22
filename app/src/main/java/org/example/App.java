@@ -544,6 +544,7 @@ public class App {
         } else {
             for (Cliente cliente : clientesCadastrados.values()) {
                 System.out.println("\n ID: " + cliente.getId() + " | Nome: " + cliente.getNome() + " | Telefone: " + cliente.getTelefone());
+                System.out.println();
             }
             System.out.println("-------------------------------------------------------");
         }
@@ -575,98 +576,135 @@ public class App {
         } else {
             for (Jogo jogo : jogosCadastrados.values()) {
                 System.out.println("\n ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
+                System.out.println();
             }
             System.out.println("----------------------------------------------");
         }
     }
 
-    public static void listarPlataformas(){
-        System.out.println("\n--- Plataformas Cadastradas ---");
-        for(Plataforma plataforma : plataformasCadastradas.values()){
-            System.out.println("\n ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
-        }
-        if(plataformasCadastradas.isEmpty()){
-            System.out.println("\n Nenhuma Plataforma cadastrada até o momento.");
-            return;
+    public static void listarPlataformas() {
+        System.out.println("\n====================================================================");
+        System.out.println("                 LISTA DE PLATAFORMAS CADASTRADAS");
+        System.out.println("====================================================================");
+
+        if (plataformasCadastradas.isEmpty()) {
+            System.out.println("\nNenhuma Plataforma cadastrada no sistema.");
+        } else {
+            for (Plataforma plataforma : plataformasCadastradas.values()) {
+                System.out.println("\n ID: " + plataforma.getId() + " | Nome: " + plataforma.getNome());
+                System.out.println();
+            }
+            System.out.println("--------------------------------------------------------------------");
         }
     }
 
-    public static void listarAcessorios(){
-        System.out.println("\n--- Acessórios Cadastrados ---");
-        for(Acessorio acessorio : acessoriosDisponiveis.values()){
-            System.out.println("\n ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque() + " | Valor: " + acessorio.getValor());
+    public static void listarAcessorios() {
+        System.out.println("\n====================================================================");
+        System.out.println("                LISTA DE ACESSÓRIOS CADASTRADOS");
+        System.out.println("====================================================================");
+
+        if (acessoriosDisponiveis.isEmpty()) {
+            System.out.println("\nNenhum Acessório cadastrado até o momento.");
+        } else {
+            for (Acessorio acessorio : acessoriosDisponiveis.values()) {
+                System.out.println("\n ID: " + acessorio.getId() + " | Nome: " + acessorio.getNome() + " | Em estoque: " + acessorio.getEstoque() + " | Valor: " + acessorio.getValor());
+            }
         }
-        if(acessoriosDisponiveis.isEmpty()){
-            System.out.println("\n Nenhum Acessório cadastrado até o momento.");
-        }
+        System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void listarLocacoes(){
-        System.out.println("\n--- Histórico Geral de Locações ---");
-        if(historicoGeralLocacoes.isEmpty()){
+    public static void listarLocacoes() {
+        System.out.println("\n====================================================================");
+        System.out.println("                   HISTÓRICO GERAL DE LOCAÇÕES");
+        System.out.println("====================================================================");
+
+        if (historicoGeralLocacoes.isEmpty()) {
             System.out.println("\nNenhuma Locação registrada até o momento.");
-        }else{
-            for(LocacaoJogo locacao : historicoGeralLocacoes.values()){
+        } else {
+            for (LocacaoJogo locacao : historicoGeralLocacoes.values()) {
                 System.out.println("\nID da Locação: " + locacao.getId());
                 System.out.println("Cliente: " + locacao.getCliente().getNome() + " ID: " + locacao.getCliente().getId());
                 System.out.println("Data: " + locacao.getData());
                 System.out.println("Jogos locados nesta Locação: ");
+
                 List<ItemLocacao> itensLocacao = locacao.getItens();
-                for(ItemLocacao item : itensLocacao){
+                for (ItemLocacao item : itensLocacao) {
                     System.out.println(" Jogo: " + item.getJogoPlataforma().getJogo().getNome() + " | Plataforma: " + item.getJogoPlataforma().getPlataforma().getNome());
                 }
-                System.out.println("Valor Total: R$" + String.format("%.2f",  locacao.getValorTotal()));
+                System.out.println("....................................................................");
             }
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void listarAlugueis(){
-        System.out.println("\n--- Histórico Geral de Aluguéis ---");
-        if(historicoGeralAlugueis.isEmpty()){
+    public static void listarAlugueis() {
+        System.out.println("\n====================================================================");
+        System.out.println("                   HISTÓRICO GERAL DE ALUGUÉIS");
+        System.out.println("====================================================================");
+
+        if (historicoGeralAlugueis.isEmpty()) {
             System.out.println("\nNenhum Aluguel registrado até o momento.");
-        }else{
-            for(AluguelConsole aluguel : historicoGeralAlugueis.values()){
+        } else {
+            for (AluguelConsole aluguel : historicoGeralAlugueis.values()) {
                 System.out.println("\nID do Aluguel: " + aluguel.getId());
-                System.out.println("Cliente: " + aluguel.getCliente().getNome() + " ID: " + aluguel.getCliente().getId());
-                System.out.println("Data e Hora: " + aluguel.getDataHora());
-                System.out.println("Console Alugado: " + aluguel.getConsole().getNome());
+                System.out.println("\nCliente: " + aluguel.getCliente().getNome() + " ID: " + aluguel.getCliente().getId());
+                System.out.println("\nData e Hora: " + aluguel.getDataHora());
+                System.out.println("\nConsole Alugado: " + aluguel.getConsole().getNome());
                 List<Acessorio> acessorios = aluguel.getAcessorios();
-                if(!acessorios.isEmpty()){
-                    System.out.println("Acessórios alugados: ");
-                    for(Acessorio acessorio : acessorios){
+                if (acessorios.isEmpty()) {
+                    System.out.println("\n  -> Nenhum acessório adicional.");
+                } else {
+                    System.out.println("\nAcessórios alugados: ");
+                    for (Acessorio acessorio : acessorios) {
                         System.out.println(" Acessório: " + acessorio.getNome());
                     }
                 }
-                System.out.println("Valor Total: R$" + String.format("%.2f",  aluguel.getValorTotal()));
+                System.out.println("\nValor Total: R$" + String.format("%.2f", aluguel.getValorTotal()));
+                System.out.println("....................................................................");
             }
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
-    public static void atualizarJogo(Scanner sc){
-        System.out.println("\n--- Atualizar Jogo ---\n");
-        System.out.println("\nJogos cadastrados: ");
-        for(Jogo jogo : jogosCadastrados.values()){
+    public static void atualizarJogo(Scanner sc) {
+        System.out.println("\n====================================================================");
+        System.out.println("                        ATUALIZAÇÃO DE JOGO");
+        System.out.println("====================================================================");
+
+        if (jogosCadastrados.isEmpty()) {
+            System.out.println("\nNenhum jogo cadastrado para atualizar.");
+            return;
+        }
+
+        System.out.println("\nJogos disponíveis para edição:");
+        for (Jogo jogo : jogosCadastrados.values()) {
             System.out.println(" ID: " + jogo.getId() + " | Nome: " + jogo.getNome());
         }
-        System.out.println("\nDigite o ID do jogo que deseja atualizar: ");
+        System.out.println("....................................................................");
+        System.out.print("\n> Digite o ID do jogo que deseja atualizar: ");
         int id = sc.nextInt();
         sc.nextLine();
         Jogo jogoAtualizar = jogosCadastrados.get(id);
 
-        if(jogoAtualizar != null){
-            System.out.println("\nDigite o novo nome: ");
+        if (jogoAtualizar != null) {
+            System.out.print("> Digite o novo nome (ENTER para manter o atual): ");
             String novoNome = sc.nextLine();
-
-            if(!novoNome.isEmpty()){
-                jogoAtualizar.setNome(novoNome);
+            if (novoNome != null) {
+                jogoAtualizar.setNome(novoNome.trim());
             }
-            System.out.println("\nJogo atualizado com sucesso.");
-        }else{
-            System.out.println("\nID não encontrado.");
+            System.out.println("\nJogo atualizado.");
+
+        } else {
+            System.out.println("\nID de jogo não encontrado.");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void atualizarPlataforma(Scanner sc){
+        System.out.println("\n====================================================================");
+        System.out.println("                     ATUALIZAÇÃO DE PLATAFORMA");
+        System.out.println("====================================================================");
+
         System.out.println("\n--- Atualizar Plataforma ---");
         listarPlataformas();
         System.out.println("\nDigite o ID da Plataforma que deseja atualizar: ");
@@ -690,39 +728,45 @@ public class App {
         }else{
             System.out.println("\nID não encontrado.");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void atualizarJogoPlataforma(Scanner sc){
-        System.out.println("\n--- Atualizar Jogo para Alugar ---");{
-            listarJogosPlataformas();
-            System.out.println("\nDigite o ID que deseja atualizar: ");
-            String chaveComposta = sc.nextLine();
-            JogoPlataforma jogoAtualizar = estoqueJogos.get(chaveComposta);
+        System.out.println("\n====================================================================");
+        System.out.println("                    ATUALIZAR JOGO PARA ALUGAR");
+        System.out.println("====================================================================");
 
-            if(jogoAtualizar != null){
-                System.out.println("Digite o novo preço diário (Enter para pular): ");
-                String novoPrecoString = sc.nextLine();
-                System.out.println("Digite a nova quantidade em estoque (Enter para pular): ");
-                String novoEstoqueString = sc.nextLine();
+        listarJogosPlataformas();
+        System.out.println("\nDigite o ID que deseja atualizar: ");
+        String chaveComposta = sc.nextLine();
+        JogoPlataforma jogoAtualizar = estoqueJogos.get(chaveComposta);
 
-                if(!novoPrecoString.isEmpty()){
-                    double novoPreco = Double.parseDouble(novoPrecoString);
-                    jogoAtualizar.setPrecoDiario(novoPreco);
-                }
-                if(!novoEstoqueString.isEmpty()){
-                    int novoEstoque = Integer.parseInt(novoEstoqueString);
-                    jogoAtualizar.setQuantidadeEstoque(novoEstoque);
-                }
-                System.out.println("Joho para Alugar atualizado.");
-            }else{
-                System.out.println("\nID do Jogo não encontrado.");
+        if(jogoAtualizar != null){
+            System.out.println("\nDigite o novo preço diário (Enter para pular): ");
+            String novoPrecoString = sc.nextLine();
+            System.out.println("\nDigite a nova quantidade em estoque (Enter para pular): ");
+            String novoEstoqueString = sc.nextLine();
+
+            if(!novoPrecoString.isEmpty()){
+                double novoPreco = Double.parseDouble(novoPrecoString);
+                jogoAtualizar.setPrecoDiario(novoPreco);
             }
+            if(!novoEstoqueString.isEmpty()){
+                int novoEstoque = Integer.parseInt(novoEstoqueString);
+                jogoAtualizar.setQuantidadeEstoque(novoEstoque);
+            }
+            System.out.println("\nJogo para Alugar atualizado.");
+        }else{
+            System.out.println("\nID do Jogo não encontrado.");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void atualizarCliente(Scanner sc){
-        System.out.println("\n--- Atualizar Cliente ---\n");
-        System.out.println("\nClientes cadastrados: ");
+        System.out.println("\n====================================================================");
+        System.out.println("                       ATUALIZAÇÃO DE CLIENTE");
+        System.out.println("====================================================================");
+
         listarClientes();
         System.out.println("\nDigite o ID do cliente que deseja atualizar: ");
         int id = sc.nextInt();
@@ -730,13 +774,13 @@ public class App {
         Cliente clienteAtualizar = clientesCadastrados.get(id);
 
         if(clienteAtualizar != null){
-            System.out.println("Digite o novo nome (Enter para pular): ");
+            System.out.println("\nDigite o novo nome (Enter para pular): ");
             String novoNome = sc.nextLine();
-            System.out.println("Digite o novo e-mail (Enter para pular): ");
+            System.out.println("\nDigite o novo e-mail (Enter para pular): ");
             String novoEmail = sc.nextLine();
-            System.out.println("Digite o novo telefone (Enter para pular): ");
+            System.out.println("\nDigite o novo telefone (Enter para pular): ");
             String novoTelefone = sc.nextLine();
-            System.out.println("Digite a nova senha (Enter para pular): ");
+            System.out.println("\nDigite a nova senha (Enter para pular): ");
             String novaSenha = sc.nextLine();
 
             if(!novoNome.isEmpty()){
@@ -751,14 +795,19 @@ public class App {
             if(!novaSenha.isEmpty()){
                 clienteAtualizar.setSenha(novaSenha);
             }
-            System.out.println("Cliente atualizado com sucesso.");
+            System.out.println("\nCliente atualizado com sucesso.");
         }else{
-            System.out.println("ID não encontrado.");
+            System.out.println("\nID não encontrado.");
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void atualizarLocacao(Scanner sc){
-        System.out.println("\n--- Atualizar Locação ---");
+        // Cabeçalho estilizado para a operação
+        System.out.println("\n====================================================================");
+        System.out.println("                      ATUALIZAÇÃO DE LOCAÇÃO");
+        System.out.println("====================================================================");
+
         listarLocacoes();
         System.out.println("\nDigite o ID da Locação que deseja atualizar: ");
         int idLocacao = sc.nextInt();
@@ -767,14 +816,16 @@ public class App {
 
         if(locacaoAtualizar == null){
             System.out.println("\nID não encontrado.");
+            System.out.println("--------------------------------------------------------------------");
             return;
         }
         boolean sair = false;
         while(!sair){
-            System.out.println("Atualizando a Locação #" + locacaoAtualizar.getId() + " de " + locacaoAtualizar.getCliente().getNome());
+            System.out.println("\nAtualizando a Locação #" + locacaoAtualizar.getId() + " de " + locacaoAtualizar.getCliente().getNome());
             System.out.println("1. Adicionar Jogo");
             System.out.println("2. Remover Jogo");
-            System.out.println("0. Concluir");
+            System.out.println("0. Concluir Atualização");
+            System.out.print("> Escolha uma opção: ");
             int escolha = sc.nextInt();
             sc.nextLine();
 
@@ -783,20 +834,20 @@ public class App {
                     listarJogosPlataformas();
                     System.out.println("\nDigite o ID do Jogo desejado: ");
                     String chaveJogo = sc.nextLine();
-                    System.out.println("Digite a quantidade de dias da locação: ");
+                    System.out.println("\nDigite a quantidade de dias da locação: ");
                     int dias = sc.nextInt();
                     sc.nextLine();
                     JogoPlataforma jogoAdicionar = estoqueJogos.get(chaveJogo);
                     if(jogoAdicionar != null){
                         locacaoAtualizar.adicionarItem(jogoAdicionar, dias);
-                        System.out.println("Jogo adicionado à Locação.");
+                        System.out.println("\nJogo adicionado à Locação.");
                     }else{
-                        System.out.println("ID não encontrado");
+                        System.out.println("\nID não encontrado");
                     }
                     break;
                 case 2:
                     locacaoAtualizar.listarItens();
-                    System.out.println("Digite o número do item que deseja remover: ");
+                    System.out.println("\nDigite o número do item que deseja remover: ");
                     int indice = sc.nextInt();
                     sc.nextLine();
 
@@ -805,18 +856,20 @@ public class App {
                         ItemLocacao itemRemovido = locacaoAtualizar.getItens().get(indiceRemover);
                         locacaoAtualizar.removerItem(itemRemovido);
 
-                        System.out.println("O item '" + itemRemovido.getJogoPlataforma().getJogo().getNome() + "' foi removido com sucesso.");
+                        System.out.println("\nO item '" + itemRemovido.getJogoPlataforma().getJogo().getNome() + "' foi removido com sucesso.");
                     }else{
-                        System.out.println("Número não foi encontrado.");
+                        System.out.println("\nNúmero não foi encontrado.");
                     }
                     break;
                 case 0:
+                    System.out.println("\nAtualização concluída.");
                     sair = true;
                     break;
                 default:
-                    System.out.println("ID não encontrado.");
+                    System.out.println("\nOpção inválida.");
             }
         }
+        System.out.println("--------------------------------------------------------------------");
     }
 
     public static void atualizarAluguel(Scanner sc){

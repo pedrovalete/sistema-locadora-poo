@@ -126,4 +126,52 @@ public class Cliente {
     public void adicionarAluguel(AluguelConsole novoAluguel){
         this.alugueis.add(novoAluguel);
     }
+
+    public void cadastrarLocacao(Scanner sc, Cliente clienteLogado) {
+        LocacaoJogo novaLocacao = new LocacaoJogo(this);
+        System.out.println("\n Jogos disponíveis: ");
+        if (App.estoqueJogos.isEmpty()) {
+            System.out.println("\n Nenhum jogo disponível no momento.");
+        } else {
+            for (String id : estoqueJogos.keySet()) {
+                JogoPlataforma jogoPlataforma = estoqueJogos.get(id);
+                String nomeJogo = jogoPlataforma.getJogo().getNome();
+                String nomePlataforma = jogoPlataforma.getPlataforma().getNome();
+                double precoDiario = jogoPlataforma.getPrecoDiario();
+                int estoque = jogoPlataforma.getQuantidadeEstoque();
+
+                System.out.println("   ID: " + id + " | Jogo: " + nomeJogo + " | Plataforma: " + nomePlataforma + " | Preço Diário: " + precoDiario + " | Em estoque: " + estoque);
+            }
+            System.out.println("\n Quantos jogos você deseja locar? ");
+            int quantidadeJogos = sc.nextInt();
+            sc.nextLine();
+            for (int i = 0; i < quantidadeJogos; i++) {
+                System.out.println("\n Digite o ID do jogo e plataforma desejada: ");
+                String idProduto = sc.nextLine();
+                JogoPlataforma produtoEscolhido = estoqueJogos.get(idProduto);
+
+                if (produtoEscolhido != null && produtoEscolhido.getQuantidadeEstoque() > 0) {
+                    System.out.println("\n Digite a quantidade de dias de locação para este jogo: ");
+                    int diasDeLocacao = sc.nextInt();
+                    sc.nextLine();
+                    novaLocacao.adicionarItem(produtoEscolhido, diasDeLocacao);
+                    produtoEscolhido.decrementarEstoque();
+                } else if (produtoEscolhido == null) {
+                    System.out.println("ID de locação inválido.");
+                } else if (produtoEscolhido.getQuantidadeEstoque() == 0) {
+                    System.out.println("\nO jogo '" + produtoEscolhido.getJogo().getNome() + "' está sem estoque.");
+                }
+            }
+        }
+        System.out.println("\n ===============================");
+        System.out.println("  - Comprovante da Locação -");
+        System.out.println(" ===============================\n");
+        System.out.println("\nID da Locação: " + novaLocacao.getId());
+        System.out.println("\nCliente: " + novaLocacao.getCliente().getNome());
+        System.out.println("\nData: " + novaLocacao.getData());
+        System.out.println("\nValor Total: R$" + String.format("%.2f\n", novaLocacao.getValorTotal()));
+
+        clienteLocacao.adicionarLocacao(novaLocacao);
+        historicoGeralLocacoes.put(novaLocacao.getId(), novaLocacao);
+    }
 }
