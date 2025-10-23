@@ -15,7 +15,7 @@ O sistema gerencia duas partes diferentes:
 
 ## 📖 Instruções de Uso
 
-Este projeto foi desenhado para ser executado em um ambiente de console/terminal.
+Este projeto foi feito para ser executado em um console/terminal.
 
 ### 1. Pré-requisitos
 
@@ -34,9 +34,9 @@ git clone https://github.com/sergio-prolo-class/projeto-1-pedro-e-bernardo.git
 2.  Localize o arquivo principal `App.java` (geralmente em `src/main/java/org/example/App.java`).
 3.  Clique com o botão direito no arquivo e selecione a opção **"Run 'App.main()'"**.
 
-### 4. Executando pelo terminal
+### 4. Executando pelo console/terminal
 
-1. Abra o terminal
+1. Abra o console
 2. Mova-se para a pasta do projeto
 3. Dê o comando `./gradlew run`
 
