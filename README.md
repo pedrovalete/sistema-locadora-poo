@@ -1,5 +1,5 @@
 ![Diagrama de Classe](diagrama/diagramaAtualizado.svg)
-<a href="https://github.com/pedrovalete/sergio-prolo-class/projeto-1-pedro-e-bernardo/raw/main/diagrama/diagramaAtualizado.pdf?download=true" download>
+<a href="https://github.com/sergio-prolo-class/projeto-1-pedro-e-bernardo/raw/main/diagrama/diagramaAtualizado.pdf?download=true" download>
   <strong>Diagrama em PDF</strong>
 </a>
 
