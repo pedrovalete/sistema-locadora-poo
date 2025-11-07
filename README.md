@@ -52,7 +52,7 @@ Abaixo está o diagrama de classes do projeto, focado na implementação e refle
 <a href="https://github.com/pedrovalete/sistema-locadora-poo/blob/main/diagrama/diagramaAtualizado.pdf?download=true" download>
   <strong>Diagrama em PDF</strong>
 </a>
----
+
 
 ## 🛠️ Tecnologias Utilizadas
 
