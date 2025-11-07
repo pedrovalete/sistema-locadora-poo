@@ -1,5 +1,0 @@
-- nomes de pacote costumam ser nomeados com letras minúsculas
-- classes de associação não possuem atributo id, os identificadores são os objetos da associação
-- valor do Acessorio ausente
-- se um certo Acessorio é compatível com um certo Console, ele pode não ser compatível com outros Consoles da mesma Plataforma? (por ex: um controle que funciona em um PS4, mas não em outro)
-  - se não, seu sistema requer registrar a associação de um Acessório com todos os Consoles de um certo tipo? se eu tiver 50 PS4 para alugar, preciso registrar que o meu controle é compatível com todos eles?
