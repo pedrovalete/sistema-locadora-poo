@@ -109,18 +109,55 @@ public class App {
         System.out.println("\n=================================\n");
         System.out.println("    BEM VINDO(A) À LOCADORA      ");
         System.out.println("\n=================================\n");
-        System.out.println("\nDigite a senha se for administrador, ou qualquer outra tecla para cliente: \n");
-        String entrada = sc.nextLine();
+        System.out.println("\n1. Administrador");
+        System.out.println("2. Cliente");
+        System.out.println("0. Sair\n");
+        System.out.println("Qual seria a forma de login? \n");
+        int escolha = sc.nextInt();
+        sc.nextLine();
+        switch(escolha){
+            case 1:
+                loginAdm(sc);
+                break;
+            case 2:
+                loginCliente(sc);
+                break;
+            case 3:
+                return;
+            case 0:
+                System.out.println("\n Saindo do sistema.");
+                break;
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+    }
 
-        if (entrada.equals(SENHA_ADMIN)) {
+    public static void loginAdm(Scanner sc) { // Fluxo inicial do ADM, fazendo o login.
+        System.out.println("\n==============================");
+        System.out.println("        LOGIN DO ADM");
+        System.out.println("==============================");
+        System.out.println();
+
+        System.out.print(" > Digite a sua senha de Administrador: ");
+        String senhaADM = sc.nextLine();
+        boolean autenticacao = false;
+        if(senhaADM.equals(SENHA_ADMIN)){
+            autenticacao = true;
+        }
+        if(!autenticacao){
+            System.out.println("\n--------------------------");
+            System.out.println("|     Senha incorreta.     |");
+            System.out.println("--------------------------");
+        }else{
+            System.out.println("\n--------------------------------------------");
+            System.out.println(" Login realizado. Bem-vindo de volta ADM");
+            System.out.println("--------------------------------------------");
             menuAdmin(sc);
-        } else {
-            loginCliente(sc);
         }
     }
 
     public static void menuAdmin(Scanner sc) { // Fluxo principal do ADM, chamando seus respectivos métodos.
-        System.out.println("\nOlá novamente, ADM.");
         boolean sair = false;
         while (!sair) {
             System.out.println("\n===============================");
@@ -132,7 +169,7 @@ public class App {
             System.out.println("3. Gerenciar Plataformas");
             System.out.println("4. Gerenciar Locações");
             System.out.println("5. Gerenciar Aluguéis");
-            System.out.println("0. Sair");
+            System.out.println("0. Voltar ao Login");
 
             int escolha = sc.nextInt();
             sc.nextLine();
@@ -154,7 +191,6 @@ public class App {
                     gerenciarAlugueis(sc);
                     break;
                 case 0:
-                    System.out.println("\n Saindo do sistema.");
                     sair = true;
                     break;
                 default:
@@ -165,7 +201,6 @@ public class App {
     }
 
     public static void loginCliente(Scanner sc) { // Fluxo inicial do Cliente, fazendo o login.
-        // --- CABEÇALHO ---
         System.out.println("\n==================================");
         System.out.println("        LOGIN DO CLIENTE");
         System.out.println("==================================");
@@ -202,7 +237,7 @@ public class App {
             System.out.println("3. Consultar histórico");
             System.out.println("4. Consultar Jogos disponíveis");
             System.out.println("5. Atualizar cadastro");
-            System.out.println("0. Sair");
+            System.out.println("0. Voltar ao Login");
             int escolha = sc.nextInt();
             sc.nextLine();
             switch (escolha) {
@@ -222,7 +257,6 @@ public class App {
                     clienteLogado.atualizarCadastro(sc);
                     break;
                 case 0:
-                    System.out.println("\n Saindo do sistema.");
                     sair = true;
                     break;
                 default:
@@ -247,6 +281,7 @@ public class App {
             switch (gerenciarCliente) {
                 case 1:
                     cadastrarCliente(sc);
+                    break;
                 case 2:
                     atualizarCliente(sc);
                     break;
