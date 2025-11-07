@@ -74,7 +74,6 @@ Abaixo está o diagrama de classes do projeto, focado na implementação e refle
 2.  **Clone o Repositório:**
     ```sh
     git clone https://github.com/pedrovalete/sistema-locadora-poo.git
-    cd java-rental-store
     ```
 
 3.  **Execute pela IDE (Recomendado):**
