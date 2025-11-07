@@ -1,9 +1,9 @@
 # Sistema de Locadora em Java (POO)
 
 <p align="center">
-  <img alt="Java" src="https://img.shields.io/badge/Java-17%2B-F89820?style=for-the-badge&logo=java&logoColor=white">
+  <img alt="Java" src="https://img.shields.io/badge/Java-17%2B-F89820?style=for-the-badge">
   <img alt="Gradle" src="https://img.shields.io/badge/Gradle-7.6%2B-02303A?style=for-the-badge&logo=gradle">
-  <img alt="POO" src="https://img.shields.io/badge/Design-OOP-blue?style=for-the-badge&logo=databricks">
+  <img alt="POO" src="https://img.shields.io/badge/Design-POO-blue?style=for-the-badge">
 </p>
 
 Uma aplicação de console (CLI) robusta em Java para o gerenciamento de uma locadora de jogos e consoles. O projeto é focado em demonstrar um design de software sólido e a aplicação de conceitos de **Programação Orientada a Objetos (POO)**.
