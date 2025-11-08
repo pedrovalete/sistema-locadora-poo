@@ -106,6 +106,10 @@ public class App {
     public static void main(String[] args) {
         preCarregarDados();
         Scanner sc = new Scanner(System.in);
+        telaInicial(sc);
+    }
+
+    public static void telaInicial(Scanner sc){
         System.out.println("\n=================================\n");
         System.out.println("    BEM VINDO(A) À LOCADORA      ");
         System.out.println("\n=================================\n");
@@ -192,6 +196,7 @@ public class App {
                     break;
                 case 0:
                     sair = true;
+                    telaInicial(sc);
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -258,6 +263,7 @@ public class App {
                     break;
                 case 0:
                     sair = true;
+                    telaInicial(sc);
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -1392,7 +1398,7 @@ public class App {
         }else{
             for(Acessorio acessorio : acessoriosCompativeis){
                 if(acessorio.getEstoque() > 0){
-                    System.out.println(String.format(" ID: %d | Nome: %s | Valor: R$%.2f | Estoque: %d", acessorio.getId(), acessorio.getNome(), acessorio.getValor(), acessorio.getEstoque()));
+                    System.out.printf(" ID: %d | Nome: %s | Valor: R$%.2f | Estoque: %d%n\n", acessorio.getId(), acessorio.getNome(), acessorio.getValor(), acessorio.getEstoque());
                 }
             }
             System.out.println("\nDigite quantos acessórios gostaria de alugar (0 para nenhum): ");
